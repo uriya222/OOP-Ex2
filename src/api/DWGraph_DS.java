@@ -9,6 +9,16 @@ public class DWGraph_DS implements directed_weighted_graph{
     int _nodes = 0;
     int _edges = 0;
     int MC = 0;
+
+    public DWGraph_DS(directed_weighted_graph graph_ds){///// needs checking if more stuff
+        for (node_data n:graph_ds.getV()
+             ) {
+            node_data copy = new NodeData(n);
+            addNode(n);
+        }
+        ///needs friends :)
+    }
+
     /**
      * the list of edges object
      */

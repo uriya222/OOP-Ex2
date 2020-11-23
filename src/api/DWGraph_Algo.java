@@ -65,7 +65,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         q.add(n);
         n.setTag(1);
         while(!(q.isEmpty())) {
-            for(edge_data x: getGraph().getE(n.getkey())) {
+            for(edge_data x: getGraph().getE(n.getKey())) {
                 node_data tmp= getGraph().getNode(x.getDest());
                 if(tmp.getTag()==0) {
                     q.add(tmp);
@@ -93,7 +93,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         int size=-1;
         for(node_data x: getGraph().getV()) {
             if(x!=null)
-                if(x.getkey()>size) size=x.getkey();
+                if(x.getKey()>size) size=x.getKey();
         }
         size++;
         int [] prev=new int[size];
@@ -123,7 +123,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         int size=-1;
         for(node_data x: getGraph().getV()) {
             if(x!=null)
-                if(x.getkey()>size) size=x.getkey();
+                if(x.getKey()>size) size=x.getKey();
         }
         size++;
         int [] prev=new int[size];
