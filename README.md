@@ -4,7 +4,7 @@
 * ishay320
 * uriya222
 
-## Instalation
+## Installation
 download and put in your favorite IDE :)
 
 ## How to contribute:
