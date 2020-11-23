@@ -11,7 +11,7 @@ public interface node_data {
 	 * Returns the key (id) associated with this node.
 	 * @return
 	 */
-	public int getKey();
+	public int getkey();
 	/** Returns the location of this node, if
 	 * none return null.
 	 * 
