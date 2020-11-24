@@ -4,26 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class DWGraph_DS implements directed_weighted_graph{
-    private HashMap<Integer,node_data> _nodesList;
-    private EdgeHandler _edgeList;
-    private int _nodes = 0;
-    private int _edges = 0;
-    private int MC = 0;
-
-    public DWGraph_DS(directed_weighted_graph graph_ds){
-        for (node_data n:graph_ds.getV()
-        ) {
-            node_data copy = new NodeData(n);
-            addNode(n);
-        }
-        for (node_data n:graph_ds.getV()
-        ) {
-            for (edge_data e:graph_ds.getE(n.getKey())
-                 ) {
-                _edgeList.pushEdge(new EdgeData(e));
-            }
-        }
-    }
 
     /**
      * the list of edges object
@@ -102,13 +82,47 @@ public class DWGraph_DS implements directed_weighted_graph{
         private edge_data removeEdge(int src,int dest){
             if (!_srcList.containsKey(src)) return null;
             _srcList.get(src).remove(dest);
+            if (!_destList.containsKey(dest))return null;
             return _destList.get(dest).remove(src);
         }
 
     }
+
+
+    private HashMap<Integer,node_data> _nodesList = new HashMap<Integer, node_data>();
+    private EdgeHandler _edgeList= new EdgeHandler();
+    private int _nodes = 0;
+    private int _edges = 0;
+    private int MC = 0;
+
+    /**
+     * copy constructor
+     * @param graph_ds
+     */
+    public DWGraph_DS(directed_weighted_graph graph_ds){
+        if (graph_ds.getV()==null) {
+            MC++;
+            return;
+        }
+        for (node_data n:graph_ds.getV()
+        ) {
+            node_data copy = new NodeData(n);
+            addNode(n);
+        }
+        for (node_data n:graph_ds.getV()
+        ) {
+            if (graph_ds.getE(n.getKey())==null) continue;
+            for (edge_data e:graph_ds.getE(n.getKey())
+            ) {
+                _edgeList.pushEdge(new EdgeData(e));
+            }
+        }
+    }
+
+    /**
+     * constructor
+     */
     public DWGraph_DS(){
-        _nodesList = new HashMap<Integer, node_data>();
-        _edgeList = new EdgeHandler();
         MC++;
     }
 
@@ -175,7 +189,9 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public Collection<node_data> getV(){
-        return _nodesList.values();
+        Collection<node_data> re = _nodesList.values();
+        if (re.size()==0)return null;
+        return re;
     }
 
     /**

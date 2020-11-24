@@ -11,6 +11,7 @@ public class GeoLocation implements geo_location{
     }
 
     public GeoLocation(geo_location location){
+        if (location==null)return;
         x = location.x();
         y = location.y();
         z = location.z();
