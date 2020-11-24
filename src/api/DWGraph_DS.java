@@ -76,7 +76,7 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public void addNode(node_data n){
-        if (_nodesList.put(n.getKey(),n)==null){
+        if (_nodesList.put(n.getkey(),n)==null){
             _nodes++;
             MC++;
         }

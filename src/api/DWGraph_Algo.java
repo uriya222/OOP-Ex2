@@ -1,5 +1,8 @@
 package api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -34,28 +37,44 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public directed_weighted_graph copy() {
-        return new DWGraph_DS(getGraph());
+        //return new DWGraph_DS(getGraph());
+        return null;
     }
 
     /**
      * Returns true if and only if (iff) there is a valid path from each node to each
      * other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
-     *
+     *improve of the first one O(V+E)
      * @return
      */
     @Override
     public boolean isConnected() {
+        if(getGraph().getV()==null) return false;
         if (getGraph().getV().isEmpty()) return true;
+        node_data n=getGraph().getV().iterator().next();
         for (node_data x : getGraph().getV()) {
             if (x != null) x.setTag(0);
         }
+        DFS(n);
         for (node_data x : getGraph().getV()) {
-            DFS(x);
-            for (node_data y : getGraph().getV()) {
-                if (y.getTag() == 0) return false;
+            if (x != null) {
+                if (x.getTag() == 0) return false;
+                x.setTag(0);
             }
-            for (node_data y : getGraph().getV()) {
-                y.setTag(0);
+        }
+        directed_weighted_graph revers=new DWGraph_DS(getGraph());
+        for (edge_data e:revers.getE(n.getkey())){
+            if(revers.getEdge(e.getDest(),e.getSrc())==null) {
+                revers.connect(e.getDest(), e.getSrc(), e.getWeight());
+                revers.removeEdge(e.getSrc(), e.getDest());
+            }
+        }
+        n=revers.getNode(n.getkey());
+        DFS(n);
+        for (node_data x : revers.getV()) {
+            if (x != null) {
+                if (x.getTag() == 0) return false;
+                x.setTag(0);
             }
         }
         return true;
@@ -207,6 +226,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean save(String file) {
+        Gson gson=new GsonBuilder().create();
+        String json= gson.toJson(getGraph());
+        System.out.println(json);
         return false;
     }
 
