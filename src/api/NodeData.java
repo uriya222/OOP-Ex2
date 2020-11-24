@@ -32,7 +32,7 @@ public class NodeData implements node_data{
          * @return the key of the node
          */
     @Override
-    public int getkey(){
+    public int getKey(){
         return _key;
     }
 

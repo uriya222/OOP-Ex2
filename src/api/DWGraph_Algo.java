@@ -3,6 +3,9 @@ package api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -63,13 +66,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
         directed_weighted_graph revers=new DWGraph_DS(getGraph());
-        for (edge_data e:revers.getE(n.getkey())){
+        for (edge_data e:revers.getE(n.getKey())){
             if(revers.getEdge(e.getDest(),e.getSrc())==null) {
                 revers.connect(e.getDest(), e.getSrc(), e.getWeight());
                 revers.removeEdge(e.getSrc(), e.getDest());
             }
         }
-        n=revers.getNode(n.getkey());
+        n=revers.getNode(n.getKey());
         DFS(n);
         for (node_data x : revers.getV()) {
             if (x != null) {
@@ -228,8 +231,15 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public boolean save(String file) {
         Gson gson=new GsonBuilder().create();
         String json= gson.toJson(getGraph());
-        System.out.println(json);
-        return false;
+        try {
+            PrintWriter pw=new PrintWriter(new File(file));
+            pw.write(json);
+            pw.close();
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
     /**
@@ -243,7 +253,15 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean load(String file) {
-        return false;
+        try {
+            Gson gson = new GsonBuilder().create();
+            FileReader reader = new FileReader(file);
+            DWGraph_DS dwg=gson.fromJson(reader,DWGraph_DS.class);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 }
 
