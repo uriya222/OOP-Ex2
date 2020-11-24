@@ -13,6 +13,7 @@ public class NodeData implements node_data{
      */
     NodeData(int key){
         _key = key;
+        _tag = 0;
     }
 
     /**
