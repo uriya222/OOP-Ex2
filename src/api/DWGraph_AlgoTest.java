@@ -7,7 +7,22 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DWGraph_AlgoTest {
-   // private static Random _rnd = null;
+
+   private directed_weighted_graph graph_creator(int v, int e) {
+      directed_weighted_graph g=new DWGraph_DS();
+      int [] V=new int[v];
+      for (int i=0; i<v; i++){
+          V[i]= i+5000;
+      }
+      AddNodeToGraph(g,V);
+      while(g.edgeSize()<e){
+          int rand1=(int)(Math.random()*v)-1;
+          int rand2=(int)(Math.random()*v)-1;
+          double rand3=(Math.random()*500)+1;
+          g.connect(rand1,rand2,rand3);
+      }
+      return g;
+   }
 
     private void AddNodeToGraph(directed_weighted_graph g1, int arr[]) {
         for (int i = 0; i < arr.length; i++) {
@@ -31,45 +46,6 @@ class DWGraph_AlgoTest {
         }
 
     }
-
-//    public static directed_weighted_graph graph_creator(int v_size, int e_size, int seed) {
-//        directed_weighted_graph g = new DWGraph_DS();
-//        _rnd = new Random(seed);
-//        int key=(int)(Math.random()*5000);
-//        for(int i=0;i<v_size;i++) {
-//            node_data x=new NodeData(key);
-//            g.addNode(x);
-//            key++;
-//        }
-//        node_data [] nodes = nodes(g);
-//        while(g.edgeSize() < e_size) {
-//            int a = nextRnd(0,v_size);
-//            int b = nextRnd(0,v_size);
-//            int i = nodes[a].getKey();
-//            int j = nodes[b].getKey();
-//            double w=(Math.random()*100)+1;
-//            g.connect(i,j,w);
-//        }
-//        return g;
-//    }
-//    private static int nextRnd(int min, int max) {
-//        double v = nextRnd(0.0+min, (double)max);
-//        int ans = (int)v;
-//        return ans;
-//    }
-//    private static double nextRnd(double min, double max) {
-//        double d = _rnd.nextDouble();
-//        double dx = max-min;
-//        double ans = d*dx+min;
-//        return ans;
-//    }
-//    private static node_data[] nodes(directed_weighted_graph g) {
-//        int size = g.nodeSize();
-//        Collection<node_data> V = g.getV();
-//        node_data[] nodes = new node_data[size];
-//        V.toArray(nodes); // O(n) operation
-//        return nodes;
-//    }
 
     /**
      * this test build graph g1 with 2 nodes and an edge between with weight 80.6
@@ -164,13 +140,16 @@ class DWGraph_AlgoTest {
         assertTrue(g2.isConnected());
         g2.getGraph().removeNode(1);
         assertFalse(g2.isConnected());
-        directed_weighted_graph g3=graph_creator(10000, 500, 1); //replace
+        directed_weighted_graph g3=graph_creator(10000, 500);
+        directed_weighted_graph g4=graph_creator(1000000, 5000000);
         for (int i = 0; i < 10000; i++) {
             g3.removeEdge(1, i);
         }
         g2.init(g3);
         assertFalse(g2.isConnected());
     }
+
+
 
     @Test
     public void testShortDistSize1() {
