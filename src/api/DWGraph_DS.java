@@ -4,53 +4,111 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class DWGraph_DS implements directed_weighted_graph{
-    HashMap<Integer,node_data> _nodesList;
-    HashMap<Integer, NeighborList> _edgeList;
-    int _nodes = 0;
-    int _edges = 0;
-    int MC = 0;
+    private HashMap<Integer,node_data> _nodesList;
+    private EdgeHandler _edgeList;
+    private int _nodes = 0;
+    private int _edges = 0;
+    private int MC = 0;
 
-    public DWGraph_DS(directed_weighted_graph graph_ds){///// needs checking if more stuff
+    public DWGraph_DS(directed_weighted_graph graph_ds){
         for (node_data n:graph_ds.getV()
-             ) {
+        ) {
             node_data copy = new NodeData(n);
             addNode(n);
         }
-        ///TODO needs friends :)
+        for (node_data n:graph_ds.getV()
+        ) {
+            for (edge_data e:graph_ds.getE(n.getKey())
+                 ) {
+                _edgeList.pushEdge(new EdgeData(e));
+            }
+        }
     }
 
     /**
      * the list of edges object
      */
-    private class NeighborList{
-        //first is key of node second is the edge
-        private HashMap<Integer, edge_data> _edgeNeighbors = new HashMap<>();
+    private class EdgeHandler{
+        //(srcKey,Hash)-->Hash is all the edges that the node connect to-> (dest,edge)
+        private HashMap<Integer,HashMap<Integer,edge_data>> _srcList = new HashMap<Integer,HashMap<Integer,edge_data>>();
+        //(destKey,Hash)-->Hash is all the edges that the node connect to her-> (src,edge)
+        private HashMap<Integer,HashMap<Integer,edge_data>> _destList = new HashMap<Integer,HashMap<Integer,edge_data>>();
+
         /**
-         * @param dest of the node
-         * @return the edge
+         * function for putting new edge
+         *
+         * @param edge
+         * @return if only replaced the edge - False  if added new edge - True
          */
-        private edge_data getEdgeNeighbors(int dest){
-            return _edgeNeighbors.get(dest);
+        private boolean pushEdge(edge_data edge){
+            if (edge==null)return false;
+            boolean newEdge = false;
+            if (!_srcList.containsKey(edge.getSrc())) {//if src node didnt init
+                _srcList.put(edge.getSrc(),new HashMap<>());
+            }
+            if (_srcList.get(edge.getSrc()).put(edge.getDest(),edge)==null){ //if replace
+                newEdge = true;
+            }
+
+            if (!_destList.containsKey(edge.getDest())) {
+                _destList.put(edge.getDest(),new HashMap<>());
+            }
+            if (_destList.get(edge.getDest()).put(edge.getSrc(), edge) == null) { //if replace
+                newEdge = true;
+            }
+            return newEdge;
         }
 
         /**
-         * insert a new edge to the list
-         * @param edge
-         * @return true if the new edge is unique
+         * @param src
+         * @return collection of edges that start from src
          */
-        private boolean putEdgeNeighbor(edge_data edge){
-            if(_edgeNeighbors.put(edge.getDest(),edge)==null)return true;
-            return false;
+        private Collection<edge_data> getECollection(int src){
+            if(_srcList.get(src)==null) return null;
+            Collection<edge_data> collect = _srcList.get(src).values();
+            if (collect.size()==0)return null;
+            return collect;
         }
-        private Collection<edge_data> getECollection(){
-            return _edgeNeighbors.values();
+
+        /**
+         * @param nodeKey
+         * @return the number of edges deleted
+         */
+        private int remove(int nodeKey){
+            int eNum = 0;
+            if (_srcList.containsKey(nodeKey)) {
+                eNum+=_srcList.get(nodeKey).size();
+                _srcList.remove(nodeKey);
+            }
+            if (_destList.containsKey(nodeKey)){
+                eNum+=_destList.get(nodeKey).size();
+                for (edge_data e:_destList.get(nodeKey).values()
+                ) {
+                    _srcList.get(e.getSrc()).remove(nodeKey);
+                }
+            }
+            return eNum;
         }
-        private edge_data remove(int dest){
-            return _edgeNeighbors.remove(dest);
+
+        /**
+         * @param src
+         * @param dest
+         * @return the edge between src and dest, if nun return null
+         */
+        private edge_data getEdge(int src,int dest){
+            if (!_srcList.containsKey(src)) return null;
+            return _srcList.get(src).get(dest);
         }
+        private edge_data removeEdge(int src,int dest){
+            if (!_srcList.containsKey(src)) return null;
+            _srcList.get(src).remove(dest);
+            return _destList.get(dest).remove(src);
+        }
+
     }
     public DWGraph_DS(){
         _nodesList = new HashMap<Integer, node_data>();
+        _edgeList = new EdgeHandler();
         MC++;
     }
 
@@ -75,12 +133,12 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public edge_data getEdge(int src, int dest){
-        return _edgeList.get(src).getEdgeNeighbors(dest);
+        return _edgeList.getEdge(src,dest);
     }
 
     /**
      * adds a new node to the graph with the given node_data.
-     * Note: this method should run in O(1) time.
+     * Note: this method runs at O(1) time.
      *
      * @param n
      */
@@ -102,11 +160,8 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public void connect(int src, int dest, double w){
-        if(_nodesList.containsKey(src)&_nodesList.containsKey(dest)&w>=0){ //out of bound
-            if (!_edgeList.containsKey(src)){ //if not init
-                _edgeList.put(src,new NeighborList());
-            }
-            if(_edgeList.get(src).putEdgeNeighbor(new EdgeData(src,dest,w)))_edges++;
+        if(_nodesList.containsKey(src)&_nodesList.containsKey(dest)&w>=0){ //if not out of bound
+            if (_edgeList.pushEdge(new EdgeData(src,dest,w)))_edges++;
             MC++;
         }
     }
@@ -134,7 +189,7 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public Collection<edge_data> getE(int node_id){
-        return _edgeList.get(node_id).getECollection();
+        return _edgeList.getECollection(node_id);
     }
 
     /**
@@ -147,11 +202,11 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public node_data removeNode(int key){
-
-        //TODO needs work
+        if (!_nodesList.containsKey(key))return null;
+        _edges-=_edgeList.remove(key);
         _nodes--;
         MC++;
-        return null;
+        return _nodesList.remove(key);
     }
 
     /**
@@ -164,10 +219,10 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public edge_data removeEdge(int src, int dest){
-        edge_data e = _edgeList.get(src).remove(dest);
+        edge_data e = _edgeList.removeEdge(src, dest);
         if (e!=null){
-           MC++;
-           _edges--;
+            MC++;
+            _edges--;
         }
         return e;
     }

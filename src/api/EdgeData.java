@@ -7,10 +7,22 @@ public class EdgeData implements edge_data{
     private String _info;
     private int _tag;
 
-    EdgeData(int src, int dest, double weight){
+    public EdgeData(int src, int dest, double weight){
         _src = src;
         _dest = dest;
         _weight = weight;
+    }
+
+    /**
+     * copy constructor
+     * @param e
+     */
+    public EdgeData(edge_data e){
+        _src = e.getSrc();
+        _dest = e.getDest();
+        _tag = e.getTag();
+        _weight = e.getWeight();
+        _info = e.getInfo();
     }
     /**
      * The id of the source node of this edge.

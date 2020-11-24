@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class directed_weighted_graphTest {
+class DWGraph_DSTest{
 
     @Test
     void connect() {
+        DWGraph_DS g;
         //if null
+        g.getMC();
         //if src null
         //if dest null
         //if w null
