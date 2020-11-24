@@ -9,11 +9,21 @@ public class DWGraph_DS implements directed_weighted_graph{
     int _nodes = 0;
     int _edges = 0;
     int MC = 0;
+
+    public DWGraph_DS(directed_weighted_graph graph_ds){///// needs checking if more stuff
+        for (node_data n:graph_ds.getV()
+             ) {
+            node_data copy = new NodeData(n);
+            addNode(n);
+        }
+        ///TODO needs friends :)
+    }
+
     /**
      * the list of edges object
      */
     private class NeighborList{
-        //first is key of src second is the edge
+        //first is key of node second is the edge
         private HashMap<Integer, edge_data> _edgeNeighbors = new HashMap<>();
         /**
          * @param dest of the node
@@ -138,7 +148,7 @@ public class DWGraph_DS implements directed_weighted_graph{
     @Override
     public node_data removeNode(int key){
 
-        ///needs work
+        //TODO needs work
         _nodes--;
         MC++;
         return null;

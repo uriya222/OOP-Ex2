@@ -14,11 +14,23 @@ public class NodeData implements node_data{
     NodeData(int key){
         _key = key;
     }
+
     /**
-     * Returns the key (id) associated with this node.
-     *
-     * @return the key of the node
+     * copy constructor
+     * @param n - node data
      */
+    NodeData(node_data n){
+        _key =n.getKey();
+        _tag = n.getTag();
+        _info = n.getInfo();
+        _weight = n.getWeight();
+        _geoLocation = new GeoLocation(n.getLocation());
+    }
+        /**
+         * Returns the key (id) associated with this node.
+         *
+         * @return the key of the node
+         */
     @Override
     public int getkey(){
         return _key;
