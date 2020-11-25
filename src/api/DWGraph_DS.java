@@ -125,6 +125,7 @@ public class DWGraph_DS implements directed_weighted_graph{
                 _edgeList.pushEdge(new EdgeData(e)); // via connect
             }
         }
+        _edges = graph_ds.edgeSize();
     }
 
     /**
