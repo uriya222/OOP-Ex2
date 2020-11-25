@@ -11,6 +11,7 @@ public class EdgeData implements edge_data{
         _src = src;
         _dest = dest;
         _weight = weight;
+        _tag=0;
     }
 
     /**

@@ -40,8 +40,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public directed_weighted_graph copy() {
-        //return new DWGraph_DS(getGraph());
-        return null;
+        return new DWGraph_DS(getGraph());
     }
 
     /**
@@ -52,13 +51,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean isConnected() {
-        if(getGraph().getV()==null) return false;
-        if (getGraph().getV().isEmpty()) return true;
+        if ((getGraph().getV().isEmpty())||getGraph().nodeSize()==1) return true;
         node_data n=getGraph().getV().iterator().next();
         for (node_data x : getGraph().getV()) {
             if (x != null) x.setTag(0);
         }
-        DFS(n);
+        DFS(n,getGraph());
         for (node_data x : getGraph().getV()) {
             if (x != null) {
                 if (x.getTag() == 0) return false;
@@ -66,14 +64,19 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             }
         }
         directed_weighted_graph revers=new DWGraph_DS(getGraph());
-        for (edge_data e:revers.getE(n.getKey())){
-            if(revers.getEdge(e.getDest(),e.getSrc())==null) {
-                revers.connect(e.getDest(), e.getSrc(), e.getWeight());
-                revers.removeEdge(e.getSrc(), e.getDest());
+        for (node_data n2: getGraph().getV()) {
+            if (revers.getE(n2.getKey()) != null) {
+                for (edge_data e : getGraph().getE(n2.getKey())) {
+                    if ((revers.getEdge(e.getDest(), e.getSrc()) == null)&&e.getTag()==0) {
+                        revers.connect(e.getDest(), e.getSrc(), e.getWeight());
+                        revers.getEdge(e.getDest(), e.getSrc()).setTag(1);
+                        revers.removeEdge(e.getSrc(), e.getDest());
+                    }
+                }
             }
         }
         n=revers.getNode(n.getKey());
-        DFS(n);
+        DFS(n,revers);
         for (node_data x : revers.getV()) {
             if (x != null) {
                 if (x.getTag() == 0) return false;
@@ -82,19 +85,21 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
         return true;
     }
-    private void DFS(node_data n) {
+    private void DFS(node_data n,directed_weighted_graph g2) {
         Queue<node_data> q=new LinkedList<node_data>();
         q.add(n);
         n.setTag(1);
         while(!(q.isEmpty())) {
-            for(edge_data x: getGraph().getE(n.getKey())) {
-                node_data tmp= getGraph().getNode(x.getDest());
+            if(g2.getE(n.getKey())==null) break;
+            for(edge_data x: g2.getE(n.getKey())) {
+                node_data tmp= g2.getNode(x.getDest());
                 if(tmp.getTag()==0) {
                     q.add(tmp);
                     tmp.setTag(1);
                 }
             }
             q.remove();
+            n=q.peek();
         }
     }
 
@@ -122,7 +127,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         double [] ShortestFromA=new double[size];
         dijkstras_algo( src, dest, size, prev,ShortestFromA);
         if(ShortestFromA[dest]==Double.MAX_VALUE) return -1;
-        return ShortestFromA[src];
+        return ShortestFromA[dest];
     }
 
     /**
@@ -151,7 +156,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         int [] prev=new int[size];
         double [] ShotrestFromA=new double[size];
         dijkstras_algo(src, dest, size, prev, ShotrestFromA);
-        if(ShotrestFromA[dest]==Integer.MAX_VALUE) return path;
+        if(ShotrestFromA[dest]==Double.MAX_VALUE) return path;
         int tmp=dest;
         while(tmp!=-1) {
             st.push(getGraph().getNode(tmp));
@@ -187,11 +192,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         q.add(src);
         while(!q.isEmpty()) {
             int u=q.remove();
-            for (edge_data x:g.getE(u)) {
-                if (visited[x.getDest()] == false) {
-                    dist=S[x.getDest()];
-                    S[x.getDest()] = Math.min(S[x.getDest()], S[u]+x.getWeight());
-                    if(S[x.getDest()]!=dist) prev[x.getDest()] = u;
+            if(getGraph().getE(u)!=null) {
+                for (edge_data x : getGraph().getE(u)) {
+                    if (visited[x.getDest()] == false) {
+                        dist = S[x.getDest()];
+                        S[x.getDest()] = Math.min(S[x.getDest()], S[u] + x.getWeight());
+                        if (S[x.getDest()] != dist) prev[x.getDest()] = u;
+                    }
                 }
             }
             visited[u] = true;
@@ -229,7 +236,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean save(String file) {
-        Gson gson=new GsonBuilder().create();
+//        Gson gson=new GsonBuilder().setPrettyPrinting().create();
+//        String json= gson.toJson((DWGraph_DS)(getGraph()));
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
+        builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
+        builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
+        Gson gson = builder.setPrettyPrinting().create();
         String json= gson.toJson(getGraph());
         try {
             PrintWriter pw=new PrintWriter(new File(file));
@@ -254,15 +267,23 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean load(String file) {
         try {
-            Gson gson = new GsonBuilder().create();
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
+            builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
+            builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
+            Gson gson = builder.create();
+            //Gson gson = new Gson();
             FileReader reader = new FileReader(file);
-            DWGraph_DS dwg=gson.fromJson(reader,DWGraph_DS.class);
+            this.g=gson.fromJson(reader,DWGraph_DS.class);
             return true;
         }
         catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 }
+
+
 
 

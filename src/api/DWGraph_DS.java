@@ -197,9 +197,7 @@ public class DWGraph_DS implements directed_weighted_graph{
      */
     @Override
     public Collection<node_data> getV(){
-        Collection<node_data> re = _nodesList.values();
-        if (re.size()==0)return null;
-        return re;
+        return _nodesList.values();
     }
 
     /**
