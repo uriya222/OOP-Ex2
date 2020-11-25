@@ -3,6 +3,7 @@ package api;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DWGraph_DSTest{
 
@@ -108,7 +109,7 @@ class DWGraph_DSTest{
     }
 
     @Test
-    void NodeCopyConstructors() {
+    void GraphCopyConstructors() {
         //empty
         DWGraph_DS g = new DWGraph_DS();
         DWGraph_DS c = new DWGraph_DS(g);
@@ -123,6 +124,7 @@ class DWGraph_DSTest{
         g.connect(10,12,2);
         c = new DWGraph_DS(g);
         //3 nodes 5 edges
+        g.addNode(new NodeData(10));
         g.addNode(new NodeData(14));
         g.connect(12,10,2);
         g.connect(13,12,2);
@@ -139,8 +141,16 @@ class DWGraph_DSTest{
         c = new DWGraph_DS(g);
     }
     @Test
-    void GraphCopyConstructors() {
-
+    void NodeCopyConstructors() {
+        node_data n = new NodeData(12);
+        n.setInfo("hi");
+        n.setTag(12);
+        n.setWeight(43.5);
+        node_data c = new NodeData(n);
+        assertEquals(n.getKey(),c.getKey());
+        assertEquals(n.getInfo(),c.getInfo());
+        assertEquals(n.getTag(),c.getTag());
+        assertEquals(n.getWeight(),c.getWeight());
     }
     @Test
     void EdgeCopyConstructors() {

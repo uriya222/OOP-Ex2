@@ -21,7 +21,7 @@ public class DWGraph_DS implements directed_weighted_graph{
          * @return if only replaced the edge - False  if added new edge - True
          */
         private boolean pushEdge(edge_data edge){
-            if (edge==null)return false;
+            if (edge==null)return false; //will be removed
             boolean newEdge = false;
             if (!_srcList.containsKey(edge.getSrc())) {//if src node didnt init
                 _srcList.put(edge.getSrc(),new HashMap<>());
@@ -58,6 +58,11 @@ public class DWGraph_DS implements directed_weighted_graph{
             int eNum = 0;
             if (_srcList.containsKey(nodeKey)) {
                 eNum+=_srcList.get(nodeKey).size();
+                for (edge_data e :_srcList.get(nodeKey).values()
+                ) {
+                    _destList.get(e.getDest()).remove(nodeKey);
+                    if (_destList.get(e.getDest()).values().size()==0)_destList.remove(e.getDest()); //cleanup - if need speed remove
+                }
                 _srcList.remove(nodeKey);
             }
             if (_destList.containsKey(nodeKey)){
@@ -65,7 +70,10 @@ public class DWGraph_DS implements directed_weighted_graph{
                 for (edge_data e:_destList.get(nodeKey).values()
                 ) {
                     _srcList.get(e.getSrc()).remove(nodeKey);
+                    if (_srcList.get(e.getSrc()).values().size()==0)_srcList.remove(e.getSrc()); //cleanup - if need speed remove
+
                 }
+                _destList.remove(nodeKey);
             }
             return eNum;
         }
@@ -114,7 +122,7 @@ public class DWGraph_DS implements directed_weighted_graph{
             if (graph_ds.getE(n.getKey())==null) continue;
             for (edge_data e:graph_ds.getE(n.getKey())
             ) {
-                _edgeList.pushEdge(new EdgeData(e));
+                _edgeList.pushEdge(new EdgeData(e)); // via connect
             }
         }
     }
