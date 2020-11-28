@@ -11,6 +11,18 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
+/**
+ * This class represents directed (positive) Weighted Graph Theory algorithms,
+ * by implementing dw_graph_algorithms interface, including:
+ * 0. clone(); (copy)
+ * 1. init(graph);
+ * 2. isConnected();
+ * 3. double shortestPathDist(int src, int dest);
+ * 4. List<node_data> shortestPath(int src, int dest);
+ * 5. Save(file);
+ * 6. Load(file);
+ *
+ */
 public class DWGraph_Algo implements dw_graph_algorithms {
     directed_weighted_graph g;
     public DWGraph_Algo(){
@@ -44,9 +56,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     }
 
     /**
-     * Returns true if and only if (iff) there is a valid path from each node to each
-     * other node. NOTE: assume directional graph (all n*(n-1) ordered pairs).
-     *improve of the first one O(V+E)
+     * Returns true if and only if (iff) there is a valid path from
+     * each node to each other node.
+     *run in O(V+E)
      * @return
      */
     @Override
@@ -133,8 +145,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     /**
      * returns the the shortest path between src to dest - as an ordered List of nodes:
      * src--> n1-->n2-->...dest
-     * see: https://en.wikipedia.org/wiki/Shortest_path_problem
-     * Note if no such path --> returns null;
+     * if no such path --> returns null;
      *
      * @param src  - start node
      * @param dest - end (target) node
@@ -154,9 +165,9 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
         size++;
         int [] prev=new int[size];
-        double [] ShotrestFromA=new double[size];
-        dijkstras_algo(src, dest, size, prev, ShotrestFromA);
-        if(ShotrestFromA[dest]==Double.MAX_VALUE) return path;
+        double [] ShortestFromA=new double[size];
+        dijkstras_algo(src, dest, size, prev, ShortestFromA);
+        if(ShortestFromA[dest]==Double.MAX_VALUE) return null;
         int tmp=dest;
         while(tmp!=-1) {
             st.push(getGraph().getNode(tmp));
@@ -229,15 +240,13 @@ public class DWGraph_Algo implements dw_graph_algorithms {
 
     /**
      * Saves this weighted (directed) graph to the given
-     * file name - in JSON format
+     * file name - in JSON format using GSON
      *
      * @param file - the file name (may include a relative path).
      * @return true - iff the file was successfully saved
      */
     @Override
     public boolean save(String file) {
-//        Gson gson=new GsonBuilder().setPrettyPrinting().create();
-//        String json= gson.toJson((DWGraph_DS)(getGraph()));
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
         builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
@@ -266,21 +275,28 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      */
     @Override
     public boolean load(String file) {
+        directed_weighted_graph tmp=getGraph();
         try {
             GsonBuilder builder = new GsonBuilder();
             builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
             builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
             builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
             Gson gson = builder.create();
-            //Gson gson = new Gson();
             FileReader reader = new FileReader(file);
             this.g=gson.fromJson(reader,DWGraph_DS.class);
             return true;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            this.g=tmp;
             return false;
         }
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (o instanceof DWGraph_Algo)
+        return getGraph().equals(((DWGraph_Algo)o).getGraph());
+        throw new ClassCastException("you tried to compere two different object!");
     }
 }
 

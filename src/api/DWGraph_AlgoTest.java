@@ -195,7 +195,6 @@ class DWGraph_AlgoTest {
         assertEquals(g2.shortestPathDist(1, 3), 7);
         g1.removeEdge(2, 3);
         assertEquals(g2.shortestPathDist(1, 3), 7.5);
-
     }
 
 
@@ -206,7 +205,7 @@ class DWGraph_AlgoTest {
         ArrayList<Integer> match = new ArrayList<>();
         g2.init(g1);
         int[] a1 = {0, 2};
-        assertTrue(CheckList(g2, match, a1));
+        assertNull(g2.shortestPath(0,2));
         int[] arr1 = {10};
         AddNodeToGraph(g1, arr1);
         match.add(10);
@@ -217,7 +216,7 @@ class DWGraph_AlgoTest {
         match.clear();
         int[] a3 = {10, 30};
         assertTrue(CheckList(g2, match, a3));
-        int[] arr = {0, 1, 2, 3, 4};
+        int[] arr = {0, 1, 2, 3, 4, 5};
         AddNodeToGraph(g1, arr);
         double[][] a = {{0, 1, 6}, {0, 3, 1}, {1, 2, 5}, {1, 3, 2}, {1, 4, 2,}, {2, 4, 5}, {3, 4, 1}};
         ConnectNodesInGraph(g1, a);
@@ -227,6 +226,7 @@ class DWGraph_AlgoTest {
         match.add(3);
         match.add(4);
         assertTrue(CheckList(g2, match, a4));
+        assertNull(g2.shortestPath(2,5));
         g1.removeNode(3);
         match.clear();
         match.add(0);
@@ -245,6 +245,7 @@ class DWGraph_AlgoTest {
     @Test
     public void testSaveAndLoad1() {
         directed_weighted_graph g1 = new DWGraph_DS();
+        directed_weighted_graph g4 = new DWGraph_DS();
         int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         AddNodeToGraph(g1, arr);
         double[][] a = {{0, 1, 1}, {1, 5, 6}, {3, 2, 3}, {9, 8, 3}, {5, 9, 2}, {2, 9, 1}, {1, 2, 16.3}, {1, 7, 4}, {7, 3, 8.2}, {0, 6, 1.5}, {6, 10, 18}, {10, 2, 1}, {8, 9, 3}, {8, 2, 4}, {0, 4, 20}};
@@ -256,7 +257,10 @@ class DWGraph_AlgoTest {
         assertTrue(g2.save("test.json"));
         assertTrue(g3.load("test.json"));
         assertEquals(g3.shortestPathDist(0, 2), 16);
-        //assertEquals(g3,g2);
+        assertEquals(g3,g2);
+        g4= g3.getGraph();
+        g4.removeEdge(0,1);
+        assertNotEquals(g2,g3);
     }
 }
 
