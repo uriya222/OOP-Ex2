@@ -2,6 +2,7 @@ package api;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class DWGraph_DS implements directed_weighted_graph{
 
@@ -280,5 +281,36 @@ public class DWGraph_DS implements directed_weighted_graph{
     @Override
     public int getMC(){
         return MC;
+    }
+
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof DWGraph_DS)) return false;
+        DWGraph_DS that = (DWGraph_DS) o;
+        if (_nodes != that.nodeSize() || _edges != that.edgeSize()){
+            return false;
+        }
+        for (node_data n:that.getV()
+             ) {
+            if (!n.equals(getNode(n.getKey()))){
+                return false;
+            }
+            if (that.getE(n.getKey())!=null) {
+                for (edge_data e : that.getE(n.getKey())
+                ) {
+                    if (!e.equals(getEdge(e.getSrc(), e.getDest()))) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(_nodesList, _edgeList, _nodes, _edges);
     }
 }

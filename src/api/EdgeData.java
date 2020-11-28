@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Objects;
+
 public class EdgeData implements edge_data{
     private int _src;
     private int _dest;
@@ -93,5 +95,30 @@ public class EdgeData implements edge_data{
     @Override
     public void setTag(int t){
         _tag = t;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof EdgeData)) return false;
+
+        EdgeData edgeData = (EdgeData) o;
+
+        if (_src != edgeData._src) return false;
+        if (_dest != edgeData._dest) return false;
+        if (Double.compare(edgeData._weight, _weight) != 0) return false;
+        return Objects.equals(_info, edgeData._info);
+    }
+
+    @Override
+    public int hashCode(){//TODO dont know, dont care.
+        int result;
+        long temp;
+        result = _src;
+        result = 31 * result + _dest;
+        temp = Double.doubleToLongBits(_weight);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (_info != null ? _info.hashCode() : 0);
+        return result;
     }
 }

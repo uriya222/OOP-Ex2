@@ -1,5 +1,7 @@
 package api;
 
+import java.util.Objects;
+
 public class NodeData implements node_data{
     private int _key;
     private geo_location _geoLocation;
@@ -119,5 +121,21 @@ public class NodeData implements node_data{
     @Override
     public void setTag(int t){
         _tag = t;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof NodeData)) return false;
+        NodeData nodeData = (NodeData) o;
+        return _key == nodeData._key &&
+                Double.compare(nodeData._weight, _weight) == 0 &&
+               // Objects.equals(_geoLocation, nodeData._geoLocation) && //need inside geo
+                Objects.equals(_info, nodeData._info);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(_key, _geoLocation, _weight, _info);
     }
 }

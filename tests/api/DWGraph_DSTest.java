@@ -156,4 +156,42 @@ class DWGraph_DSTest{
     void EdgeCopyConstructors() {
 
     }
+    @Test
+    void equals() {
+        DWGraph_DS g1 =new DWGraph_DS();
+        DWGraph_DS g2 =new DWGraph_DS();
+        //empty graphs
+        assertTrue(g1.equals(g2));
+        //not equals 1 node
+        g1.addNode(new NodeData(12));
+        g1.equals(g2);
+        assertFalse(g1.equals(g2));
+        assertFalse(g2.equals(g1));
+        g2.addNode(new NodeData(12));
+        assertTrue(g1.equals(g2));
+        //node have diff weight
+        g1.getNode(12).setWeight(122);
+        assertFalse(g1.equals(g2));
+        //fix
+        g2.getNode(12).setWeight(122);
+        assertTrue(g1.equals(g2));
+        //more nodes
+        g1.addNode(new NodeData(11));
+        g2.addNode(new NodeData(11));
+        assertTrue(g1.equals(g2));
+        //diff edge
+        g1.connect(11,12,2);
+        assertFalse(g1.equals(g2));
+        //same edge
+        g2.connect(11,12,2);
+        assertTrue(g1.equals(g2));
+        //diff in edge
+        g2.connect(11,12,3);
+        assertFalse(g1.equals(g2));
+        //remove node
+        g1.removeNode(11);
+        g2.removeNode(11);
+        assertTrue(g1.equals(g2));
+
+    }
 }
