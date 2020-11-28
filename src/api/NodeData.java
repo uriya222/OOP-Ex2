@@ -130,7 +130,7 @@ public class NodeData implements node_data{
         NodeData nodeData = (NodeData) o;
         return _key == nodeData._key &&
                 Double.compare(nodeData._weight, _weight) == 0 &&
-               // Objects.equals(_geoLocation, nodeData._geoLocation) && //need inside geo
+               // Objects.equals(_geoLocation, nodeData._geoLocation) && //TODO need inside geo
                 Objects.equals(_info, nodeData._info);
     }
 
