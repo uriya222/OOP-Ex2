@@ -1,8 +1,9 @@
 package gameClient;
-import api.edge_data;
+
 import api.directed_weighted_graph;
-import api.node_data;
+import api.edge_data;
 import api.geo_location;
+import api.node_data;
 import gameClient.util.Point3D;
 import org.json.JSONObject;
 
@@ -58,13 +59,13 @@ public class CL_Agent {
 			}
 		}
 		//@Override
-		public int getSrcNode() {return this._curr_node.getkey();}
+		public int getSrcNode() {return this._curr_node.getKey();}
 		public String toJSON() {
 			int d = this.getNextNode();
 			String ans = "{\"Agent\":{"
 					+ "\"id\":"+this._id+","
 					+ "\"value\":"+this._value+","
-					+ "\"src\":"+this._curr_node.getkey()+","
+					+ "\"src\":"+this._curr_node.getKey()+","
 					+ "\"dest\":"+d+","
 					+ "\"speed\":"+this.getSpeed()+","
 					+ "\"pos\":\""+_pos.toString()+"\""
@@ -76,7 +77,7 @@ public class CL_Agent {
 	
 		public boolean setNextNode(int dest) {
 			boolean ans = false;
-			int src = this._curr_node.getkey();
+			int src = this._curr_node.getKey();
 			this._curr_edge = _gg.getEdge(src, dest);
 			if(_curr_edge!=null) {
 				ans=true;

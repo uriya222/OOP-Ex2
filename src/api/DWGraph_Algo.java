@@ -248,10 +248,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean save(String file) {
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
-        builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
-        builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
-        Gson gson = builder.setPrettyPrinting().create();
+//        builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
+//        builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
+//        builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
+        Gson gson = builder.create();
         String json= gson.toJson(getGraph());
         try {
             PrintWriter pw=new PrintWriter(new File(file));
@@ -277,14 +277,22 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public boolean load(String file) {
         directed_weighted_graph tmp=getGraph();
         try {
-            GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
-            builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
-            builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
-            Gson gson = builder.create();
-            FileReader reader = new FileReader(file);
-            this.g=gson.fromJson(reader,DWGraph_DS.class);
-            return true;
+            if(file.startsWith("US")) {
+                GsonBuilder builder = new GsonBuilder();
+                builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter2());
+                Gson gson = builder.create();
+                FileReader reader = new FileReader(file);
+                this.g = gson.fromJson(reader, DWGraph_DS.class);
+                return true;
+            }
+            else  {
+                GsonBuilder builder = new GsonBuilder();
+                builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter());
+                Gson gson = builder.create();
+                FileReader reader = new FileReader(file);
+                this.g = gson.fromJson(reader, DWGraph_DS.class);
+                return true;
+            }
         }
         catch (Exception e) {
             this.g=tmp;

@@ -1,5 +1,7 @@
 package api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
@@ -97,8 +99,9 @@ public class DWGraph_DS implements directed_weighted_graph{
 
     }
 
-
+    @SerializedName("Nodes")
     private HashMap<Integer,node_data> _nodesList = new HashMap<Integer, node_data>();
+    @SerializedName("Edges")
     private EdgeHandler _edgeList= new EdgeHandler();
     private int _nodes = 0;
     private int _edges = 0;

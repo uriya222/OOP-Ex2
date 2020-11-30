@@ -250,17 +250,30 @@ class DWGraph_AlgoTest {
         AddNodeToGraph(g1, arr);
         double[][] a = {{0, 1, 1}, {1, 5, 6}, {3, 2, 3}, {9, 8, 3}, {5, 9, 2}, {2, 9, 1}, {1, 2, 16.3}, {1, 7, 4}, {7, 3, 8.2}, {0, 6, 1.5}, {6, 10, 18}, {10, 2, 1}, {8, 9, 3}, {8, 2, 4}, {0, 4, 20}};
         ConnectNodesInGraph(g1, a);
+        geo_location gn=new GeoLocation(12.5,3,0);
+        g1.getNode(0).setLocation(gn);
         dw_graph_algorithms g2 = new DWGraph_Algo();
         dw_graph_algorithms g3 = new DWGraph_Algo();
         g2.init(g1);
         assertEquals(g2.shortestPathDist(0, 2), 16);
-        assertTrue(g2.save("test.json"));
-        assertTrue(g3.load("test.json"));
+        assertTrue(g2.save("US1.json"));
+        assertTrue(g3.load("US1.json"));
         assertEquals(g3.shortestPathDist(0, 2), 16);
         assertEquals(g3,g2);
         g4= g3.getGraph();
         g4.removeEdge(0,1);
         assertNotEquals(g2,g3);
+    }
+
+    @Test
+    public void LoadFromGivenFile() {
+       dw_graph_algorithms g2 = new DWGraph_Algo();
+       assertTrue(g2.load("data\\A0.json"));
+        assertTrue(g2.load("data\\A1.json"));
+        assertTrue(g2.load("data\\A2.json"));
+        assertTrue(g2.load("data\\A3.json"));
+        assertTrue(g2.load("data\\A4.json"));
+        assertTrue(g2.load("data\\A5.json"));
     }
 }
 

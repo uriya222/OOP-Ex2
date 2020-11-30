@@ -29,6 +29,5 @@ libc/
 data/
 bin/
 OOP-Ex2.iml
-gson-2.8.6.jar
+libs/gson-2.8.6.jar
 ex2_Ex2.iml
-.gitignore

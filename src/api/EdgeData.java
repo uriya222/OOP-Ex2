@@ -1,10 +1,15 @@
 package api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class EdgeData implements edge_data{
+    @SerializedName("src")
     private int _src;
+    @SerializedName("dest")
     private int _dest;
+    @SerializedName("w")
     private double _weight;
     private String _info;
     private int _tag;

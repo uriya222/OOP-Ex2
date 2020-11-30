@@ -1,9 +1,13 @@
 package api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Objects;
 
 public class NodeData implements node_data{
+    @SerializedName("id")
     private int _key;
+    @SerializedName("pos")
     private geo_location _geoLocation;
     private double _weight;
     private String _info;

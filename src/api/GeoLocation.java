@@ -4,7 +4,7 @@ public class GeoLocation implements geo_location{
     private double x;
     private double y;
     private double z;
-    GeoLocation(int x, int y, int z){
+    GeoLocation(double x, double y, double z){
         this.x = x;
         this.y = y;
         this.z = z;
@@ -36,5 +36,9 @@ public class GeoLocation implements geo_location{
     public double distance(geo_location g){
         ///////need to return distance between two points by pitagoras
         return 0;
+    }
+
+    public String toString(){
+        return  ""+this.x+","+this.y+","+this.z;
     }
 }
