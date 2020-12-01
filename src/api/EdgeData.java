@@ -114,16 +114,4 @@ public class EdgeData implements edge_data{
         if (Double.compare(edgeData._weight, _weight) != 0) return false;
         return Objects.equals(_info, edgeData._info);
     }
-
-    @Override
-    public int hashCode(){//TODO dont know, dont care.
-        int result;
-        long temp;
-        result = _src;
-        result = 31 * result + _dest;
-        temp = Double.doubleToLongBits(_weight);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (_info != null ? _info.hashCode() : 0);
-        return result;
-    }
 }

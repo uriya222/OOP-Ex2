@@ -137,9 +137,4 @@ public class NodeData implements node_data{
                // Objects.equals(_geoLocation, nodeData._geoLocation) && //TODO need inside geo
                 Objects.equals(_info, nodeData._info);
     }
-
-    @Override
-    public int hashCode(){
-        return Objects.hash(_key, _geoLocation, _weight, _info);
-    }
 }

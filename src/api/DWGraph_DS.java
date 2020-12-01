@@ -312,8 +312,4 @@ public class DWGraph_DS implements directed_weighted_graph{
         return true;
     }
 
-    @Override
-    public int hashCode(){
-        return Objects.hash(_nodesList, _edgeList, _nodes, _edges);
-    }
 }

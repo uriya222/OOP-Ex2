@@ -34,7 +34,7 @@ public class GeoLocation implements geo_location{
 
     @Override
     public double distance(geo_location g){
-        ///////need to return distance between two points by pitagoras
+        //TODO: need to return distance between two points by pitagoras (z is zero)
         return 0;
     }
 
