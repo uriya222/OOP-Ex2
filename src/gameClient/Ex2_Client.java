@@ -18,6 +18,9 @@ public class Ex2_Client implements Runnable{
 	public static void main(String[] a) {
 		Thread client = new Thread(new Ex2_Client());
 		client.start();
+		// if you want to run sequentially instead
+		//Ex2_Client c = new Ex2_Client();
+		//c.run();
 	}
 	
 	@Override
