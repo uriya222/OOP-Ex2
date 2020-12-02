@@ -34,8 +34,7 @@ public class GeoLocation implements geo_location{
 
     @Override
     public double distance(geo_location g){
-        //TODO: need to return distance between two points by pitagoras (z is zero)
-        return 0;
+        return Math.sqrt(Math.pow(x-g.x(),2)+Math.pow(y-g.y(),2));
     }
 
     public String toString(){
