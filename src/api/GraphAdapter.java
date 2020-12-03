@@ -9,6 +9,7 @@ public class GraphAdapter implements  JsonDeserializer<DWGraph_DS>{
 
 
         public DWGraph_DS deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+            System.out.println("probe");
             DWGraph_DS g1=new DWGraph_DS();
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             JsonArray nodeData=jsonObject.get("Nodes").getAsJsonArray();

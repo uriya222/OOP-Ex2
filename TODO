@@ -1,0 +1,15 @@
+TODO:
+* graphical interface //maybe on Thread
+* agent //per agent -object
+* pockemon
+* score board -object (//Thread)
+* game manager --main
+// * (client) maybe for optimization
+
+
+
+להבנה:
+איך מושכים מהשרת את הJASON
+איך מציגים ממשק
+מבנה מסודר
+אלגוריתמים ---בונים את הכל עמ שנצטרך רק לכתוב אלגו
