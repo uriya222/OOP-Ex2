@@ -248,9 +248,6 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean save(String file) {
         GsonBuilder builder = new GsonBuilder();
-//        builder.registerTypeAdapter(node_data.class, new InterfaceAdapter());
-//        builder.registerTypeAdapter(edge_data.class, new InterfaceAdapter());
-//        builder.registerTypeAdapter(directed_weighted_graph.class, new InterfaceAdapter());
         Gson gson = builder.create();
         String json= gson.toJson(getGraph());
         try {
