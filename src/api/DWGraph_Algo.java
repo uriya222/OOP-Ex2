@@ -26,7 +26,7 @@ import java.util.Stack;
 public class DWGraph_Algo implements dw_graph_algorithms {
     directed_weighted_graph g;
     public DWGraph_Algo(){
-       this.g=new DWGraph_DS();
+        this.g=new DWGraph_DS();
     }
     /**
      * Init the graph on which this set of algorithms operates on.
@@ -248,6 +248,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean save(String file) {
         GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter());
         Gson gson = builder.create();
         String json= gson.toJson(getGraph());
         try {
@@ -274,22 +275,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     public boolean load(String file) {
         directed_weighted_graph tmp=getGraph();
         try {
-            if(file.startsWith("US")) {
-                GsonBuilder builder = new GsonBuilder();
-                builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter2());
-                Gson gson = builder.create();
-                FileReader reader = new FileReader(file);
-                this.g = gson.fromJson(reader, DWGraph_DS.class);
-                return true;
-            }
-            else  {
-                GsonBuilder builder = new GsonBuilder();
-                builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter());
-                Gson gson = builder.create();
-                FileReader reader = new FileReader(file);
-                this.g = gson.fromJson(reader, DWGraph_DS.class);
-                return true;
-            }
+            GsonBuilder builder = new GsonBuilder();
+            builder.registerTypeAdapter(DWGraph_DS.class, new GraphAdapter());
+            Gson gson = builder.create();
+            FileReader reader = new FileReader(file);
+            this.g = gson.fromJson(reader, DWGraph_DS.class);
+            return true;
         }
         catch (Exception e) {
             this.g=tmp;
@@ -300,7 +291,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public boolean equals(Object o){
         if (o instanceof DWGraph_Algo)
-        return getGraph().equals(((DWGraph_Algo)o).getGraph());
+            return getGraph().equals(((DWGraph_Algo)o).getGraph());
         throw new ClassCastException("you tried to compere two different object!");
     }
 }

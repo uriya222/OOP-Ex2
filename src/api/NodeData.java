@@ -20,6 +20,8 @@ public class NodeData implements node_data{
     NodeData(int key){
         _key = key;
         _tag = 0;
+        _info="";
+        _weight=0 ;
     }
 
     /**

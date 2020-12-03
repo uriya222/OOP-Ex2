@@ -16,16 +16,16 @@ public class Ex2_Client implements Runnable{
 	private static MyFrame _win;
 	private static Arena _ar;
 	public static void main(String[] a) {
-		Thread client = new Thread(new Ex2_Client());
-		client.start();
+		//Thread client = new Thread(new Ex2_Client());
+		//client.start();
 		// if you want to run sequentially instead
-		//Ex2_Client c = new Ex2_Client();
-		//c.run();
+		Ex2_Client c = new Ex2_Client();
+		c.run();
 	}
 	
 	@Override
 	public void run() {
-		int scenario_num = 11;
+		int scenario_num = 0;
 		game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 	//	int id = 999;
 	//	game.login(id);
