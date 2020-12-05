@@ -69,6 +69,7 @@ public class Agent {
     public void setSpeed(double i) {this.speed=i;}
 
     public static void main(String[] args) throws InterruptedException {
+        System.out.println(0.001*0.001);
         int scenario_num = 0;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         game.addAgent(0);
@@ -109,6 +110,7 @@ public class Agent {
         geo_location a=new GeoLocation(x,y,0);
         System.out.println(game.getAgents());
         System.out.println(a.distance(a2));
+        System.out.println(game.getPokemons());
        // System.out.println(game.getAgents());
        // TimeUnit.SECONDS.sleep(3);
         game.stopGame();
