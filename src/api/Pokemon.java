@@ -15,13 +15,11 @@ public class Pokemon {
 
     public Pokemon(String json) {
         FromJson(json);
-        EdgeFromPosition e2=new EdgeFromPosition(this.pos,this.type);
-        setEdge(e2.getEdge());
+        this.edge=null;
         min_dist = -1;
         min_ro = -1;
     }
     public void FromJson(String json) {
-        try {
             GsonBuilder b=new GsonBuilder();
             Gson gson=b.create();
             JsonElement r=gson.fromJson(json,JsonElement.class);
@@ -36,11 +34,11 @@ public class Pokemon {
             int t=r2.get("type").getAsInt();
             this.type=t;
             this.value=v;
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
     }
     public void setPosition(geo_location gl) {this.pos = new GeoLocation(gl);}
-    public void setEdge(edge_data e) {this.edge=new EdgeData(e);}
+    public int getType(){return this.type;}
+    public geo_location getPos() {return this.pos;}
+    public double getValue() {return this.value;}
+    public edge_data getEdge() {return this.edge;}
+    public void setEdge(edge_data ed) {this.edge=ed;}
 }
