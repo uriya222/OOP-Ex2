@@ -4,7 +4,8 @@ public class GeoLocation implements geo_location{
     private double x;
     private double y;
     private double z;
-    GeoLocation(double x, double y, double z){
+
+    public GeoLocation(double x, double y, double z){
         this.x = x;
         this.y = y;
         this.z = z;
