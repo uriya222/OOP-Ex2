@@ -25,6 +25,23 @@ public class MainManager{
     long last_update;
     long last_move;
 
+    public MainManager(game_service game){
+        this.game = game;
+        info= game.toString();
+        algo = new DWGraph_Algo();
+        try { //output to a file for the algo
+            String s= game.getGraph();
+            PrintWriter t = new PrintWriter(new File("GServer.json"));
+            t.write(s);
+            t.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        algo.load("GServer.json");
+        this.pokemons=json2Pokemons(game.getPokemons());
+        initAgent();
+    }
+
     public MainManager(int scenario){
         game = Game_Server_Ex2.getServer(scenario);
         info= game.toString();
@@ -143,6 +160,10 @@ public class MainManager{
     }
     public void move(){
         game.move();
+        game.getAgents();//---> list<agent> >> this.agents
+       // agents = new jsonToObject().jsonToAgent(this);
+
+
         last_update = System.currentTimeMillis();
     }
     public long getLast_move(){

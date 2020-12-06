@@ -2,6 +2,8 @@ package object;
 
 import Server.Game_Server_Ex2;
 import api.*;
+import api.GUI.myFrame;
+import api.GUI.myPanel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -29,6 +31,17 @@ public class Agent implements AgentsInterface{
     private edge_data curr_edge;
     private node_data curr_node;
     private directed_weighted_graph ga; //the major graph
+
+    public Agent(int id, double value, int src, int dest, double speed, geo_location pos, edge_data curr_edge, node_data curr_node){
+        this.id = id;
+        this.value = value;
+        this.src = src;
+        this.dest = dest;
+        this.speed = speed;
+        this.pos = pos;
+        this.curr_edge = curr_edge;
+        this.curr_node = curr_node;
+    }
 
     public int getId() {
         return id;
@@ -132,6 +145,7 @@ public class Agent implements AgentsInterface{
 
     public static void main(String[] args) throws InterruptedException {
         MainManager m=new MainManager(1);
+        myFrame panel = new myFrame(m);
         for (PokemonInterface p:m.getPokemonList()){
             System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
         }

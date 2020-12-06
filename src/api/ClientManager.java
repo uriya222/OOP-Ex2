@@ -1,7 +1,7 @@
 package api;
 
 
-import object.GameServer;
+import object.gameInfo;
 import object.PokemonInterface;
 import object.AgentsInterface;
 
@@ -17,7 +17,7 @@ public interface ClientManager{ //probably extends game service
      public HashMap<Integer, AgentsInterface> getAgentsList();
      public HashMap<edge_data, PokemonInterface> getPokemonList();
      public DWGraph_DS getGraph();
-     public GameServer getServerInfo();
+     public gameInfo getServerInfo();
      public boolean setGameNumber(int gameNumber);
      public void move();
      //public void chooseNextEdge();

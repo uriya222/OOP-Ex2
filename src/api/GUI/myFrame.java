@@ -2,6 +2,7 @@ package api.GUI;
 
 
 import api.MainManager;
+import object.Agent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,6 @@ public class myFrame extends JFrame implements ActionListener{
     public int refreshRateInMillis = 100;
     MenuItem menuItem =new MenuItem("inside");
     private myPanel panel;
-
     public static void main(String[] args){ //TODO: cleanup / not in use
         myFrame n = new myFrame(new MainManager(11));
        // n.setSize(500,500);

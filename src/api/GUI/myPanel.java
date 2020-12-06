@@ -19,7 +19,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private double[] min_max;
     private int screenSize = 500;
     MainManager main;
-    int menu = 1;
+    int menu = 2;
     /*enum menu {
         start,
         main,

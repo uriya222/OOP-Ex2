@@ -20,6 +20,13 @@ public class Pokemon implements PokemonInterface{
     private double min_dist;
     private int min_ro;
 
+    public Pokemon(edge_data edge, double value, int type, geo_location pos){
+        this.edge = edge;
+        this.value = value;
+        this.type = type;
+        this.pos = pos;
+    }
+
     public Pokemon(String json) {
         InitFromJson(json);
         this.edge=null;
