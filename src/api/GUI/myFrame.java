@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 public class myFrame extends JFrame implements ActionListener{
 
     MenuItem menuItem =new MenuItem("inside");
+    private myPanel panel = new myPanel();
 
     public static void main(String[] args){
         myFrame n = new myFrame();
@@ -22,17 +23,18 @@ public class myFrame extends JFrame implements ActionListener{
         n.setMenuBar(menuBar);
         menu.add(n.menuItem);
         n.menuItem.addActionListener(n);
-        myPanel panel =new myPanel();
-        n.add(panel);
-
-
+        //myPanel panel =new myPanel();
+        //n.add(panel);
+        n.getHeight();
+        n.getWidth();
     }
     public myFrame(){
-
+        this.setTitle("Pokémon ruby");
         this.setSize(500,500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-
+        this.add(panel);
+        panel.mainMenu();
     }
 
     /**

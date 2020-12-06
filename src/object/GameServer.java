@@ -2,11 +2,7 @@ package object;
 
 public interface GameServer{
 
-    //pointer->
-//    private game_service _game;
-//    default GameServer(game_service game){
-//        _game = game;
-//    }
+
 
     public int getPokemon();
     public boolean isLoggedIn();

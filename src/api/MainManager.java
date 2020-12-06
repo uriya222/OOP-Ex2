@@ -1,6 +1,8 @@
 package api;
 
 import Server.Game_Server_Ex2;
+import api.object.Agent;
+import api.object.Pokemon;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
