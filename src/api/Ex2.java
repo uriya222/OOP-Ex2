@@ -50,9 +50,10 @@ public class Ex2{
         g.chooseNextEdge(2,5);
         g.move();
         g.getAgents();
-        g.getPokemons();
+       // g.chooseNextEdge();
+        System.out.println(g.getPokemons());
         MainManager m=new MainManager(0);
-        List<Pokemon> lp=m.getPokemons();
+        List<Pokemon> lp=m.getPokemonList();
         for (Pokemon p:lp){
             System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
         }

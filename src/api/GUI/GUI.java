@@ -7,7 +7,6 @@ public class GUI{
         MainManager main = new MainManager(11);
         myFrame mainFrame = new myFrame(main);
 
-
     }
 
 

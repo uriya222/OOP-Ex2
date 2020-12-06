@@ -30,6 +30,11 @@ public class myFrame extends JFrame implements ActionListener{
         n.getWidth();
     }
 
+    /**
+     * constructor for the GUI
+     * adds pointer to MainManager
+     * @param main
+     */
     public myFrame(MainManager main){
         this.main = main;
         this.setTitle("Pokémon ruby");
@@ -38,7 +43,7 @@ public class myFrame extends JFrame implements ActionListener{
         this.setVisible(true);
         panel = new myPanel(main);
         this.add(panel);
-        panel.mainMenu();
+        //panel.mainMenu();
         while (true) {
             try {
                 Thread.sleep(refreshRateInMillis);
