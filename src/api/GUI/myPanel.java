@@ -16,7 +16,7 @@ public class myPanel extends JPanel implements MouseListener{
     private directed_weighted_graph mainGraph = new DWGraph_DS();
     private GeoLocation geoLocation = new GeoLocation(0,0,0);
     private double[] min_max;
-    private int screenSize = 450;
+    private int screenSize = 500;
     public myPanel(){
         this.setBackground(Color.white);
         this.addMouseListener(this);
@@ -29,6 +29,7 @@ public class myPanel extends JPanel implements MouseListener{
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+        screenSize = this.getHeight()<this.getWidth()?this.getHeight():this.getWidth();
         int H = 500;
         int W = 500;
         getGraph();
