@@ -5,11 +5,14 @@ import api.*;
 import object.AgentsInterface;
 import object.PokemonInterface;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 
@@ -19,7 +22,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private double[] min_max;
     private int screenSize = 500;
     MainManager main;
-    int menu = 2;
+    int menu = 1;
     /*enum menu {
         start,
         main,
@@ -27,6 +30,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }*/
     int IntPlay = 27 , direction = 1;
     boolean first = true;
+
     /**
      * constructor, takes a pointer to MainManager
      * @param main - pointer
@@ -115,6 +119,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             int x =(int)((n.getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((n.getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
             g.fillOval(x,y,10,10);
+            //g.drawImage(getImage("home.png"),x-15,y-10,30,30,null);
             char[] c = ("<"+n.getKey()).toCharArray();
             g.drawChars(c,0,c.length,x+11,y+11);
         }
@@ -123,7 +128,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         ) {
             int x =(int)((p.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((p.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
-            g.fillOval(x,y,10,10);
+            //g.fillOval(x,y,10,10);
+            g.drawImage(getImage("pok.png"),x,y-3,30,30,null);
 
         }
         g.setColor(Color.blue);
@@ -138,7 +144,15 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
         //System.out.println("screen refresh");
     }
-
+    private BufferedImage getImage(String file){
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("./gameAssets/"+file));
+        } catch (IOException e) {
+            System.out.println("reading pic failed");
+        }
+        return img;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e){
