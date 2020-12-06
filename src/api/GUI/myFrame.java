@@ -1,22 +1,23 @@
 package api.GUI;
 
 
+import api.MainManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class myFrame extends JFrame implements ActionListener{
-
+    private MainManager main;
+    public int refreshRateInMillis = 100;
     MenuItem menuItem =new MenuItem("inside");
-    private myPanel panel = new myPanel();
+    private myPanel panel;
 
-    public static void main(String[] args){
-        myFrame n = new myFrame();
+    public static void main(String[] args){ //TODO: cleanup / not in use
+        myFrame n = new myFrame(new MainManager(11));
        // n.setSize(500,500);
        // n.setVisible(true);
-
-
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("main");
         menuBar.add(menu);
@@ -28,13 +29,29 @@ public class myFrame extends JFrame implements ActionListener{
         n.getHeight();
         n.getWidth();
     }
-    public myFrame(){
+
+    /**
+     * constructor for the GUI
+     * adds pointer to MainManager
+     * @param main
+     */
+    public myFrame(MainManager main){
+        this.main = main;
         this.setTitle("Pokémon ruby");
         this.setSize(1000,1000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        panel = new myPanel(main);
         this.add(panel);
-        panel.mainMenu();
+        //panel.mainMenu();
+        while (true) {
+            try {
+                Thread.sleep(refreshRateInMillis);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            panel.repaint();
+        }
     }
 
     /**

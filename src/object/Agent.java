@@ -63,7 +63,7 @@ public class Agent implements AgentsInterface{
     }
 
     public Agent(directed_weighted_graph g, int startNode){
-        this.id=-1;
+        this.id=-1;   //TODO: give them proper name :)
         ga=new DWGraph_DS(g);
         this.value=0;
         this.curr_node=ga.getNode(startNode);
@@ -132,7 +132,7 @@ public class Agent implements AgentsInterface{
 
     public static void main(String[] args) throws InterruptedException {
         MainManager m=new MainManager(1);
-        for (PokemonInterface p:m.getPokemons()){
+        for (PokemonInterface p:m.getPokemonList()){
             System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
         }
         int scenario_num = 1;
