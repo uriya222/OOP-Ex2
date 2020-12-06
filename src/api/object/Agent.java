@@ -1,6 +1,8 @@
-package api;
+package api.object;
 
 import Server.Game_Server_Ex2;
+import api.*;
+import api.object.AgentsInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -12,7 +14,7 @@ import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
 
-public class Agent {
+public class Agent implements AgentsInterface{
     private int id;
     private double value; //amount of money this agent scored
     private int src;

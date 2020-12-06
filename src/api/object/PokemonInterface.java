@@ -1,6 +1,7 @@
 package api.object;
 
 import api.EdgeData;
+import api.edge_data;
 import api.geo_location;
 
 public interface PokemonInterface{
@@ -8,7 +9,7 @@ public interface PokemonInterface{
     public double getValue();
     public int getType();
     public geo_location getPos();
-    public EdgeData getEdge();//???????
+    public edge_data getEdge();//???????
 
 
 

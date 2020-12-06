@@ -1,11 +1,15 @@
-package api;
+package api.object;
 
+import api.GeoLocation;
+import api.edge_data;
+import api.geo_location;
+import api.object.PokemonInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class Pokemon {
+public class Pokemon implements PokemonInterface{
     private edge_data edge;
     private double value;
     private int type;

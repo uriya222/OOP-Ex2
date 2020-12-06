@@ -53,7 +53,6 @@ public class NodeData implements node_data{
      */
     @Override
     public geo_location getLocation(){
-///what if null????
         return _geoLocation;
     }
 
