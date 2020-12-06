@@ -9,7 +9,14 @@ public interface PokemonInterface{
     public int getType();
     public geo_location getPos();
     public edge_data getEdge();//getting the edge which this Pokemon is on it (for easy calculation)
+    public void setPosition(geo_location gl);
+    public void setEdge(edge_data ed);
 
+    /**
+     * this function allow you to init status of a pokemon by sending a json string represent a pokemon
+     * @param json - example: {"Pokemon":{"value":5.0,"type":-1,"pos":"35.20273974670703,32.10439601193746,0.0"}}
+     */
+    public void InitFromJson(String json);
 
 
 /*

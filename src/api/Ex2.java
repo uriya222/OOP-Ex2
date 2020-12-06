@@ -1,7 +1,7 @@
 package api;
 
 import Server.Game_Server_Ex2;
-import object.Pokemon;
+import object.PokemonInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,8 +52,8 @@ public class Ex2{
         g.getAgents();
         g.getPokemons();
         MainManager m=new MainManager(0);
-        List<Pokemon> lp=m.getPokemons();
-        for (Pokemon p:lp){
+        List<PokemonInterface> lp=m.getPokemons();
+        for (PokemonInterface p:lp){
             System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
         }
     }

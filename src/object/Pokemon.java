@@ -8,6 +8,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * this class represent single pokemon in client graph,by implementing PokemonInterface interface, with this following method:
+ * InitFromJson(String json)
+ */
 public class Pokemon implements PokemonInterface{
     private edge_data edge;
     private double value;
@@ -17,12 +21,12 @@ public class Pokemon implements PokemonInterface{
     private int min_ro;
 
     public Pokemon(String json) {
-        FromJson(json);
+        InitFromJson(json);
         this.edge=null;
         min_dist = -1;
         min_ro = -1;
     }
-    public void FromJson(String json) {
+    public void InitFromJson(String json) {
             GsonBuilder b=new GsonBuilder();
             Gson gson=b.create();
             JsonElement r=gson.fromJson(json,JsonElement.class);

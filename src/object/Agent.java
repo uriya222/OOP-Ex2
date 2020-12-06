@@ -12,6 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * this class represent an agent in client graph,by implementing AgentsInterface interface, with this following method:
+ * update(String json)
+ * boolean isMoving()
+ * String toJSON()
+ */
 
 public class Agent implements AgentsInterface{
     private int id;
@@ -125,10 +131,15 @@ public class Agent implements AgentsInterface{
 
 
     public static void main(String[] args) throws InterruptedException {
-        int scenario_num = 0;
+        MainManager m=new MainManager(1);
+        for (PokemonInterface p:m.getPokemons()){
+            System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
+        }
+        int scenario_num = 1;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         System.out.println(game.toString());
-        game.addAgent(0);
+        System.out.println(game.getPokemons());
+        game.addAgent(9);
         String s2=game.getAgents();
         String s=game.getGraph();
         try {
@@ -140,10 +151,13 @@ public class Agent implements AgentsInterface{
         }
         dw_graph_algorithms l=new DWGraph_Algo();
         l.load("gr.json");
-        System.out.println(s);
         game.startGame();
-        System.out.println(game.getAgents());
-        //game.chooseNextEdge(0,1);
+        game.move();
+        System.out.println( game.chooseNextEdge(0,8));
+        TimeUnit.SECONDS.sleep(3);
+        game.move();
+        TimeUnit.SECONDS.sleep(3);
+        System.out.println(game.getPokemons());
         // System.out.println(game.getAgents());
         //TimeUnit.SECONDS.sleep(2);
         Gson gson1=new Gson();
@@ -154,7 +168,7 @@ public class Agent implements AgentsInterface{
         double x2=Double.parseDouble(pos1[0]);
         double y2=Double.parseDouble(pos1[1]);
         geo_location a2=new GeoLocation(x2,y2,0);
-        game.chooseNextEdge(0,1);
+        game.chooseNextEdge(0,9);
         TimeUnit.SECONDS.sleep(1);
         JsonElement r2=gson2.fromJson(game.move(),JsonElement.class);
         String[] pos2=r2.getAsJsonObject().get("Agents").getAsJsonArray().get(0).getAsJsonObject().get("Agent").getAsJsonObject().get("pos").getAsString().split(",");

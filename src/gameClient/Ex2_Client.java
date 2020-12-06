@@ -25,7 +25,7 @@ public class Ex2_Client implements Runnable{
 	
 	@Override
 	public void run() {
-		int scenario_num = 0;
+		int scenario_num = 1;
 		game_service game = Game_Server_Ex2.getServer(scenario_num); // you have [0,23] games
 	//	int id = 999;
 	//	game.login(id);
@@ -36,7 +36,7 @@ public class Ex2_Client implements Runnable{
 		
 		game.startGame();
 		_win.setTitle("Ex2 - OOP: (NONE trivial Solution) "+game.toString());
-		int ind=0;
+		int ind=500;
 		long dt=100;
 		
 		while(game.isRunning()) {
@@ -80,6 +80,7 @@ public class Ex2_Client implements Runnable{
 				dest = nextNode(gg, src);
 				game.chooseNextEdge(ag.getID(), dest);
 				System.out.println("Agent: "+id+", val: "+v+"   turned to node: "+dest);
+				System.out.println(game.getPokemons());
 			}
 		}
 	}

@@ -1,9 +1,9 @@
 package api;
 
 
-import api.object.AgentsInterface;
-import api.object.GameServer;
-import api.object.PokemonInterface;
+import object.GameServer;
+import object.PokemonInterface;
+import object.AgentsInterface;
 
 import java.util.HashMap;
 

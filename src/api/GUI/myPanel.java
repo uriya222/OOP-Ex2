@@ -51,7 +51,7 @@ public class myPanel extends JPanel implements MouseListener{
     }
 
     private void getGraph(){ /// temporary
-        game_service g = Game_Server_Ex2.getServer(11);
+        game_service g = Game_Server_Ex2.getServer(0);
         String s = g.getGraph();
         System.out.println(s);
         try {
