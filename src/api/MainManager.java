@@ -2,6 +2,7 @@ package api;
 
 import Server.Game_Server_Ex2;
 import object.Agent;
+import object.AgentsInterface;
 import object.Pokemon;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +19,7 @@ public class MainManager{
     game_service game;
     private String info;
     dw_graph_algorithms algo;
-    private List<Agent> agents;
+    private List<AgentsInterface> agents;
     private List<Pokemon> pokemons;
     public static final double EPS1 = 0.0000001;
     long last_update;
@@ -46,7 +47,7 @@ public class MainManager{
         Gson gson=builder.create();
         JsonElement infoS = gson.fromJson(getInfo(),JsonElement.class);
         int numOfAgent = infoS.getAsJsonObject().get("GameServer").getAsJsonObject().get("agents").getAsInt();
-        this.agents=new ArrayList<Agent>();
+        this.agents=new ArrayList<AgentsInterface>();
         for (Pokemon p:this.pokemons) {
             Agent a=new Agent(this.algo.getGraph(),p.getEdge().getSrc());
             this.agents.add(a);
@@ -56,6 +57,9 @@ public class MainManager{
             Agent a=new Agent(this.algo.getGraph(),0);//maybe put a random node from node_list
             this.agents.add(a);
         }
+    }
+    public List<AgentsInterface> getAgentList() {
+        return agents;
     }
 
     public List<Pokemon> getPokemonList() {

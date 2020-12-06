@@ -2,6 +2,8 @@ package api.GUI;
 
 import Server.Game_Server_Ex2;
 import api.*;
+import object.AgentsInterface;
+import object.PokemonInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,56 +19,76 @@ public class myPanel extends JPanel implements MouseListener{
     private GeoLocation geoLocation = new GeoLocation(0,0,0);
     private double[] min_max;
     private int screenSize = 500;
-    public myPanel(){
+    MainManager main;
+
+    /**
+     * constructor, takes a pointer to MainManager
+     * @param main - pointer
+     */
+    public myPanel(MainManager main){
+        this.main = main;
         this.setBackground(Color.white);
         this.addMouseListener(this);
+        mainGraph = main.getGraph();
+        minMax(mainGraph.getV());
     }
-    protected boolean mainMenu(){
+
+    protected boolean mainMenu(){ //cleanup
 
         return true;
     }
 
+    /**
+     * refresh the page
+     * @param g
+     */
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        screenSize = this.getHeight()<this.getWidth()?this.getHeight():this.getWidth();
-        int H = 500;
-        int W = 500;
-        getGraph();
+        screenSize = this.getHeight()<this.getWidth()?this.getHeight()-50:this.getWidth()-60;
+        int screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
+        int screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
+
+        g.setColor(Color.gray);
         for (node_data n:mainGraph.getV()
         ) {
-            int x =(int)((n.getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]));
-                    int y =(int)((n.getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]));
-            g.fillOval(x,y,10,10);
-            //System.out.println((int)((n.getLocation().x()-min_max[0])*500/min_max[1])+" - "+ n.getLocation().y()); //debug
-            //System.out.println((n.getLocation().x()-min_max[0])*1400);
             for (edge_data e:mainGraph.getE(n.getKey())
             ) {
-                int xSrs = (int)((mainGraph.getNode(e.getSrc()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+5;
-                int ySrs = (int)((mainGraph.getNode(e.getSrc()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5;
-                int xDest = (int)((mainGraph.getNode(e.getDest()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+5;
-                int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5;
+                int xSrs = (int)((mainGraph.getNode(e.getSrc()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+5+screenOffsetX;
+                int ySrs = (int)((mainGraph.getNode(e.getSrc()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
+                int xDest = (int)((mainGraph.getNode(e.getDest()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+5+screenOffsetX;
+                int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
                 g.drawLine(xSrs,ySrs,xDest,yDest);
             }
         }
-    }
-
-    private void getGraph(){ /// temporary
-        game_service g = Game_Server_Ex2.getServer(11);
-        String s = g.getGraph();
-        System.out.println(s);
-        try {
-            PrintWriter t = new PrintWriter(new File("GServer.json"));
-            t.write(s);
-            t.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        g.setColor(Color.black);
+        for (node_data n:mainGraph.getV()
+        ) {
+            int x =(int)((n.getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+            int y =(int)((n.getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+            g.fillOval(x,y,10,10);
+            char[] c = ("<"+n.getKey()).toCharArray();
+            g.drawChars(c,0,c.length,x+11,y+11);
         }
+        g.setColor(Color.red);
+        for (PokemonInterface p: main.getPokemonList()
+             ) {
+            int x =(int)((p.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+            int y =(int)((p.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+            g.fillOval(x,y,10,10);
 
-        dw_graph_algorithms al = new DWGraph_Algo();
-        al.load("GServer.json");
-        mainGraph = al.getGraph();
-        min_max=minMax(mainGraph.getV());
+        }
+        g.setColor(Color.blue);
+        for (AgentsInterface a: main.getAgentList()
+        ) {
+            int x =(int)((a.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+            int y =(int)((a.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+            g.fillOval(x+2,y+2,6,6);
+            char[] c = ("^"+a.getId()).toCharArray();
+            //System.out.println(a.getId());
+            g.drawChars(c,0,c.length,x,y+20);
+        }
+        //System.out.println("screen refresh");
     }
 
     @Override
@@ -102,7 +124,7 @@ public class myPanel extends JPanel implements MouseListener{
      * @param nodes
      * @return array of minMax values [0]-minX, [1]-maxX, [2]-minY, [3]-maxY
      */
-    private double[] minMax(Collection<node_data> nodes){
+    private void minMax(Collection<node_data> nodes){
         double minX=0,maxX=0;
         double minY=0,maxY=0;
         boolean first = true;
@@ -127,6 +149,6 @@ public class myPanel extends JPanel implements MouseListener{
                 maxY=n.getLocation().y();
             }
         }
-        return new double[]{minX, maxX, minY, maxY};
+        min_max = new double[]{minX, maxX, minY, maxY};
     }
 }
