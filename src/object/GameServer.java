@@ -1,6 +1,4 @@
-package api.object;
-
-import api.game_service;
+package object;
 
 public interface GameServer{
 

@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import object.Agent;
+import object.Pokemon;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +20,7 @@ public class MainManager{
     dw_graph_algorithms algo;
     private List<Agent> agents;
     private List<Pokemon> pokemons;
+    public static final double EPS1 = 0.0000001;
     
     public MainManager(int scenario){
         serverString = Game_Server_Ex2.getServer(scenario);
@@ -33,8 +36,29 @@ public class MainManager{
         }
         algo.load("GServer.json");
         this.pokemons=json2Pokemons(serverString.getPokemons());
+        initAgent();
     }
 
+    private void initAgent() {
+        GsonBuilder builder=new GsonBuilder();
+        Gson gson=builder.create();
+        JsonElement infoS = gson.fromJson(getInfo(),JsonElement.class);
+        int numOfAgent = infoS.getAsJsonObject().get("GameServer").getAsJsonObject().get("agents").getAsInt();
+        this.agents=new ArrayList<Agent>();
+        for (Pokemon p:this.pokemons) {
+            Agent a=new Agent(this.algo.getGraph(),p.getEdge().getSrc());
+            this.agents.add(a);
+            if (this.agents.size()==numOfAgent) return;
+        }
+        for (int i = this.agents.size(); i <numOfAgent ; i++) {
+            Agent a=new Agent(this.algo.getGraph(),0);//maybe put a random node from node_list
+            this.agents.add(a);
+        }
+    }
+
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
 
     public String getInfo() {return info;}
     public directed_weighted_graph getGraph(){return this.algo.getGraph();}
@@ -55,7 +79,7 @@ public class MainManager{
         geo_location dest2 = getGraph().getNode(dest).getLocation();
         double dist = src2.distance(dest2);
         double d1 = src2.distance(gl) + gl.distance(dest2);
-        if(dist>d1-(0.001*0.001)) {return true;}
+        if(dist>d1-EPS1&&dist<d1+EPS1) {return true;}
         return false;
     }
     public  ArrayList<Pokemon> json2Pokemons(String fs) {
@@ -65,7 +89,7 @@ public class MainManager{
         JsonElement Po = gson.fromJson(fs,JsonElement.class);
         JsonArray ags = Po.getAsJsonObject().get("Pokemons").getAsJsonArray();
         for(int i=0;i<ags.size();i++) {
-            String send = ags.get(i).getAsString();
+            String send = ags.get(i).toString();
             Pokemon p=new Pokemon(send);
             convertGeoToEdge(p);
             ans.add(p);

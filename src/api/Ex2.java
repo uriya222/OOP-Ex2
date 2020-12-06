@@ -1,10 +1,12 @@
 package api;
 
 import Server.Game_Server_Ex2;
+import object.Pokemon;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class Ex2{
     directed_weighted_graph mainGraph;
@@ -22,7 +24,6 @@ public class Ex2{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         dw_graph_algorithms al = new DWGraph_Algo();
         al.load("GServer.json");
         this.mainGraph= al.getGraph();
@@ -30,6 +31,7 @@ public class Ex2{
     public static void main(String[] args){
         game_service g = Game_Server_Ex2.getServer(11);
         System.out.println(g.getGraph());
+        System.out.println(g.toString());
         String s = g.getGraph();
         try {
             PrintWriter t = new PrintWriter(new File("GServer.json"));
@@ -49,5 +51,10 @@ public class Ex2{
         g.move();
         g.getAgents();
         g.getPokemons();
+        MainManager m=new MainManager(0);
+        List<Pokemon> lp=m.getPokemons();
+        for (Pokemon p:lp){
+            System.out.println("src: "+p.getEdge().getSrc()+" dest: "+p.getEdge().getDest());
+        }
     }
 }

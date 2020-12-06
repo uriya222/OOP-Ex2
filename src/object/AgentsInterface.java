@@ -1,4 +1,4 @@
-package api.object;
+package object;
 
 import api.geo_location;
 

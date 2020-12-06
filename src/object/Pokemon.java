@@ -1,9 +1,8 @@
-package api.object;
+package object;
 
 import api.GeoLocation;
 import api.edge_data;
 import api.geo_location;
-import api.object.PokemonInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;

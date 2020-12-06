@@ -1,8 +1,7 @@
-package api.object;
+package object;
 
 import Server.Game_Server_Ex2;
 import api.*;
-import api.object.AgentsInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -168,6 +167,13 @@ public class Agent implements AgentsInterface{
         // System.out.println(game.getAgents());
         // TimeUnit.SECONDS.sleep(3);
         game.stopGame();
+        geo_location g4=new GeoLocation(2.3333333333,3,0.0);
+        geo_location g3=new GeoLocation(5.3333333333,3,0.0);
+        geo_location p222=new GeoLocation(3.3333333333,3,0);
+        double dist222=3;
+        double part= g4.distance(p222)+p222.distance(g3);
+        System.out.println(dist222+" "+part);
+
     }
 
 
