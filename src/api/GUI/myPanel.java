@@ -42,7 +42,6 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
     }
-
     /**
      * the main menu page
      * @param g
@@ -89,6 +88,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         if (menu==1) paintArina(g);
         else if (menu==2) mainMenu(g);
 
+        //System.out.println("screen refresh");
     }
 
     /**
