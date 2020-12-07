@@ -1,9 +1,7 @@
 package api;
 
 import Server.Game_Server_Ex2;
-import com.google.gson.JsonObject;
 import object.AgentsInterface;
-import object.GameInfo;
 import object.PokemonInterface;
 import object.gameInfoInterface;
 
@@ -109,6 +107,7 @@ public class MainManager{
 
     public long chooseNextEdge(int id, int next_node){  //need algorithms to operate on this method
         last_move = game.chooseNextEdge(id,next_node);
+        agents.get(id).setDest(next_node);
         return last_move;
     }
     public void move(){

@@ -72,12 +72,13 @@ public class jsonToObject{
         return ans;
     }
 
-    public gameInfoInterface jsonToGameInfo(game_service game){ //TODO need fixing
+    public gameInfoInterface jsonToGameInfo(game_service game){
+
        String j = game.toString();
         GsonBuilder builder=new GsonBuilder();
         Gson gson=builder.create();
         JsonObject GameServer = gson.fromJson(j,JsonElement.class).getAsJsonObject().get("GameServer").getAsJsonObject();
-       return new GameInfo(GameServer.get("Pokemons").getAsInt(),GameServer.get("is_logged_in").getAsBoolean(),GameServer.get("moves").getAsInt(),
+       return new GameInfo(GameServer.get("pokemons").getAsInt(),GameServer.get("is_logged_in").getAsBoolean(),GameServer.get("moves").getAsInt(),
                GameServer.get("grade").getAsInt(),GameServer.get("game_level").getAsInt(),GameServer.get("max_user_level").getAsInt(),GameServer.get("id").getAsInt(),
                GameServer.get("graph").getAsString(), GameServer.get("agents").getAsInt());
     }
