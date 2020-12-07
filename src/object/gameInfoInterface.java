@@ -1,6 +1,6 @@
 package object;
 
-public interface gameInfo{
+public interface gameInfoInterface{
 
 
 

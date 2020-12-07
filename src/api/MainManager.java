@@ -1,8 +1,11 @@
 package api;
 
 import Server.Game_Server_Ex2;
+import com.google.gson.JsonObject;
 import object.AgentsInterface;
+import object.GameInfo;
 import object.PokemonInterface;
+import object.gameInfoInterface;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,7 @@ public class MainManager{
     public static final double EPS1 = 0.0000001;
     long last_update;
     long last_move;
+    private gameInfoInterface gameInfo;
 
     public MainManager(game_service game){
         this.game = game;
@@ -39,14 +43,15 @@ public class MainManager{
      * adding agent to the list of agent, and to the server.
      * return true only if the server is say true
      */
-    public boolean AddAgent(int start_node) {
-        boolean b=game.addAgent(start_node);
-        if (b){
+    public boolean addAgent(int start_node) {
+        boolean addAgent = game.addAgent(start_node);
+        if (addAgent){
             String s=game.getAgents();
             this.agents=(new jsonToObject()).jsonToAgentHash(s);
         }
-        return b;
+        return addAgent;
     }
+
     public HashMap<Integer,AgentsInterface> getAgentList() {
         return this.agents;
     }
@@ -119,14 +124,17 @@ public class MainManager{
     public long getLast_update(){
         return this.last_update;
     }
-    public long StartGame(){
+    public long startGame(){
         this.last_move=game.startGame();
         last_update = System.currentTimeMillis();
+        //gameInfo = new jsonToObject().jsonToGameInfo(game);
         return getLast_update();
     }
+
     public long StopGame(){
         return game.stopGame();
     }
+
     public boolean IsRunning(){
         return game.isRunning();
     }

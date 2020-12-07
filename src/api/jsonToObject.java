@@ -1,10 +1,7 @@
 package api;
 
 import com.google.gson.*;
-import object.Agent;
-import object.AgentsInterface;
-import object.Pokemon;
-import object.PokemonInterface;
+import object.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,8 +72,16 @@ public class jsonToObject{
         return ans;
     }
 
-    //public gameInfo jsonToGameInfo(JsonObject j);
-
+    public gameInfoInterface jsonToGameInfo(game_service game){ //TODO need fixing
+       String j = game.toString();
+        GsonBuilder builder=new GsonBuilder();
+        Gson gson=builder.create();
+        JsonObject GameServer = gson.fromJson(j,JsonElement.class).getAsJsonObject().get("GameServer").getAsJsonObject();
+       return new GameInfo(GameServer.get("Pokemons").getAsInt(),GameServer.get("is_logged_in").getAsBoolean(),GameServer.get("moves").getAsInt(),
+               GameServer.get("grade").getAsInt(),GameServer.get("game_level").getAsInt(),GameServer.get("max_user_level").getAsInt(),GameServer.get("id").getAsInt(),
+               GameServer.get("graph").getAsString(), GameServer.get("agents").getAsInt());
+    }
+//    {"GameServer":{"pokemons":6,"is_logged_in":false,"moves":0,"grade":0,"game_level":11,"max_user_level":-1,"id":0,"graph":"data/A2","agents":3}}
     // marge all the graph stuff -- json
 
 

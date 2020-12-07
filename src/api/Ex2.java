@@ -34,8 +34,8 @@ public class Ex2{
     public static void main(String[] args) throws InterruptedException {
         MainManager m=new MainManager(0);
         System.out.println(m.getAgentList());
-        m.AddAgent(0);
-        m.AddAgent(1);
+        m.addAgent(0);
+        m.addAgent(1);
         for (AgentsInterface a:m.getAgentList().values()
              ) {
             System.out.println(a.toString());
