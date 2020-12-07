@@ -70,4 +70,17 @@ public class Agent implements AgentsInterface {
     public void setSpeed(double i) {
         this.speed = i;
     }
+    @Override
+    public String toString(){
+        String ans = "{\"Agent\":{"
+                + "\"id\":"+this.id+","
+                + "\"value\":"+this.value+","
+                + "\"src\":"+this.src+","
+                + "\"dest\":"+dest+","
+                + "\"speed\":"+getSpeed()+","
+                + "\"pos\":\""+this.pos.toString()+"\""
+                + "}"
+                + "}";
+        return ans;
+    }
 }

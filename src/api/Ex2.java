@@ -3,6 +3,7 @@ package api;
 import Server.Game_Server_Ex2;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import object.AgentsInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,8 +31,15 @@ public class Ex2{
         this.mainGraph= al.getGraph();
     }
     public static void main(String[] args) throws InterruptedException {
-        MainManager m=new MainManager(1);
+        MainManager m=new MainManager(11);
         System.out.println(m.getAgentList());
+        m.AddAgent(0);
+        m.AddAgent(1);
+        for (AgentsInterface a:m.getAgentList().values()
+             ) {
+            System.out.println(a.toString());
+        }
+
         int scenario_num = 1;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         System.out.println(game.toString());
