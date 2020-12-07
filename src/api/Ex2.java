@@ -32,7 +32,7 @@ public class Ex2{
         this.mainGraph= al.getGraph();
     }
     public static void main(String[] args) throws InterruptedException {
-        MainManager m=new MainManager(11);
+        MainManager m=new MainManager(0);
         System.out.println(m.getAgentList());
         m.AddAgent(0);
         m.AddAgent(1);
