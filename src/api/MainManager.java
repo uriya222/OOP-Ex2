@@ -1,7 +1,6 @@
 package api;
 
 import Server.Game_Server_Ex2;
-import com.google.gson.JsonObject;
 import object.AgentsInterface;
 import object.GameInfo;
 import object.PokemonInterface;
@@ -19,6 +18,7 @@ public class MainManager{
     public static final double EPS1 = 0.0000001;
     long last_update;
     long last_move;
+    HashMap<Integer,Long> last_moveHash;
     private gameInfoInterface gameInfo;
 
     public MainManager(game_service game){
@@ -28,6 +28,8 @@ public class MainManager{
         this.agents=new HashMap<>();
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         ConvertGeoToEdge();
+        this.gameInfo = new jsonToObject().jsonToGameInfo(game);
+        last_moveHash = new HashMap<Integer,Long>();
     }
 
     public MainManager(int scenario){
@@ -37,6 +39,13 @@ public class MainManager{
         this.agents=new HashMap<>();
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         ConvertGeoToEdge();
+        this.gameInfo = new jsonToObject().jsonToGameInfo(game);
+        last_moveHash = new HashMap<Integer,Long>();
+    }
+
+    public gameInfoInterface getGameInfo(){
+        gameInfo = new jsonToObject().jsonToGameInfo(game);
+        return gameInfo;
     }
 
     /**
@@ -108,10 +117,25 @@ public class MainManager{
     }
 
     public long chooseNextEdge(int id, int next_node){  //need algorithms to operate on this method
-        last_move = game.chooseNextEdge(id,next_node);
+        long temp = game.chooseNextEdge(id,next_node);
+        if (temp!=-1) {
+            last_move = temp;
+            last_moveHash.put(id,temp);
+        }
+        if (agents.get(id).getDest() == -1 && temp!=-1)
+        agents.get(id).setDest(next_node);
+        return temp;
+    }
+
+    public long lastMove(int id){
+        return last_moveHash.get(id);
+    }
+
+    public long lastMove(){
         return last_move;
     }
-    public void move(){
+
+    public synchronized void move(){
         game.move();
         this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
@@ -127,7 +151,7 @@ public class MainManager{
     public long startGame(){
         this.last_move=game.startGame();
         last_update = System.currentTimeMillis();
-        //gameInfo = new jsonToObject().jsonToGameInfo(game);
+        gameInfo = new jsonToObject().jsonToGameInfo(game);
         return getLast_update();
     }
 
@@ -135,7 +159,7 @@ public class MainManager{
         return game.stopGame();
     }
 
-    public boolean IsRunning(){
+    public boolean isRunning(){
         return game.isRunning();
     }
 

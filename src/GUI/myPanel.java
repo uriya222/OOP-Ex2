@@ -1,4 +1,4 @@
-package api.GUI;
+package GUI;
 
 import api.*;
 import object.AgentsInterface;
@@ -23,14 +23,15 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private int screenSize = 500;
     MainManager main;
     int menu = 1;
-    /*enum menu {
+/*    enum menu {
         start,
         main,
         arina
     }*/
     int IntPlay = 27 , direction = 1;
     boolean first = true;
-
+    int screenOffsetX;
+    int screenOffsetY;
     /**
      * constructor, takes a pointer to MainManager
      * @param main - pointer
@@ -57,14 +58,13 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             if (IntPlay<12)direction=+1;
         }
         g.setColor(Color.gray);
-        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, IntPlay));
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 30));
         char[] c = ("Pokemon ruby").toCharArray();
         int x =this.getWidth()/2;
         int y =this.getHeight()/4;
         g.drawChars(c,0,c.length,x-(int)(IntPlay*2)-40,y);
         if (first) {
             this.setLayout(null);
-
             JButton button1 = new JButton("start");
             Dimension size = button1.getPreferredSize();
             button1.setBounds(x,y*3, size.width, size.height);
@@ -85,7 +85,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        if (menu==1) paintArina(g);
+        if (menu== 1) paintArina(g);
         else if (menu==2) mainMenu(g);
 
         //System.out.println("screen refresh");
@@ -97,8 +97,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
      */
     private void paintArina(Graphics g){
         screenSize = this.getHeight()<this.getWidth()?this.getHeight()-50:this.getWidth()-60;
-        int screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
-        int screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
+        screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
+        screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
 
         g.setColor(Color.gray);
         for (node_data n:mainGraph.getV()
@@ -123,15 +123,16 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             char[] c = ("<"+n.getKey()).toCharArray();
             g.drawChars(c,0,c.length,x+11,y+11);
         }
+
         g.setColor(Color.red);
         for (PokemonInterface p: main.getPokemonList()
         ) {
             int x =(int)((p.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((p.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
             //g.fillOval(x,y,10,10);
-            g.drawImage(getImage("pok.png"),x,y-3,30,30,null);
-
+            g.drawImage(getImage("pok.png"),x-10,y-10,30,30,null);
         }
+
         g.setColor(Color.blue);
         for (AgentsInterface a: main.getAgentList().values()
         ) {
@@ -156,11 +157,15 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     @Override
     public void mouseClicked(MouseEvent e){
-        int x = e.getX();
-        int y = e.getY();
+        double x = min_max[0]+((min_max[1]-min_max[0])*(-screenOffsetX+e.getX()))/screenSize;
+        double y = min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+e.getY()))/screenSize;
+        System.out.println(x+","+y);
+        System.out.println(e.getX()+","+e.getY());
+        System.out.println(mainGraph.getNode(8).getLocation());
         geoLocation = new GeoLocation(x,y,0);
         repaint();
-        System.out.println("click");
+        System.out.println("*****");
+
     }
 
     @Override

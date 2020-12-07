@@ -1,4 +1,4 @@
-package api.GUI;
+package GUI;
 
 public class ScoreBoard{
 }
