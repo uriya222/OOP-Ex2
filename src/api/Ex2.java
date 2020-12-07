@@ -30,7 +30,8 @@ public class Ex2{
         this.mainGraph= al.getGraph();
     }
     public static void main(String[] args) throws InterruptedException {
-
+        MainManager m=new MainManager(1);
+        System.out.println(m.getAgentList());
         int scenario_num = 1;
         game_service game = Game_Server_Ex2.getServer(scenario_num);
         System.out.println(game.toString());

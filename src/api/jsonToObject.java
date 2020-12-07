@@ -34,7 +34,7 @@ public class jsonToObject{
         HashMap<Integer,AgentsInterface> agents=new HashMap<>();
         GsonBuilder b=new GsonBuilder();
         Gson gson=b.create();
-        JsonElement r=gson.fromJson(j,JsonElement.class);
+        JsonObject r=gson.fromJson(j,JsonObject.class);
         JsonArray arr=r.getAsJsonObject().get("Agents").getAsJsonArray();
         for (int i = 0; i < arr.size(); i++) {
             JsonObject r2=arr.get(i).getAsJsonObject().get("Agent").getAsJsonObject();
