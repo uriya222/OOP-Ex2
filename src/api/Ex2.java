@@ -1,6 +1,6 @@
 package api;
 
-import api.GUI.myFrame;
+import GUI.myFrame;
 
 public class Ex2{
 

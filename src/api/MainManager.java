@@ -115,7 +115,7 @@ public class MainManager{
         }
     }
 
-    public long chooseNextEdge(int id, int next_node){  //need algorithms to operate on this method
+    public synchronized long chooseNextEdge(int id, int next_node){  //need algorithms to operate on this method
         long temp = game.chooseNextEdge(id,next_node);
         if (temp!=-1) {
             last_move = temp;
@@ -126,6 +126,9 @@ public class MainManager{
         return temp;
     }
 
+    public long timeToEnd(){
+        return game.timeToEnd();
+    }
     public long lastMove(int id){
         return last_moveHash.get(id);
     }

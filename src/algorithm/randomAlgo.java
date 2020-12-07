@@ -1,10 +1,7 @@
 package algorithm;
 
-import api.EdgeData;
 import api.MainManager;
 import api.edge_data;
-
-import java.util.Random;
 
 public class randomAlgo extends Thread{
     MainManager main;
@@ -31,7 +28,7 @@ public class randomAlgo extends Thread{
             //System.out.println());
             main.chooseNextEdge(agent,random(edges));
             try {
-                Thread.sleep(2);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
