@@ -28,10 +28,11 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         main,
         arina
     }*/
-    int IntPlay = 27 , direction = 1;
-    boolean first = true;
-    int screenOffsetX;
-    int screenOffsetY;
+    private int IntPlay = 27 , direction = 1;
+    private boolean first = true;
+    private int screenOffsetX;
+    private int screenOffsetY;
+    boolean moreData = true;
     /**
      * constructor, takes a pointer to MainManager
      * @param main - pointer
@@ -43,6 +44,19 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
     }
+    /**
+     * refresh the page
+     * @param g
+     */
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        if (menu== 1) paintArina(g);
+        else if (menu==2) mainMenu(g);
+
+        //System.out.println("screen refresh");
+    }
+
     /**
      * the main menu page
      * @param g
@@ -77,18 +91,6 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
     public boolean isOnMenu(){
         return menu!=1;
-    }
-    /**
-     * refresh the page
-     * @param g
-     */
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        if (menu== 1) paintArina(g);
-        else if (menu==2) mainMenu(g);
-
-        //System.out.println("screen refresh");
     }
 
     /**
@@ -143,8 +145,58 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             //System.out.println(a.getId());
             g.drawChars(c,0,c.length,x,y+20);
         }
+        scoreBoard(g);
+        if (moreData){
+            moreData(g);
+        }
         //System.out.println("screen refresh");
     }
+    private void scoreBoard(Graphics g){
+        int xSpace = 240;
+        int ySpace = 80;
+        int dis = 15;
+        g.drawRect(this.getWidth()-xSpace,this.getHeight()-ySpace,xSpace-5,ySpace-5);
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 27));
+        char[] c = ("Score Board").toCharArray();
+        g.drawChars(c,0,c.length,this.getWidth()-xSpace,this.getHeight()-ySpace-5);
+
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 13));
+
+        c = ("time til end:  "+ (int)main.timeToEnd()/1000 +":"+(int)main.timeToEnd()%1000).toCharArray();
+        g.drawChars(c,0,c.length,this.getWidth()-xSpace+5,this.getHeight()-ySpace+dis);
+
+        c = ("grade:  "+ (int)main.getGameInfo().grade()).toCharArray();
+        g.drawChars(c,0,c.length,this.getWidth()-xSpace+5,this.getHeight()-ySpace+dis*2);
+
+        c = ("moves:  "+ (int)main.getGameInfo().moves()).toCharArray();
+        g.drawChars(c,0,c.length,this.getWidth()-xSpace+5,this.getHeight()-ySpace+dis*3);
+
+        c = ("logged in:  "+ main.getGameInfo().isLoggedIn()).toCharArray();
+        g.drawChars(c,0,c.length,this.getWidth()-xSpace+5,this.getHeight()-ySpace+dis*4);
+
+    }
+    private void moreData(Graphics g){
+        int xSpace = 100;
+        int ySpace = 200;
+        int dis = 15;
+        g.drawRect(5,5,xSpace,ySpace);
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 12));
+        int line = 0;
+        for (int i = 0; i < main.getAgentList().size(); i++) {
+            char[] c = ("agent "+i+" : ").toCharArray();
+            g.drawChars(c,0,c.length,9,20+13*line++);
+            c = ("speed: "+main.getAgentList().get(i).getSpeed()).toCharArray();
+            g.drawChars(c,0,c.length,9,20+13*line++);
+            c = ("score: "+main.getAgentList().get(i).getValue()).toCharArray();
+            g.drawChars(c,0,c.length,9,20+13*line++);
+            c = ("dest: "+main.getAgentList().get(i).getDest()).toCharArray();
+            g.drawChars(c,0,c.length,9,20+13*line++);
+            line++;
+        }
+
+
+    }
+
     private BufferedImage getImage(String file){
         BufferedImage img = null;
         try {
@@ -165,12 +217,12 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         geoLocation = new GeoLocation(x,y,0);
         repaint();
         System.out.println("*****");
+        moreData = !moreData;
 
     }
 
     @Override
     public void mousePressed(MouseEvent e){
-
     }
 
     @Override
@@ -180,7 +232,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     @Override
     public void mouseEntered(MouseEvent e){
-        System.out.println("in");
+
     }
 
     @Override

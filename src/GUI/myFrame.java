@@ -37,7 +37,7 @@ public class myFrame extends JFrame implements ActionListener{
     public myFrame(MainManager main){
         this.main = main;
         this.setTitle("Pokémon ruby");
-        this.setSize(550,550);
+        this.setSize(700,550);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new myPanel(main);
         this.add(panel);
