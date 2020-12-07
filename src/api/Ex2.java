@@ -4,6 +4,7 @@ import Server.Game_Server_Ex2;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import object.AgentsInterface;
+import object.PokemonInterface;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +39,9 @@ public class Ex2{
         for (AgentsInterface a:m.getAgentList().values()
              ) {
             System.out.println(a.toString());
+        }
+        for(PokemonInterface p:m.getPokemonList()){
+            System.out.println(p.toString());
         }
 
         int scenario_num = 1;

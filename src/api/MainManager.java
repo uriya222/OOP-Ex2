@@ -6,7 +6,6 @@ import object.PokemonInterface;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 public class MainManager{
     game_service game;
@@ -23,7 +22,7 @@ public class MainManager{
         info= game.toString();
         algo = (new jsonToObject()).jsonToGraph(game.getGraph());
         this.agents=new HashMap<>();
-        this.pokemons=new ArrayList<>();
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         ConvertGeoToEdge();
     }
 
@@ -32,7 +31,7 @@ public class MainManager{
         info= game.toString();
         algo = (new jsonToObject()).jsonToGraph(game.getGraph());
         this.agents=new HashMap<>();
-        this.pokemons=new ArrayList<>();
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         ConvertGeoToEdge();
     }
 

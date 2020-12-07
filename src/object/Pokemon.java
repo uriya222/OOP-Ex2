@@ -27,4 +27,15 @@ public class Pokemon implements PokemonInterface{
     public double getValue() {return this.value;}
     public edge_data getEdge() {return this.edge;}
     public void setEdge(edge_data ed) {this.edge=ed;}
+    @Override
+    public String toString(){
+        String ans = "{\"Pokemon\":{"
+                + "\"value\":"+this.value+","
+                + "\"src\":"+getEdge().getSrc()+","
+                + "\"dest\":"+getEdge().getDest()+","
+                + "\"pos\":\""+this.pos.toString()+"\""
+                + "}"
+                + "}";
+        return ans;
+    }
 }
