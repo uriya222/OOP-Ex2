@@ -73,7 +73,6 @@ public class jsonToObject{
     }
 
     public gameInfoInterface jsonToGameInfo(game_service game){
-
        String j = game.toString();
         GsonBuilder builder=new GsonBuilder();
         Gson gson=builder.create();

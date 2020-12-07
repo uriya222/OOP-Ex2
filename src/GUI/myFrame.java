@@ -1,8 +1,7 @@
-package api.GUI;
+package GUI;
 
 
 import api.MainManager;
-import object.Agent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,21 +37,12 @@ public class myFrame extends JFrame implements ActionListener{
     public myFrame(MainManager main){
         this.main = main;
         this.setTitle("Pokémon ruby");
-        this.setSize(500,500);
+        this.setSize(550,550);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
         panel = new myPanel(main);
         this.add(panel);
-        //panel.mainMenu();
-/*        while (true) {
-            try {
-                Thread.sleep(refreshRateInMillis);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            panel.repaint();
-        }*/
         panel.repaint();
+        this.setVisible(true);
 
     }
     public void refresh(int refreshRateInMillis){
