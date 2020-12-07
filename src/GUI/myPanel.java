@@ -15,24 +15,46 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Random;
 
 public class myPanel extends JPanel implements MouseListener, ActionListener{
     private directed_weighted_graph mainGraph = new DWGraph_DS();
-    private GeoLocation geoLocation = new GeoLocation(0,0,0);
+    private geo_location geoLocation = new GeoLocation(0,0,0);
     private double[] min_max;
     private int screenSize = 500;
     MainManager main;
     int menu = 1;
+    Graphics _g;
 /*    enum menu {
         start,
         main,
         arina
     }*/
+    private Random random = new Random(1);
     private int IntPlay = 27 , direction = 1;
     private boolean first = true;
     private int screenOffsetX;
     private int screenOffsetY;
     boolean moreData = true;
+    int[][] pathMatrix;
+
+    private void pathMaker(int resolution,int radius){
+        pathMatrix = new int[resolution][resolution];
+        for (node_data n:main.getGraph().getV()
+             ) {
+            int [] loc =locationToPixel(n.getLocation());
+            for (int i = 0; i < resolution; i++) {
+                for (int j = 0; j < resolution; j++) {
+                    if (Math.abs(loc[0]*resolution/screenSize-i)<radius && Math.abs(loc[1]*resolution/screenSize-j)<radius){
+                        //System.out.println(loc[0]*resolution/(loc[0]+1)+"-"+loc[1]*resolution/(loc[1]+1));
+                        pathMatrix[i][j] = 1;
+                    }
+                }
+            }
+        }
+    }
+
+
     /**
      * constructor, takes a pointer to MainManager
      * @param main - pointer
@@ -43,6 +65,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         this.addMouseListener(this);
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
+        //pathMaker(32,3);
     }
     /**
      * refresh the page
@@ -101,7 +124,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         screenSize = this.getHeight()<this.getWidth()?this.getHeight()-50:this.getWidth()-60;
         screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
         screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
-
+       // paintTree(g);
         g.setColor(Color.gray);
         for (node_data n:mainGraph.getV()
         ) {
@@ -151,6 +174,22 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
         //System.out.println("screen refresh");
     }
+    private void paintTree(Graphics g){
+        pathMaker(32,4);
+        random= new Random(1);
+        for (int i = pathMatrix.length-1; i >= 0; i--) {
+            for (int j = 0; j < pathMatrix.length; j++) {
+                j+=random.nextDouble()*2;
+                if (j<pathMatrix.length && pathMatrix[i][j]==0){
+                    g.drawImage(getImage("2.png"),i*screenSize/pathMatrix.length+screenOffsetX,j*screenSize/pathMatrix.length+screenOffsetY,30,30,null);
+                }
+            }
+        }
+    }
+    /**
+     * score board object
+     * @param g
+     */
     private void scoreBoard(Graphics g){
         int xSpace = 240;
         int ySpace = 80;
@@ -175,10 +214,18 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         g.drawChars(c,0,c.length,this.getWidth()-xSpace+5,this.getHeight()-ySpace+dis*4);
 
     }
+
+    /**
+     *
+     * debug data object
+     * @param g
+     */
     private void moreData(Graphics g){
+        int agents = main.getGameInfo().agents();
         int xSpace = 100;
-        int ySpace = 200;
+        int ySpace = 75*agents;
         int dis = 15;
+
         g.drawRect(5,5,xSpace,ySpace);
         g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 12));
         int line = 0;
@@ -189,6 +236,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             g.drawChars(c,0,c.length,9,20+13*line++);
             c = ("score: "+main.getAgentList().get(i).getValue()).toCharArray();
             g.drawChars(c,0,c.length,9,20+13*line++);
+            c = ("src: "+main.getAgentList().get(i).getSrc()).toCharArray();
+            g.drawChars(c,0,c.length,9,20+13*line++);
             c = ("dest: "+main.getAgentList().get(i).getDest()).toCharArray();
             g.drawChars(c,0,c.length,9,20+13*line++);
             line++;
@@ -197,6 +246,10 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     }
 
+    /**
+     * @param file in the gameAssets folder
+     * @return BufferedImage for convenient
+     */
     private BufferedImage getImage(String file){
         BufferedImage img = null;
         try {
@@ -206,15 +259,24 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
         return img;
     }
-
+    public int[] locationToPixel(geo_location g){
+        int xSrs = (int)((g.x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+        int ySrs = (int)((g.y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+        //System.out.println(xSrs+"-"+ySrs);
+        return new int[]{xSrs, ySrs};
+    }
+    public geo_location pixelToLocation(int x, int y){
+        geo_location g = new GeoLocation(min_max[0]+((min_max[1]-min_max[0])*(-screenOffsetX+x))/screenSize,
+                                        min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+y))/screenSize,0);
+        return g;
+    }
     @Override
     public void mouseClicked(MouseEvent e){
-        double x = min_max[0]+((min_max[1]-min_max[0])*(-screenOffsetX+e.getX()))/screenSize;
-        double y = min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+e.getY()))/screenSize;
-        System.out.println(x+","+y);
+        geo_location g =pixelToLocation(e.getX(),e.getY());
+        System.out.println(g.x()+","+g.y());
         System.out.println(e.getX()+","+e.getY());
         System.out.println(mainGraph.getNode(8).getLocation());
-        geoLocation = new GeoLocation(x,y,0);
+        geoLocation = g;
         repaint();
         System.out.println("*****");
         moreData = !moreData;
