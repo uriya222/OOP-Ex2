@@ -1,25 +1,17 @@
 package api;
 
 import Server.Game_Server_Ex2;
-import object.Agent;
 import object.AgentsInterface;
-import object.Pokemon;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import object.PokemonInterface;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+
+import java.util.HashMap;
 import java.util.List;
 
 public class MainManager{
     game_service game;
     private String info;
     dw_graph_algorithms algo;
-    private List<AgentsInterface> agents;
+    private HashMap<Integer,AgentsInterface> agents;
     private List<PokemonInterface> pokemons;
     public static final double EPS1 = 0.0000001;
     long last_update;
@@ -28,67 +20,48 @@ public class MainManager{
     public MainManager(game_service game){
         this.game = game;
         info= game.toString();
-        algo = new DWGraph_Algo();
-        try { //output to a file for the algo
-            String s= game.getGraph();
-            PrintWriter t = new PrintWriter(new File("GServer.json"));
-            t.write(s);
-            t.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        algo.load("GServer.json");
-        this.pokemons=json2Pokemons(game.getPokemons());
-        initAgent();
+        algo = (new jsonToObject()).jsonToGraph(game.getGraph());
+        this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
+        ConvertGeoToEdge();
     }
 
     public MainManager(int scenario){
         game = Game_Server_Ex2.getServer(scenario);
         info= game.toString();
-        algo = new DWGraph_Algo();
-        try { //output to a file for the algo
-            String s= game.getGraph();
-            PrintWriter t = new PrintWriter(new File("GServer.json"));
-            t.write(s);
-            t.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        algo.load("GServer.json");
-        this.pokemons=json2Pokemons(game.getPokemons());
-        initAgent();
+        algo = (new jsonToObject()).jsonToGraph(game.getGraph());
+        this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
+        ConvertGeoToEdge();
     }
 
     /**
-     * init all agent in graph in particular order.
+     * adding agent to the list of agent, and to the server.
+     * return true only if the server is say true
      */
-    private void initAgent() {
-        GsonBuilder builder=new GsonBuilder();
-        Gson gson=builder.create();
-        JsonElement infoS = gson.fromJson(getInfo(),JsonElement.class);
-        int numOfAgent = infoS.getAsJsonObject().get("GameServer").getAsJsonObject().get("agents").getAsInt();
-        this.agents= new ArrayList<>();
-        for (PokemonInterface p:this.pokemons) {
-            AgentsInterface a=new Agent(this.algo.getGraph(),p.getEdge().getSrc());
-            this.agents.add(a);
-            if (this.agents.size()==numOfAgent) return;
+    public boolean AddAgent(int start_node) {
+        boolean b=game.addAgent(start_node);
+        if (b){
+            String s=game.getAgents();
+            this.agents=(new jsonToObject()).jsonToAgentHash(s);
         }
-        for (int i = this.agents.size(); i <numOfAgent ; i++) {
-            AgentsInterface a=new Agent(this.algo.getGraph(),0);//maybe put a random node from node_list
-            this.agents.add(a);
-        }
+        return b;
     }
-    public List<AgentsInterface> getAgentList() {
-        return agents;
+    public HashMap<Integer,AgentsInterface> getAgentList() {
+        return this.agents;
     }
 
     public List<PokemonInterface> getPokemonList() {
-        return pokemons;
+        return this.pokemons;
     }
 
-    public String getInfo() {return info;}
+    public String getServerGameInfo() {
+        return info;
+    }
 
-    public directed_weighted_graph getGraph(){return this.algo.getGraph();}
+    public directed_weighted_graph getGraph(){
+        return this.algo.getGraph();
+    }
 
     /**
      * convert location of given pokemon to particular edge in graph and save the result
@@ -96,7 +69,7 @@ public class MainManager{
      * this is used only in the be
      * @param p the pokemon
      */
-    private void convertGeoToEdge(PokemonInterface p){
+    private void ConvertGeoToEdge(PokemonInterface p){
         for (node_data x:getGraph().getV()){
             for (edge_data ed:getGraph().getE(x.getKey())){
                 boolean f = isOnEdge(ed,p.getType(),p.getPos());
@@ -119,58 +92,44 @@ public class MainManager{
     }
 
     /**
-     * convert String to List of Pokemons
-     * this method need operation when a given pokemon has been eaten.
-     * @param fs
-     * @return
+     * convert all location in the list of pokemons to edge data
+     * (this method need operation when a given pokemon has been eaten)
      */
-    public ArrayList<PokemonInterface> json2Pokemons(String fs) {
-        ArrayList<PokemonInterface> ans = new  ArrayList<PokemonInterface>();
-        GsonBuilder builder=new GsonBuilder();
-        Gson gson=builder.create();
-        JsonElement Po = gson.fromJson(fs,JsonElement.class);
-        JsonArray ags = Po.getAsJsonObject().get("Pokemons").getAsJsonArray();
-        for(int i=0;i<ags.size();i++) {
-            String send = ags.get(i).toString();
-            PokemonInterface p=new Pokemon(send);
-            convertGeoToEdge(p);
-            ans.add(p);
+    public void ConvertGeoToEdge() {
+        for(int i=0;i<this.pokemons.size();i++) {
+            PokemonInterface p=this.pokemons.get(i);
+            ConvertGeoToEdge(p);
         }
-        return ans;
     }
 
-   // public void UpdatePokemons()
-    public  List<Agent> getAgents(String aa, directed_weighted_graph gg) {
-        ArrayList<Agent> ans = new ArrayList<Agent>();
-        GsonBuilder builder=new GsonBuilder();
-        Gson gson=builder.create();
-        JsonElement Ag= gson.fromJson(aa,JsonElement.class);
-        JsonArray ags=Ag.getAsJsonObject().get("Agents").getAsJsonArray();
-        for(int i=0;i<ags.size();i++) {
-                Agent c = new Agent(this.algo.getGraph(),0);
-                c.update(ags.get(i).getAsString());
-                ans.add(c);
-        }
-        return ans;
-    }
-
-    public long chooseNextEdge(int id, int next_node){
+    public long chooseNextEdge(int id, int next_node){  //need algorithms to operate on this method
         last_move = game.chooseNextEdge(id,next_node);
         return last_move;
     }
     public void move(){
         game.move();
-        game.getAgents();//---> list<agent> >> this.agents
-       // agents = new jsonToObject().jsonToAgent(this);
-
-
+        this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
+        ConvertGeoToEdge();
         last_update = System.currentTimeMillis();
     }
     public long getLast_move(){
-        return last_move;
+        return this.last_move;
     }
     public long getLast_update(){
-        return last_update;
+        return this.last_update;
     }
+    public long StartGame(){
+        this.last_move=game.startGame();
+        last_update = System.currentTimeMillis();
+        return getLast_update();
+    }
+    public long StopGame(){
+        return game.stopGame();
+    }
+    public boolean IsRunning(){
+        return game.isRunning();
+    }
+
 }
 

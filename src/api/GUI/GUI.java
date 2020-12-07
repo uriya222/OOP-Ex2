@@ -1,7 +1,6 @@
 package api.GUI;
 
 import api.MainManager;
-import object.Agent;
 import object.AgentsInterface;
 
 public class GUI{
@@ -10,7 +9,7 @@ public class GUI{
         myFrame mainFrame = new myFrame(main);
         main.getAgentList();
         AgentsInterface agent;
-        for (AgentsInterface a:main.getAgentList()
+        for (AgentsInterface a:main.getAgentList().values()
              ) {
             if (a.getId()==7){
                 agent = a;

@@ -1,6 +1,5 @@
 package api.GUI;
 
-import Server.Game_Server_Ex2;
 import api.*;
 import object.AgentsInterface;
 import object.PokemonInterface;
@@ -8,12 +7,13 @@ import object.PokemonInterface;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 
 public class myPanel extends JPanel implements MouseListener, ActionListener{
@@ -133,7 +133,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
         }
         g.setColor(Color.blue);
-        for (AgentsInterface a: main.getAgentList()
+        for (AgentsInterface a: main.getAgentList().values()
         ) {
             int x =(int)((a.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((a.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
