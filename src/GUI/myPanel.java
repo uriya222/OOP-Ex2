@@ -143,7 +143,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
 
         g.setColor(Color.blue);//agents
-        for (AgentsInterface a: main.getAgentList().values()
+        for (AgentsInterface a: main.getAgents_client().values()
         ) {
             int x =(int)((a.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((a.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;

@@ -13,9 +13,11 @@ public class MainManager{
     private String info;
     dw_graph_algorithms algo;
     private HashMap<Integer,AgentsInterface> agents;
+    private HashMap<Integer,AgentsInterface> agents_client;
     private List<PokemonInterface> pokemons;
     public static final double EPS1 = 0.0000001;
     long last_update;
+    long last_client_update = System.currentTimeMillis();;
     long last_move;
     HashMap<Integer,Long> last_moveHash;
     private gameInfoInterface gameInfo;
@@ -122,7 +124,7 @@ public class MainManager{
             last_moveHash.put(id,temp);
         }
         if (agents.get(id).getDest() == -1 && temp!=-1)
-        agents.get(id).setDest(next_node);
+            agents.get(id).setDest(next_node);
         return temp;
     }
 
@@ -164,6 +166,52 @@ public class MainManager{
     public boolean isRunning(){
         return game.isRunning();
     }
+
+    public synchronized HashMap<Integer, AgentsInterface> getAgents_client(){
+        if (last_client_update - last_update<0){
+            agents_client=agents;
+        }
+        for (AgentsInterface a:agents.values()
+        ) {
+            if (a.getDest() != -1 ) {
+                if (a.getPos().distance(algo.getGraph().getNode(a.getDest()).getLocation())>0.0001) {
+                    double timeDiff = last_client_update - last_update;
+                    // double edgeWeight =algo.getGraph().getEdge(a.getSrc(),a.getDest()).getWeight();
+                    //double x =a.getPos().x();
+                    //double dist = algo.getGraph().getNode(a.getDest()).getLocation().distance(algo.getGraph().getNode(a.getSrc()).getLocation());
+                    double distY = algo.getGraph().getNode(a.getDest()).getLocation().y() - algo.getGraph().getNode(a.getSrc()).getLocation().y();
+                    double distX = algo.getGraph().getNode(a.getDest()).getLocation().x() - algo.getGraph().getNode(a.getSrc()).getLocation().x();
+
+                    // double mx = m(algo.getGraph().getNode(a.getSrc()).getLocation(),algo.getGraph().getNode(a.getDest()).getLocation());
+                    int subtract = 22200;
+                    timeDiff /= subtract;
+                    double functionX = distX * timeDiff * a.getSpeed();
+                    double functionY = distY * timeDiff * a.getSpeed();
+                    double x = agents.get(a.getId()).getPos().x() + functionX;
+                    //double my = m(algo.getGraph().getNode(a.getSrc()).getLocation(),algo.getGraph().getNode(a.getDest()).getLocation());
+                    //function = dist*timeDiff*my*a.getSpeed()/200000;
+                    double y = agents.get(a.getId()).getPos().y() + functionY;
+                    //System.out.println(function);
+                    //System.out.println(distY);
+
+                    geo_location newPos = new GeoLocation(x, y, 0);
+                    agents_client.get(a.getId()).setPos(newPos);
+                }
+            }
+        }
+        last_client_update = System.currentTimeMillis();
+        return agents_client;
+    }
+    double m(geo_location a,geo_location b){
+        double m= 0;
+        //if (b.x()==a.x()&&a.x()!=0) {
+        m = (b.y() - a.y()) / (b.x() - a.x());
+        //}
+        return m;
+    }
+
+
+
 
 }
 

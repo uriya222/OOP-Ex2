@@ -54,6 +54,7 @@ public class myFrame extends JFrame implements ActionListener{
                 e.printStackTrace();
             }
             panel.repaint();
+            //if (main.timeToEnd()==-1)break;
         }
     }
 
