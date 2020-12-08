@@ -144,7 +144,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
                 g.drawLine(xSrs,ySrs,xDest,yDest);
                 int angle = (int)vectorDirection(mainGraph.getNode(e.getSrc()).getLocation(), mainGraph.getNode(e.getDest()).getLocation());
-                g.drawString(angle+"º",(xSrs+xDest)/2,(ySrs+yDest)/2+xSrs%20);
+                if (!moreData)g.drawString(angle+"º",(xSrs+xDest)/2,(ySrs+yDest)/2+xSrs%20);
 
             }
         }
@@ -188,30 +188,29 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 if (angle<0)angle+=360;
                 //System.out.println(angle);
                 if (315+rotate<angle||angle<=45+rotate){
-                    g.drawString(angle+rotate+"º",x+35,y+20);
+                   if (!moreData)g.drawString(angle+rotate+"º",x+35,y+20);
                     agentMove(g,1,x,y,agentSize,agentSize);
                 }else if (136+rotate>=angle && angle>45-rotate){
-                    g.drawString(angle+"º",x+35,y+20);
+                    if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,2,x,y,agentSize,agentSize);
 
                 }else if (226+rotate>=angle && angle>135-rotate){
-                    g.drawString(angle+"º",x+35,y+20);
+                    if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,3,x,y,agentSize,agentSize);
 
                 }else if (316+rotate>=angle && angle>225-rotate){
-                    g.drawString(angle+"º",x+35,y+20);
+                    if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,4,x,y,agentSize,agentSize);
                 }
             }else  {
-                g.drawString("-1º",x+35,y+20);
+                if (!moreData) g.drawString("-1º",x+35,y+20);
                 agentMove(g,0,x,y,agentSize,agentSize);//standing
             }
 
         }
         scoreBoard(g);
-        if (moreData){
+
             moreData(g);
-        }
         //System.out.println("screen refresh");
     }
 
