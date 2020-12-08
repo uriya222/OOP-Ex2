@@ -11,6 +11,8 @@ public interface PokemonInterface{
     public edge_data getEdge();//getting the edge which this Pokemon is on it (for easy calculation)
     public void setPosition(geo_location gl);
     public void setEdge(edge_data ed);
+    public int getTag();
+    public void setTag(int t);
 
 
 /*

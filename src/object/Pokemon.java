@@ -12,6 +12,7 @@ public class Pokemon implements PokemonInterface{
     private edge_data edge;
     private double value;
     private int type;
+    private int tag;
     private geo_location pos;
 
     public Pokemon(double value, int type, geo_location pos){
@@ -19,6 +20,7 @@ public class Pokemon implements PokemonInterface{
         this.type = type;
         this.pos = pos;
         this.edge=null;
+        this.tag=0;
     }
 
     public void setPosition(geo_location gl) {this.pos = new GeoLocation(gl);}
@@ -27,6 +29,8 @@ public class Pokemon implements PokemonInterface{
     public double getValue() {return this.value;}
     public edge_data getEdge() {return this.edge;}
     public void setEdge(edge_data ed) {this.edge=ed;}
+    public int getTag(){return this.tag;}
+    public void setTag(int t){this.tag=t;}
     @Override
     public String toString(){
         String ans = "{\"Pokemon\":{"
