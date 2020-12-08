@@ -70,7 +70,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 4; j++) {
                 agentMove[i][j] = getImage("agent/"+i+"_"+j+".png");
-                System.out.println("t");
+                //System.out.println("t");
             }
         }
 
@@ -144,7 +144,6 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
                 g.drawLine(xSrs,ySrs,xDest,yDest);
                 int angle = (int)vectorDirection(mainGraph.getNode(e.getSrc()).getLocation(), mainGraph.getNode(e.getDest()).getLocation());
-                if (angle<0)angle+=360;
                 g.drawString(angle+"º",(xSrs+xDest)/2,(ySrs+yDest)/2+xSrs%20);
 
             }
@@ -183,22 +182,23 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             int agentSize = 40;
             y-=10;
             x-=10;
+            int rotate = 0;
             if (a.getDest()!=-1) {
                 int angle = (int)vectorDirection(mainGraph.getNode(a.getSrc()).getLocation(), mainGraph.getNode(a.getDest()).getLocation());
                 if (angle<0)angle+=360;
-                System.out.println(angle);
-                if (315<angle||angle<=45){
-                    g.drawString(angle+"º",x+35,y+20);
+                //System.out.println(angle);
+                if (315+rotate<angle||angle<=45+rotate){
+                    g.drawString(angle+rotate+"º",x+35,y+20);
                     agentMove(g,1,x,y,agentSize,agentSize);
-                }else if (136>=angle && angle>45){
+                }else if (136+rotate>=angle && angle>45-rotate){
                     g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,2,x,y,agentSize,agentSize);
 
-                }else if (226>=angle && angle>135){
+                }else if (226+rotate>=angle && angle>135-rotate){
                     g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,3,x,y,agentSize,agentSize);
 
-                }else if (316>=angle && angle>225){
+                }else if (316+rotate>=angle && angle>225-rotate){
                     g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,4,x,y,agentSize,agentSize);
                 }
@@ -302,11 +302,26 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
      * @param dest
      * @return
      */
-    private double vectorDirection(geo_location src,geo_location dest){
+    public double vectorDirection(geo_location src,geo_location dest){
         //int[] s = locationToPixel(src);
         //int[] d = locationToPixel(dest);
         //return  Math.atan2(d[1] - s[1], d[0] - s[0]) * 180 / Math.PI;
-        return  Math.atan2(dest.y() - src.y(), dest.x() - src.x()) * 180 / Math.PI;
+/*        double ym = -(dest.y()-src.y());
+        double xm = (dest.x()-src.x());
+
+        double ans = Math.atan(ym/xm) ;
+        ans*= 180 / Math.PI;
+        if (ans<0)ans+=360;
+        if (src.y()-dest.y()<=0) ans+=180;
+
+        if (ans<0)ans+=360;
+        ans = (ans+90)%360;
+       // System.out.println(ans);
+        return  ans;*/
+        double ans =Math.atan2(dest.y() - src.y(), dest.x() - src.x())* 180 / Math.PI;
+        if (ans<0)ans+=360;
+        ans = (ans+58)%360;
+        return ans;
     }
 
     /**
