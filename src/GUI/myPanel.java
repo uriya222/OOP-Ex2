@@ -25,11 +25,11 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     MainManager main;
     int menu = 1;
     Graphics _g;
-/*    enum menu {
-        start,
-        main,
-        arina
-    }*/
+    /*    enum menu {
+            start,
+            main,
+            arina
+        }*/
     private Random random = new Random(1);
     private int IntPlay = 27 , direction = 1;
     private boolean first = true;
@@ -37,11 +37,11 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private int screenOffsetY;
     boolean moreData = true;
     int[][] pathMatrix;
-
+    BufferedImage[][] agentMove = new BufferedImage[5][4];
     private void pathMaker(int resolution,int radius){
         pathMatrix = new int[resolution][resolution];
         for (node_data n:main.getGraph().getV()
-             ) {
+        ) {
             int [] loc =locationToPixel(n.getLocation());
             for (int i = 0; i < resolution; i++) {
                 for (int j = 0; j < resolution; j++) {
@@ -66,6 +66,14 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
         //pathMaker(32,3);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                agentMove[i][j] = getImage("agent/"+i+"_"+j+".png");
+                System.out.println("t");
+            }
+        }
+
     }
     /**
      * refresh the page
@@ -124,7 +132,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         screenSize = this.getHeight()<this.getWidth()?this.getHeight()-50:this.getWidth()-60;
         screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
         screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
-       // paintTree(g);
+        // paintTree(g);
         g.setColor(Color.gray);
         for (node_data n:mainGraph.getV()
         ) {
@@ -135,6 +143,10 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 int xDest = (int)((mainGraph.getNode(e.getDest()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+5+screenOffsetX;
                 int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
                 g.drawLine(xSrs,ySrs,xDest,yDest);
+                int angle = (int)vectorDirection(mainGraph.getNode(e.getSrc()).getLocation(), mainGraph.getNode(e.getDest()).getLocation());
+                if (angle<0)angle+=360;
+                g.drawString(angle+"º",(xSrs+xDest)/2,(ySrs+yDest)/2+xSrs%20);
+
             }
         }
 
@@ -166,7 +178,35 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             g.fillOval(x+2,y+2,6,6);
             char[] c = ("^"+a.getId()).toCharArray();
             //System.out.println(a.getId());
-            g.drawChars(c,0,c.length,x,y+20);
+            g.drawChars(c,0,c.length,x,y+40);
+
+            int agentSize = 40;
+            y-=10;
+            x-=10;
+            if (a.getDest()!=-1) {
+                int angle = (int)vectorDirection(mainGraph.getNode(a.getSrc()).getLocation(), mainGraph.getNode(a.getDest()).getLocation());
+                if (angle<0)angle+=360;
+                System.out.println(angle);
+                if (315<angle||angle<=45){
+                    g.drawString(angle+"º",x+35,y+20);
+                    agentMove(g,1,x,y,agentSize,agentSize);
+                }else if (136>=angle && angle>45){
+                    g.drawString(angle+"º",x+35,y+20);
+                    agentMove(g,2,x,y,agentSize,agentSize);
+
+                }else if (226>=angle && angle>135){
+                    g.drawString(angle+"º",x+35,y+20);
+                    agentMove(g,3,x,y,agentSize,agentSize);
+
+                }else if (316>=angle && angle>225){
+                    g.drawString(angle+"º",x+35,y+20);
+                    agentMove(g,4,x,y,agentSize,agentSize);
+                }
+            }else  {
+                g.drawString("-1º",x+35,y+20);
+                agentMove(g,0,x,y,agentSize,agentSize);//standing
+            }
+
         }
         scoreBoard(g);
         if (moreData){
@@ -174,6 +214,13 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
         //System.out.println("screen refresh");
     }
+
+    private void agentMove(Graphics g, int direction, int x, int y, int w, int h){
+        int counter = (int)((System.currentTimeMillis()/100)%10+2)/3;
+        //System.out.println(counter);
+        g.drawImage(agentMove[direction][counter],x,y,w,h,null);
+    }
+
     private void paintTree(Graphics g){
         pathMaker(32,4);
         random= new Random(1);
@@ -246,6 +293,22 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     }
 
+    /**    2
+     *   1 | 3
+     * 8 ----- 4
+     *   7 | 5
+     *     6
+     * @param src
+     * @param dest
+     * @return
+     */
+    private double vectorDirection(geo_location src,geo_location dest){
+        //int[] s = locationToPixel(src);
+        //int[] d = locationToPixel(dest);
+        //return  Math.atan2(d[1] - s[1], d[0] - s[0]) * 180 / Math.PI;
+        return  Math.atan2(dest.y() - src.y(), dest.x() - src.x()) * 180 / Math.PI;
+    }
+
     /**
      * @param file in the gameAssets folder
      * @return BufferedImage for convenient
@@ -267,7 +330,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
     public geo_location pixelToLocation(int x, int y){
         geo_location g = new GeoLocation(min_max[0]+((min_max[1]-min_max[0])*(-screenOffsetX+x))/screenSize,
-                                        min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+y))/screenSize,0);
+                min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+y))/screenSize,0);
         return g;
     }
     @Override
