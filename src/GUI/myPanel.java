@@ -19,41 +19,19 @@ import java.util.Random;
 
 public class myPanel extends JPanel implements MouseListener, ActionListener{
     private directed_weighted_graph mainGraph = new DWGraph_DS();
-    private geo_location geoLocation = new GeoLocation(0,0,0);
+    private geo_location mouseClick = new GeoLocation(0,0,0);
     private double[] min_max;
     private int screenSize = 500;
     MainManager main;
     int menu = 1;
-    Graphics _g;
-    /*    enum menu {
-            start,
-            main,
-            arina
-        }*/
     private Random random = new Random(1);
-    private int IntPlay = 27 , direction = 1;
+    private int IntPlay = 27 , direction = 1; //need to make by global refresh
     private boolean first = true;
     private int screenOffsetX;
     private int screenOffsetY;
-    boolean moreData = true;
-    int[][] pathMatrix;
-    BufferedImage[][] agentMove = new BufferedImage[5][4];
-    private void pathMaker(int resolution,int radius){
-        pathMatrix = new int[resolution][resolution];
-        for (node_data n:main.getGraph().getV()
-        ) {
-            int [] loc =locationToPixel(n.getLocation());
-            for (int i = 0; i < resolution; i++) {
-                for (int j = 0; j < resolution; j++) {
-                    if (Math.abs(loc[0]*resolution/screenSize-i)<radius && Math.abs(loc[1]*resolution/screenSize-j)<radius){
-                        //System.out.println(loc[0]*resolution/(loc[0]+1)+"-"+loc[1]*resolution/(loc[1]+1));
-                        pathMatrix[i][j] = 1;
-                    }
-                }
-            }
-        }
-    }
-
+    private boolean moreData = true;
+    private int[][] pathMatrix;
+    private BufferedImage[][] agentMove = new BufferedImage[5][4];
 
     /**
      * constructor, takes a pointer to MainManager
@@ -67,16 +45,16 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         minMax(mainGraph.getV());
         //pathMaker(32,3);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 5; i++) { //load the agents pic for faster loading
             for (int j = 0; j < 4; j++) {
                 agentMove[i][j] = getImage("agent/"+i+"_"+j+".png");
-                //System.out.println("t");
             }
         }
 
     }
     /**
      * refresh the page
+     * and choose the screen
      * @param g
      */
     @Override
@@ -84,16 +62,13 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         super.paintComponent(g);
         if (menu== 1) paintArina(g);
         else if (menu==2) mainMenu(g);
-
-        //System.out.println("screen refresh");
     }
 
     /**
      * the main menu page
      * @param g
-     * @return
      */
-    protected boolean mainMenu(Graphics g){ //cleanup
+    protected void mainMenu(Graphics g){ //cleanup
         screenSize = this.getHeight()<this.getWidth()?this.getHeight()-50:this.getWidth()-60;
         if (direction>0){
             IntPlay++;
@@ -118,10 +93,6 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             this.add(button1);
             first = false;
         }
-        return true;
-    }
-    public boolean isOnMenu(){
-        return menu!=1;
     }
 
     /**
@@ -133,7 +104,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         screenOffsetX = screenSize<this.getWidth()?(this.getWidth()-screenSize)/2:0;
         screenOffsetY = screenSize<this.getHeight()?(this.getHeight()-screenSize)/2:0;
         // paintTree(g);
-        g.setColor(Color.gray);
+        g.setColor(Color.gray); //edges
         for (node_data n:mainGraph.getV()
         ) {
             for (edge_data e:mainGraph.getE(n.getKey())
@@ -149,7 +120,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             }
         }
 
-        g.setColor(Color.black);
+        g.setColor(Color.black);//nodes
         for (node_data n:mainGraph.getV()
         ) {
             int x =(int)((n.getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
@@ -160,7 +131,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             g.drawChars(c,0,c.length,x+11,y+11);
         }
 
-        g.setColor(Color.red);
+        g.setColor(Color.red);//poKeballs
         for (PokemonInterface p: main.getPokemonList()
         ) {
             int x =(int)((p.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
@@ -169,35 +140,35 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             g.drawImage(getImage("pok.png"),x-10,y-10,30,30,null);
         }
 
-        g.setColor(Color.blue);
+        g.setColor(Color.blue);//agents
         for (AgentsInterface a: main.getAgentList().values()
         ) {
             int x =(int)((a.getPos().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
             int y =(int)((a.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
-            g.fillOval(x+2,y+2,6,6);
+            //g.fillOval(x+2,y+2,6,6);
             char[] c = ("^"+a.getId()).toCharArray();
-            //System.out.println(a.getId());
             g.drawChars(c,0,c.length,x,y+40);
-
-            int agentSize = 40;
+            int agentSize = 40;             //agent painting
             y-=10;
             x-=10;
             int rotate = 0;
             if (a.getDest()!=-1) {
-                int angle = (int)vectorDirection(mainGraph.getNode(a.getSrc()).getLocation(), mainGraph.getNode(a.getDest()).getLocation());
-                if (angle<0)angle+=360;
-                //System.out.println(angle);
+                double tx =((mainGraph.getNode(a.getSrc()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+                double ty = ((mainGraph.getNode(a.getSrc()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+                geo_location src = new GeoLocation(tx,ty,0);
+                tx =((mainGraph.getNode(a.getDest()).getLocation().x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
+                ty = ((mainGraph.getNode(a.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
+                geo_location des = new GeoLocation(tx,ty,0);
+                int angle =(int)vectorDirection(src,des);
                 if (315+rotate<angle||angle<=45+rotate){
-                   if (!moreData)g.drawString(angle+rotate+"º",x+35,y+20);
+                    if (!moreData)g.drawString(angle+rotate+"º",x+35,y+20);
                     agentMove(g,1,x,y,agentSize,agentSize);
                 }else if (136+rotate>=angle && angle>45-rotate){
                     if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,2,x,y,agentSize,agentSize);
-
                 }else if (226+rotate>=angle && angle>135-rotate){
                     if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,3,x,y,agentSize,agentSize);
-
                 }else if (316+rotate>=angle && angle>225-rotate){
                     if (!moreData)g.drawString(angle+"º",x+35,y+20);
                     agentMove(g,4,x,y,agentSize,agentSize);
@@ -206,32 +177,25 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 if (!moreData) g.drawString("-1º",x+35,y+20);
                 agentMove(g,0,x,y,agentSize,agentSize);//standing
             }
-
         }
         scoreBoard(g);
-
-            moreData(g);
-        //System.out.println("screen refresh");
+        moreData(g);
     }
 
+    /**
+     * makes the animation and put the pic in place
+     * @param g
+     * @param direction
+     * @param x pos
+     * @param y pos
+     * @param w width
+     * @param h height
+     */
     private void agentMove(Graphics g, int direction, int x, int y, int w, int h){
         int counter = (int)((System.currentTimeMillis()/100)%10+2)/3;
-        //System.out.println(counter);
         g.drawImage(agentMove[direction][counter],x,y,w,h,null);
     }
 
-    private void paintTree(Graphics g){
-        pathMaker(32,4);
-        random= new Random(1);
-        for (int i = pathMatrix.length-1; i >= 0; i--) {
-            for (int j = 0; j < pathMatrix.length; j++) {
-                j+=random.nextDouble()*2;
-                if (j<pathMatrix.length && pathMatrix[i][j]==0){
-                    g.drawImage(getImage("2.png"),i*screenSize/pathMatrix.length+screenOffsetX,j*screenSize/pathMatrix.length+screenOffsetY,30,30,null);
-                }
-            }
-        }
-    }
     /**
      * score board object
      * @param g
@@ -262,8 +226,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
 
     /**
-     *
-     * debug data object
+     * debug data object for agents
      * @param g
      */
     private void moreData(Graphics g){
@@ -292,34 +255,16 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     }
 
-    /**    2
-     *   1 | 3
-     * 8 ----- 4
-     *   7 | 5
-     *     6
+    /**
+     * function to translate 2 point into angle
      * @param src
      * @param dest
-     * @return
+     * @return the angle of the vector
      */
     public double vectorDirection(geo_location src,geo_location dest){
-        //int[] s = locationToPixel(src);
-        //int[] d = locationToPixel(dest);
-        //return  Math.atan2(d[1] - s[1], d[0] - s[0]) * 180 / Math.PI;
-/*        double ym = -(dest.y()-src.y());
-        double xm = (dest.x()-src.x());
-
-        double ans = Math.atan(ym/xm) ;
-        ans*= 180 / Math.PI;
-        if (ans<0)ans+=360;
-        if (src.y()-dest.y()<=0) ans+=180;
-
-        if (ans<0)ans+=360;
-        ans = (ans+90)%360;
-       // System.out.println(ans);
-        return  ans;*/
         double ans =Math.atan2(dest.y() - src.y(), dest.x() - src.x())* 180 / Math.PI;
         if (ans<0)ans+=360;
-        ans = (ans+58)%360;
+        ans = (ans+90)%360;//offset
         return ans;
     }
 
@@ -336,12 +281,25 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         }
         return img;
     }
+
+    /**
+     * turn location into pos by pixel
+     * @param g
+     * @return [0] - x, [1] - y
+     */
     public int[] locationToPixel(geo_location g){
         int xSrs = (int)((g.x()-min_max[0])*screenSize/(min_max[1]-min_max[0]))+screenOffsetX;
         int ySrs = (int)((g.y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
         //System.out.println(xSrs+"-"+ySrs);
         return new int[]{xSrs, ySrs};
     }
+
+    /**
+     * turn x,y into location on graph dimension
+     * @param x
+     * @param y
+     * @return location
+     */
     public geo_location pixelToLocation(int x, int y){
         geo_location g = new GeoLocation(min_max[0]+((min_max[1]-min_max[0])*(-screenOffsetX+x))/screenSize,
                 min_max[2]+((min_max[3]-min_max[2])*(-screenOffsetY+y))/screenSize,0);
@@ -353,7 +311,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         System.out.println(g.x()+","+g.y());
         System.out.println(e.getX()+","+e.getY());
         System.out.println(mainGraph.getNode(8).getLocation());
-        geoLocation = g;
+        mouseClick = g;
         repaint();
         System.out.println("*****");
         moreData = !moreData;
@@ -377,6 +335,13 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     @Override
     public void mouseExited(MouseEvent e){
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        menu = 1;
+        first = true;
+        this.removeAll();
     }
 
     /**
@@ -411,11 +376,34 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         min_max = new double[]{minX, maxX, minY, maxY};
     }
 
-
-    @Override
-    public void actionPerformed(ActionEvent e){
-        menu = 1;
-        first = true;
-        this.removeAll();
+    ////WIP
+    private void paintTree(Graphics g){
+        //pathMaker(32,4);
+        random= new Random(1);
+        for (int i = pathMatrix.length-1; i >= 0; i--) {
+            for (int j = 0; j < pathMatrix.length; j++) {
+                j+=random.nextDouble()*2;
+                if (j<pathMatrix.length && pathMatrix[i][j]==0){
+                    g.drawImage(getImage("2.png"),i*screenSize/pathMatrix.length+screenOffsetX,j*screenSize/pathMatrix.length+screenOffsetY,30,30,null);
+                }
+            }
+        }
     }
+
+    //WIP
+    private void pathMaker(int resolution,int radius){
+        pathMatrix = new int[resolution][resolution];
+        for (node_data n:main.getGraph().getV()
+        ) {
+            int [] loc =locationToPixel(n.getLocation());
+            for (int i = 0; i < resolution; i++) {
+                for (int j = 0; j < resolution; j++) {
+                    if (Math.abs(loc[0]*resolution/screenSize-i)<radius && Math.abs(loc[1]*resolution/screenSize-j)<radius){
+                        pathMatrix[i][j] = 1;
+                    }
+                }
+            }
+        }
+    }
+
 }
