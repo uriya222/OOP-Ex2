@@ -115,7 +115,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 int yDest = (int)((mainGraph.getNode(e.getDest()).getLocation().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+5+screenOffsetY;
                 g.drawLine(xSrs,ySrs,xDest,yDest);
                 int angle = (int)vectorDirection(mainGraph.getNode(e.getSrc()).getLocation(), mainGraph.getNode(e.getDest()).getLocation());
-                if (!moreData)g.drawString(angle+"º",(xSrs+xDest)/2,(ySrs+yDest)/2+xSrs%20);
+                if (!moreData) g.drawString(angle+"º",(xSrs+xDest)/2+4,(ySrs+yDest)/2+((angle<180)?10:0)%20);
 
             }
         }
@@ -138,6 +138,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             int y =(int)((p.getPos().y()-min_max[2])*screenSize/(min_max[3]-min_max[2]))+screenOffsetY;
             //g.fillOval(x,y,10,10);
             g.drawImage(getImage("pok.png"),x-10,y-10,30,30,null);
+            if (!moreData) g.drawString("T:"+p.getType(),x+20,y+3);
+            if (!moreData) g.drawString("V:"+p.getValue(),x+20,y+13);
         }
 
         g.setColor(Color.blue);//agents
@@ -192,7 +194,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
      * @param h height
      */
     private void agentMove(Graphics g, int direction, int x, int y, int w, int h){
-        int counter = (int)((System.currentTimeMillis()/100)%10+2)/3;
+        int counter = (int)((System.currentTimeMillis()/100)%10+1)/3;
         g.drawImage(agentMove[direction][counter],x,y,w,h,null);
     }
 
