@@ -11,25 +11,18 @@ import java.nio.file.StandardOpenOption;
 
 public class panelTest{
     public static void main(String[] args){
-      MainManager main = new MainManager(1);
-        myPanel p = new myPanel(main);
-        geo_location a = new GeoLocation(0,0,0);
-        geo_location b = new GeoLocation(1,-1,0);
-        System.out.println(p.vectorDirection(a,b));
-        System.out.println(p.vectorDirection(b,a));
+//      MainManager main = new MainManager(1);
+//        myPanel p = new myPanel(main);
+//        geo_location a = new GeoLocation(0,0,0);
+//        geo_location b = new GeoLocation(1,-1,0);
+//        System.out.println(p.vectorDirection(a,b));
+//        System.out.println(p.vectorDirection(b,a));
 
-        for (int i = 0; i < 50; i++) {
-            { MainManager main = new MainManager(11);
-           GUI p = new GUI(main);
+
+            MainManager main = new MainManager(11);
+            GUI p = new GUI(main);
             Thread algo = new algoManager(main);
-                algo.start();
-            }
-            try {
-                Thread.sleep(62000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+            algo.start();
 
 
     }

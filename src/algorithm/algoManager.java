@@ -7,19 +7,32 @@ import api.dw_graph_algorithms;
 import api.node_data;
 import object.PokemonInterface;
 
-public class algoManager{
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
-
+public class algoManager extends Thread{
+    MainManager main;
+    public algoManager(MainManager main){
+        this.main=main;
+    }
     public static void main(String[] args) {
         //random_algo(11);
-         diacstra_algo(2);
+         //diacstra_algo(2);
 
     }
-    private static void diacstra_algo(int scenario){
+
+    @Override
+    public void run(){
+        super.run();
+        diacstra_algo(main);
+    }
+
+    public void diacstra_algo(MainManager main){
         dw_graph_algorithms d=new DWGraph_Algo();
-        MainManager main = new MainManager(scenario);
         d.init(main.getGraph());
-        new GUI(main);
+        //new GUI(main);
         int [] start=new int[main.getGameInfo().getPokemon()];
         int k=0;
         boolean flag=false;
@@ -45,12 +58,16 @@ public class algoManager{
         }
         while (main.isRunning()){
             try {
-                Thread.sleep(100);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             main.move();
-            System.out.println(main.timeToEnd());
+            //System.out.println(main.timeToEnd());
+        }
+        try {
+            Files.write(Paths.get("machineLearning.txt"), (main.getGameInfo().grade()+","+main.getGameInfo().moves()+"\n").getBytes(), StandardOpenOption.APPEND);
+        }catch (IOException e) {
         }
         System.out.println(main.getGameInfo().grade());
         System.out.println(main.getGameInfo().moves());
@@ -69,7 +86,7 @@ public class algoManager{
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             main.addAgent(random(range));
         }
-        main.startGame();
+        //main.startGame(selectedLevel);
         System.out.println(main.timeToEnd());
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             Thread n = new randomAlgo(main, i);
@@ -79,7 +96,7 @@ public class algoManager{
         System.out.println("work");
         while (main.isRunning()){
             try {
-                Thread.sleep(100);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

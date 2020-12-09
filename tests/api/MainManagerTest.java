@@ -12,7 +12,7 @@ class MainManagerTest{
         new GUI(main,5);
         //System.out.println("test");
         main.addAgent(9);
-        main.startGame();
+        //main.startGame();
         System.out.println(game.getAgents());
         game.chooseNextEdge(0,8);
         System.out.println(game.getAgents());
