@@ -6,8 +6,12 @@ public class GUI extends Thread{
     MainManager main;
     myFrame mainFrame;
     public int refreshRateInMillis = 10; //default
-
-    public GUI(MainManager main ){
+    public GUI(){
+        MainManager main = new MainManager();
+        Thread thread = new GUI(main,new myFrame(main),this.refreshRateInMillis);
+        thread.start();
+    }
+    public GUI(MainManager main){
         Thread thread = new GUI(main,new myFrame(main),this.refreshRateInMillis);
         thread.start();
     }

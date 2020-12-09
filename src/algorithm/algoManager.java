@@ -7,9 +7,16 @@ import api.dw_graph_algorithms;
 import api.node_data;
 import object.PokemonInterface;
 
-public class algoManager{
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
-
+public class algoManager extends Thread{
+    MainManager main;
+    public algoManager(MainManager main){
+        this.main=main;
+    }
     public static void main(String[] args) {
         //random_algo(11);
       diacstra_algo(20);
@@ -17,11 +24,17 @@ public class algoManager{
         
 
     }
+    
+    @Override
+    public void run(){
+        super.run();
+        diacstra_algo(main);
+    }
+
     private static void improve_diacstra_algo(int scenario){
         dw_graph_algorithms d=new DWGraph_Algo();
-        MainManager main = new MainManager(scenario);
         d.init(main.getGraph());
-        new GUI(main);
+        //new GUI(main);
         int [] start=new int[main.getGameInfo().getPokemon()];
         int k=0;
         boolean flag=false;
@@ -47,7 +60,6 @@ public class algoManager{
             tmp.start();
         }
         while (main.isRunning()){
-
         }
 
     }
@@ -101,7 +113,7 @@ public class algoManager{
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             main.addAgent(random(range));
         }
-        main.startGame();
+        //main.startGame(selectedLevel);
         System.out.println(main.timeToEnd());
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             Thread n = new randomAlgo(main, i);
@@ -111,7 +123,7 @@ public class algoManager{
         System.out.println("work");
         while (main.isRunning()){
             try {
-                Thread.sleep(100);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
