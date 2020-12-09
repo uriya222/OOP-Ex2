@@ -63,6 +63,7 @@ public class Ex2_Client implements Runnable{
 	 * @param
 	 */
 	private static void moveAgants(game_service game, directed_weighted_graph gg) {
+
 		String lg = game.move();
 		List<CL_Agent> log = Arena.getAgents(lg, gg);
 		_ar.setAgents(log);
@@ -80,7 +81,7 @@ public class Ex2_Client implements Runnable{
 				dest = nextNode(gg, src);
 				game.chooseNextEdge(ag.getID(), dest);
 				System.out.println("Agent: "+id+", val: "+v+"   turned to node: "+dest);
-				System.out.println(game.getPokemons());
+
 			}
 		}
 	}

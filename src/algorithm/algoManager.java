@@ -12,8 +12,9 @@ public class algoManager{
 
     public static void main(String[] args) {
         //random_algo(11);
-        //diacstra_algo(0);
-        improve_diacstra_algo(1);
+      //diacstra_algo(20);
+        improve_diacstra_algo(5);
+        
 
     }
     private static void improve_diacstra_algo(int scenario){
@@ -39,19 +40,15 @@ public class algoManager{
                 main.addAgent(0);
             }
         }
+        System.out.println(main.getGame().getPokemons());
         main.startGame();
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             Thread tmp = new improveDijAlgo(main, i,d);
             tmp.start();
         }
-//        while (main.isRunning()) {
-//            try {
-//                Thread.sleep(50);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            main.move();
-//        }
+        while (main.isRunning()){
+
+        }
 
     }
     private static void diacstra_algo(int scenario){
@@ -82,14 +79,14 @@ public class algoManager{
             Thread tmp = new diacstraAlgo(main, i,d);
             tmp.start();
         }
-        while (main.isRunning()){
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            main.move();
-        }
+//        while (main.isRunning()){
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            main.move();
+//        }
     }
     private static void random_algo(int scenario){
         MainManager main = new MainManager(scenario);
