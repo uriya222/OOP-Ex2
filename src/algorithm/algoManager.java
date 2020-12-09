@@ -19,7 +19,8 @@ public class algoManager extends Thread{
     }
     public static void main(String[] args) {
         //random_algo(11);
-      diacstra_algo(20);
+        MainManager main = new MainManager(12);
+        diacstra_algo(main);
         //improve_diacstra_algo(23);
         
 
@@ -31,7 +32,7 @@ public class algoManager extends Thread{
         diacstra_algo(main);
     }
 
-    private static void improve_diacstra_algo(int scenario){
+    private static void improve_diacstra_algo(MainManager main){
         dw_graph_algorithms d=new DWGraph_Algo();
         d.init(main.getGraph());
         //new GUI(main);
@@ -63,11 +64,11 @@ public class algoManager extends Thread{
         }
 
     }
-    private static void diacstra_algo(int scenario){
+    private static void diacstra_algo(MainManager main){
         dw_graph_algorithms d=new DWGraph_Algo();
-        MainManager main = new MainManager(scenario);
+        //MainManager main = new MainManager(scenario);
         d.init(main.getGraph());
-        new GUI(main);
+        //new GUI(main);
         int [] start=new int[main.getGameInfo().getPokemon()];
         int k=0;
         boolean flag=false;
@@ -102,7 +103,7 @@ public class algoManager extends Thread{
     }
     private static void random_algo(int scenario){
         MainManager main = new MainManager(scenario);
-        new GUI(main);
+        //new GUI(main);
         System.out.println(main.getGameInfo().agents());
         int[] range = new int[main.getGraph().nodeSize()];
         int k =0;
