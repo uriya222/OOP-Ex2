@@ -12,8 +12,8 @@ public class algoManager{
 
     public static void main(String[] args) {
         //random_algo(11);
-      //diacstra_algo(20);
-        improve_diacstra_algo(5);
+      diacstra_algo(20);
+        //improve_diacstra_algo(23);
         
 
     }

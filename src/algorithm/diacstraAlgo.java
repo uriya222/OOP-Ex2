@@ -31,7 +31,7 @@ public class diacstraAlgo extends Thread {
                 for (node_data x : l) {
                     main.chooseNextEdge(agent, x.getKey());
                     try {
-                        Thread.sleep(0);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -40,7 +40,7 @@ public class diacstraAlgo extends Thread {
                 main.chooseNextEdge(agent, destP);
                 main.move();
                 try {
-                    Thread.sleep(0);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -50,7 +50,7 @@ public class diacstraAlgo extends Thread {
                 main.chooseNextEdge(agent, destP);
                 main.move();
                 try {
-                    Thread.sleep(0);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

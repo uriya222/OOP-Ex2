@@ -139,6 +139,11 @@ public class MainManager{
     }
 
     public synchronized void move(){
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         game.move();
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
@@ -149,7 +154,11 @@ public class MainManager{
         int srcA=agents.get(id).getSrc();
         double speed=agents.get(id).getSpeed();
         chooseNextEdge(id,dest);
-
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         game.move();
         if(algo.getGraph().getEdge(srcA, dest)!=null){
         double way=(algo.getGraph().getEdge(srcA, dest).getWeight())*1000;
@@ -162,6 +171,11 @@ public class MainManager{
         int srcA=agents.get(id).getSrc();
         double speed=agents.get(id).getSpeed();
         chooseNextEdge(id,dest);
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
        // game.move();
         if(algo.getGraph().getEdge(srcA, dest)!=null) {
             double way = (algo.getGraph().getEdge(srcA, dest).getWeight()) * 1000;
