@@ -1,6 +1,7 @@
 package algorithm;
 
 import api.MainManager;
+import api.agentPosAlgo;
 import api.dw_graph_algorithms;
 import api.node_data;
 import object.PokemonInterface;
@@ -20,42 +21,75 @@ public class diacstraAlgo extends Thread {
     }
 
     public void run() {
-//        super.run();
-        //while (main.isRunning()) {
-            PokemonInterface res=ChoosePokemon();
-            while (res==null) res=ChoosePokemon();
+        //       super.run();
+        while (main.isRunning()) {
+            PokemonInterface res = ChoosePokemon();
+            while (res == null) res = ChoosePokemon();
+            int k=0;
             int srcP = res.getEdge().getSrc();
             int destP = res.getEdge().getDest();
             if (srcP != main.getAgentList().get(this.agent).getSrc()) {
                 List<node_data> l = d.shortestPath(main.getAgentList().get(this.agent).getSrc(), srcP);
                 for (node_data x : l) {
-                    main.chooseNextEdge(agent, x.getKey());
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                   // main.move();
+                    System.out.println(x.getKey());
+                }
+                if(l.get(0).getKey()==main.getAgentList().get(agent).getSrc()) k=1;
+                for (int i = k; i < l.size(); i++) {
+                        System.out.println( "dest= "+main.getAgentList().get(agent).getDest());
+                        main.chooseNextEdge(agent, l.get(i).getKey());
+                        long time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                        while (time==-1) time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                        main.move();
+                        try {
+                            Thread.sleep(time);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        main.move();
                 }
                 main.chooseNextEdge(agent, destP);
-                //main.move();
+                long all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                while (all_time==-1) all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                long till_pok = new agentPosAlgo(main).timeForPokemon(main.getAgentList().get(agent), res);
+                long to_end = all_time - till_pok;
+                main.move();
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(till_pok);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //main.move();
+                main.move();
+                try {
+                    Thread.sleep(to_end);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                main.move();
             } else {
                 main.chooseNextEdge(agent, destP);
-                //main.move();
+                long all_time=new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                while (all_time==-1) all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
+                long till_pok=new agentPosAlgo(main).timeForPokemon(main.getAgentList().get(agent),res);
+                long to_end=all_time-till_pok;
+                main.move();
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(till_pok);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //main.move();
+                main.move();
+                System.out.println(main.getAgentList().get(agent).getPos());
+                System.out.println(res.getPos());
+                main.move();
+                try {
+                    Thread.sleep(to_end);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                main.move();
+
             }
-        //}
+        }
     }
 
     private synchronized PokemonInterface ChoosePokemon() {

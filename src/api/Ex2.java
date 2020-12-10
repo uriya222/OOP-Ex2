@@ -1,26 +1,27 @@
 package api;
 
 import GUI.GUI;
-import object.PokemonInterface;
+//<<<<<<< HEAD
+//import object.PokemonInterface;
+//
+//public class Ex2{
+//
+//    public static void main(String[] args) throws InterruptedException {
+//        MainManager m=new MainManager(0);
+//        GUI gui=new GUI(m);
+//        m.addAgent(9);
+//        m.startGame();
+//          PokemonInterface p=m.getPokemonList().get(0);
+//        System.out.println(p);
 
 public class Ex2{
 
-    public static void main(String[] args) throws InterruptedException {
-        MainManager m=new MainManager(0);
-        GUI gui=new GUI(m);
-        m.addAgent(9);
-        m.startGame();
-          PokemonInterface p=m.getPokemonList().get(0);
-        System.out.println(p);
 
-//        System.out.println(m.getGame().move());
-//        System.out.println(m.getGame().getGraph());
-       // "w":1.8526880332753517
-       // System.out.println(m.getGame().getAgents());
-        //System.out.println(m.getGraph().getNode(8).getLocation());
-//time that took = 9--->8  1455
-
-
+    public static void main(String[] args) {
+        //game_service game = Game_Server_Ex2.getServer(1);
+//        MainManager m=new MainManager(21);
+//        Thread algo=new algoManager(m);
+        new GUI();
+        //algo.start();
     }
-
 }

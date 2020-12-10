@@ -13,13 +13,20 @@ public class MainManager{
     private String info;
     dw_graph_algorithms algo;
     private HashMap<Integer,AgentsInterface> agents;
+    private HashMap<Integer,AgentsInterface> agents_client;
     private List<PokemonInterface> pokemons;
     public static final double EPS1 = 0.0000001;
-    long last_update;
-    long last_move;
+    long last_update = 0;
+    long last_client_update = System.currentTimeMillis();;
+    long last_move = 0;
     HashMap<Integer,Long> last_moveHash;
     private gameInfoInterface gameInfo;
+    public boolean isSet = true;
 
+    /**
+     * constructor by pointer
+     * @param game
+     */
     public MainManager(game_service game){
         this.game = game;
         info= game.toString();
@@ -31,6 +38,11 @@ public class MainManager{
         last_moveHash = new HashMap<Integer,Long>();
     }
 
+    /**
+     * constructor by level
+     *
+     * @param scenario
+     */
     public MainManager(int scenario){
         game = Game_Server_Ex2.getServer(scenario);
         info= game.toString();
@@ -42,6 +54,36 @@ public class MainManager{
         last_moveHash = new HashMap<Integer,Long>();
     }
 
+    /**
+     * empty constructor for integration
+     *          WARNING:
+     * use only if you know the risks
+     */
+    public MainManager(){
+        isSet = false;
+    }
+
+    /**
+     * @param level
+     * @return if true if started and false if already running
+     */
+    public boolean startup(int level){
+        if (info!=null) return false;
+        game = Game_Server_Ex2.getServer(level);
+        info= game.toString();
+        algo = (new jsonToObject()).jsonToGraph(game.getGraph());
+        this.agents=new HashMap<>();
+        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
+        ConvertGeoToEdge();
+        this.gameInfo = new jsonToObject().jsonToGameInfo(game);
+        last_moveHash = new HashMap<Integer,Long>();
+        isSet = true;
+        return true;
+    }
+
+    /**
+     * @return the game info object
+     */
     public gameInfoInterface getGameInfo(){
         gameInfo = new jsonToObject().jsonToGameInfo(game);
         return gameInfo;
@@ -130,6 +172,7 @@ public class MainManager{
     public long timeToEnd(){
         return game.timeToEnd();
     }
+
     public long lastMove(int id){
         return last_moveHash.get(id);
     }
@@ -151,7 +194,6 @@ public class MainManager{
         last_update = System.currentTimeMillis();
     }
 
-
     public long getLast_move(){
         return this.last_move;
     }
@@ -172,6 +214,17 @@ public class MainManager{
     public boolean isRunning(){
         return game.isRunning();
     }
+
+    double m(geo_location a,geo_location b){
+        double m= 0;
+        //if (b.x()==a.x()&&a.x()!=0) {
+        m = (b.y() - a.y()) / (b.x() - a.x());
+        //}
+        return m;
+    }
+
+
+
 
 }
 

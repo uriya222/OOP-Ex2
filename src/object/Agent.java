@@ -1,5 +1,6 @@
 package object;
 
+import api.GeoLocation;
 import api.geo_location;
 
 /**
@@ -24,6 +25,14 @@ public class Agent implements AgentsInterface {
         this.src = src;
         this.dest = dest;
         this.pos = geo;
+    }
+    public Agent(AgentsInterface a){
+        id = a.getId();
+        value = a.getValue();
+        src = a.getSrc();
+        dest = a.getDest();
+        pos = new GeoLocation(a.getPos());
+        speed = a.getSpeed();
     }
 
     public int getId() {
