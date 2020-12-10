@@ -19,10 +19,10 @@ public class panelTest{
 //        System.out.println(p.vectorDirection(b,a));
 
 
-            //MainManager main = new MainManager(11);
-            GUI p = new GUI();
-           // Thread algo = new algoManager(main);
-            //algo.start();
+            MainManager main = new MainManager(1);
+            Thread algo = new algoManager(main);
+            algo.start();
+            GUI p = new GUI(main);
 
 
     }

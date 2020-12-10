@@ -10,16 +10,12 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Random;
 
 public class myPanel extends JPanel implements MouseListener, ActionListener{
     private directed_weighted_graph mainGraph = new DWGraph_DS();
@@ -35,7 +31,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private boolean moreData = true;
     private BufferedImage[][] agentMove = new BufferedImage[5][4];
     protected int selectedLevel = 1;
-
+    agentPosAlgo posAlgo;
     /**
      * constructor, takes a pointer to MainManager
      *
@@ -47,6 +43,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         this.addMouseListener(this);
         if (main.isSet) { //if the game didn't started
             menu = 1;
+            posAlgo = new agentPosAlgo(main);
             mainGraph = main.getGraph();
             minMax(mainGraph.getV());
         }
@@ -171,9 +168,9 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             if (!moreData) g.drawString("T:" + p.getType(), x + 20, y + 3);
             if (!moreData) g.drawString("V:" + p.getValue(), x + 20, y + 13);
         }
-
+                                           //main.getAgentList().values()
         g.setColor(Color.blue);//agents
-        for (AgentsInterface a : main.getAgentList().values()
+        for (AgentsInterface a : posAlgo.getAgents_client().values()
         ) {
             int x = (int) ((a.getPos().x() - min_max[0]) * screenSize / (min_max[1] - min_max[0])) + screenOffsetX;
             int y = (int) ((a.getPos().y() - min_max[2]) * screenSize / (min_max[3] - min_max[2])) + screenOffsetY;
@@ -343,15 +340,16 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
 
     @Override
     public void mouseClicked(MouseEvent e){
-        geo_location g = pixelToLocation(e.getX(), e.getY());
-        System.out.println(g.x() + "," + g.y());
-        System.out.println(e.getX() + "," + e.getY());
-        System.out.println(mainGraph.getNode(8).getLocation());
-        mouseClick = g;
-        repaint();
-        System.out.println("*****");
-        moreData = !moreData;
-
+        if (main.isSet) {
+            geo_location g = pixelToLocation(e.getX(), e.getY());
+            System.out.println(g.x() + "," + g.y());
+            System.out.println(e.getX() + "," + e.getY());
+           // System.out.println(mainGraph.getNode(8).getLocation());
+            mouseClick = g;
+            repaint();
+            System.out.println("*****");
+            moreData = !moreData;
+        }
     }
 
     @Override
@@ -389,6 +387,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         main.startup(selectedLevel);
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
+        posAlgo = new agentPosAlgo(main);
         Thread a = new algoManager(main);
         a.start();
     }
