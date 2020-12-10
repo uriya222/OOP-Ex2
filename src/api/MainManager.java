@@ -162,10 +162,12 @@ public class MainManager{
         if (temp!=-1) {
             last_move = temp;
             last_moveHash.put(id,temp);
-
+            agents.get(id).setTiming(temp);
         }
-        if (agents.get(id).getDest() == -1 && temp!=-1)
+        if (agents.get(id).getDest() == -1 && temp!=-1) {
             agents.get(id).setDest(next_node);
+            agents.get(id).setTiming(temp);
+        }
         return temp;
     }
     public game_service getGame(){return game;}

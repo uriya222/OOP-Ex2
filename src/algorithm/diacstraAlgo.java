@@ -60,6 +60,7 @@ public class diacstraAlgo extends Thread {
                 }
                 main.move();
                 try {
+                    if (to_end!=-1)
                     Thread.sleep(to_end);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
