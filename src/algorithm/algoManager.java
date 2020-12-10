@@ -11,9 +11,9 @@ public class algoManager{
 
 
     public static void main(String[] args) {
-        //random_algo(11);
-      diacstra_algo(20);
-        //improve_diacstra_algo(23);
+       // random_algo(11);
+        diacstra_algo(20);
+       //improve_diacstra_algo(11);
         
 
     }
@@ -42,10 +42,10 @@ public class algoManager{
         }
         System.out.println(main.getGame().getPokemons());
         main.startGame();
-        for (int i = 0; i < main.getGameInfo().agents(); i++) {
-            Thread tmp = new improveDijAlgo(main, i,d);
-            tmp.start();
-        }
+//        for (int i = 0; i < main.getGameInfo().agents(); i++) {
+//            Thread tmp = new improveDijAlgo(main, i,d);
+//            tmp.start();
+//        }
         while (main.isRunning()){
 
         }
@@ -75,18 +75,25 @@ public class algoManager{
             }
         }
         main.startGame();
-        for (int i = 0; i < main.getGameInfo().agents(); i++) {
-            Thread tmp = new diacstraAlgo(main, i,d);
-            tmp.start();
-        }
-//        while (main.isRunning()){
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            main.move();
+//        for (int i = 0; i < main.getGameInfo().agents(); i++) {
+//            Thread tmp = new diacstraAlgo(main, i,d);
+//           tmp.start();
 //        }
+        while (main.isRunning()){
+            for (int i = 0; i < main.getGameInfo().agents(); i++) {
+               //new diacstraAlgo(main,i,d).run2();
+                Thread tmp = new diacstraAlgo(main, i,d);
+                tmp.start();
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            main.move();
+
+        }
+       // System.exit(0);
     }
     private static void random_algo(int scenario){
         MainManager main = new MainManager(scenario);

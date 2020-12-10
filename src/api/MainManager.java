@@ -123,7 +123,7 @@ public class MainManager{
 
         }
         if (agents.get(id).getDest() == -1 && temp!=-1)
-        agents.get(id).setDest(next_node);
+            agents.get(id).setDest(next_node);
         return temp;
     }
     public game_service getGame(){return game;}
@@ -140,7 +140,7 @@ public class MainManager{
 
     public synchronized void move(){
         try {
-            Thread.sleep(5);
+            Thread.sleep(0,0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -150,71 +150,7 @@ public class MainManager{
         ConvertGeoToEdge();
         last_update = System.currentTimeMillis();
     }
-    public synchronized void CA_moveIfNoTPokemon(int id,int dest){
-        int srcA=agents.get(id).getSrc();
-        double speed=agents.get(id).getSpeed();
-        chooseNextEdge(id,dest);
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        game.move();
-        if(algo.getGraph().getEdge(srcA, dest)!=null){
-        double way=(algo.getGraph().getEdge(srcA, dest).getWeight())*1000;
-        double time= way/speed;
-        refreshAgent(time);
-        }
-        this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
-    }
-    public synchronized void CA_moveIfPokemon(int id,int dest,PokemonInterface p){
-        int srcA=agents.get(id).getSrc();
-        double speed=agents.get(id).getSpeed();
-        chooseNextEdge(id,dest);
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-       // game.move();
-        if(algo.getGraph().getEdge(srcA, dest)!=null) {
-            double way = (algo.getGraph().getEdge(srcA, dest).getWeight()) * 1000;
-            double time = way / speed;
-            refreshAgent2(time);
-        }
-        this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());
-        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
-        ConvertGeoToEdge();
 
-    }
-
-    private void refreshAgent2(double time) {
-        //need to remember to refresh agents
-        int end=((int)time)/100;
-        for (int i = 0; i <end ; i++) {
-            try {
-                wait(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //this.agents=(new jsonToObject()).jsonToAgentHash(game.move());
-            game.move();
-        }
-        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
-        ConvertGeoToEdge();
-
-    }
-
-    private void refreshAgent(double time) {
-        //need to remember to refresh agents
-        try {
-            Thread.sleep((long) time+1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
-        ConvertGeoToEdge();
-    }
 
     public long getLast_move(){
         return this.last_move;

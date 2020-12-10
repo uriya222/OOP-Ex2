@@ -1,21 +1,18 @@
 package api;
 
+import GUI.GUI;
+import object.PokemonInterface;
+
 public class Ex2{
 
     public static void main(String[] args) throws InterruptedException {
         MainManager m=new MainManager(0);
-        //GUI gui=new GUI(m);
-        m.addAgent(8);
+        GUI gui=new GUI(m);
+        m.addAgent(9);
         m.startGame();
-      // while (m.isRunning()){
-//        m.move();
-        m.chooseNextEdge(0,9);
-        m.getGame().move();
-        Thread.sleep(1400);
-        double speed=m.getAgentList().get(0).getSpeed();
-        double way=(m.getGraph().getEdge(8, 9).getWeight())*1000;
-        double time= way/speed;
-        System.out.println(time);
+          PokemonInterface p=m.getPokemonList().get(0);
+        System.out.println(p);
+
 //        System.out.println(m.getGame().move());
 //        System.out.println(m.getGame().getGraph());
        // "w":1.8526880332753517

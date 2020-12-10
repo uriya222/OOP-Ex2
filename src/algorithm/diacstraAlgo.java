@@ -18,10 +18,10 @@ public class diacstraAlgo extends Thread {
         this.agent = agent;
         this.d=d;
     }
-    @Override
+
     public void run() {
-        super.run();
-        while (main.isRunning()) {
+//        super.run();
+        //while (main.isRunning()) {
             PokemonInterface res=ChoosePokemon();
             while (res==null) res=ChoosePokemon();
             int srcP = res.getEdge().getSrc();
@@ -35,29 +35,28 @@ public class diacstraAlgo extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    main.move();
+                   // main.move();
                 }
                 main.chooseNextEdge(agent, destP);
-                main.move();
+                //main.move();
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                main.move();
-            }
-            else {
+                //main.move();
+            } else {
                 main.chooseNextEdge(agent, destP);
-                main.move();
+                //main.move();
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-               main.move();
+                //main.move();
             }
-        }
-   }
+        //}
+    }
 
     private synchronized PokemonInterface ChoosePokemon() {
         int srcP = 0;
