@@ -9,11 +9,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Hashtable;
 
@@ -24,7 +26,6 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private int screenSize = 900;
     MainManager main;
     private int menu = 2;
-    private int IntPlay = 27, direction = 1;//for font extra :)
     private boolean first = true;
     private int screenOffsetX;
     private int screenOffsetY;
@@ -32,6 +33,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private BufferedImage[][] agentMove = new BufferedImage[5][4];
     protected int selectedLevel = 1;
     agentPosAlgo posAlgo;
+    int lastSize;
+    long id = 0;
     /**
      * constructor, takes a pointer to MainManager
      *
@@ -74,23 +77,38 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
      */
     protected void mainMenu(Graphics g){
         screenSize = this.getHeight() < this.getWidth() ? this.getHeight() - 50 : this.getWidth() - 60;
-/*        int counter = (int)((System.currentTimeMillis()/1000)%10)/5;
-        if (direction>0){
-            IntPlay+=counter;
-            if (IntPlay>30)direction=-1;
-        }else {
-            IntPlay-=counter;
-            if (IntPlay<12)direction=+1;
-        }*/
-
         g.setColor(Color.gray); //sets the title
-        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 30));
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 60));
         char[] c = ("Pokemon Game").toCharArray();
         int x = this.getWidth() / 2;
         int y = this.getHeight() / 4;
-        g.drawChars(c, 0, c.length, x - (int) (IntPlay * 2) - 90, y);
+        g.drawChars(c, 0, c.length, x - 280, y);
+
+        if (lastSize!=this.getWidth()+this.getHeight())first =true;
         if (first) { //only ones draw the buttons
-            //slider
+            lastSize = this.getWidth()+this.getHeight();
+            this.removeAll();
+            //typing box
+            NumberFormat format = NumberFormat.getInstance();
+            NumberFormatter formatter = new NumberFormatter(format);
+            formatter.setValueClass(Long.class);
+            formatter.setAllowsInvalid(false);
+            formatter.setCommitsOnValidEdit(true);
+            JFormattedTextField field = new JFormattedTextField(formatter);
+            JFormattedTextField type = new JFormattedTextField(formatter);
+            type.setBounds(x-100,(int)(y*2.5),100,30);
+            this.add(type);
+            type.addFocusListener(new FocusListener(){
+                @Override
+                public void focusGained(FocusEvent e){
+
+                }
+                @Override
+                public void focusLost(FocusEvent e){
+                    id =  Long.parseLong(type.getText().replaceAll(",",""));
+                }
+            });
+                    //slider
             JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 23, 1);
             slider.setMajorTickSpacing(10);
             slider.setPaintTicks(true);
@@ -120,6 +138,9 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
             this.add(button1);
             first = false;
         }
+        //label for the ID insert
+        g.setFont(new Font("TimesRoman", Font.CENTER_BASELINE, 20));
+        g.drawString("type ID here:",x-110,(int)(y*2.4));
     }
 
     /**
@@ -387,6 +408,9 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
         main.startup(selectedLevel);
         mainGraph = main.getGraph();
         minMax(mainGraph.getV());
+        if (id !=0){
+            main.login(id);
+        }
         posAlgo = new agentPosAlgo(main);
         Thread a = new algoManager(main);
         a.start();
