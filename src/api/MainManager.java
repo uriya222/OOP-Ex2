@@ -222,6 +222,9 @@ public class MainManager{
         //}
         return m;
     }
+    public boolean login(long id){
+        return game.login(id);
+    }
 
 
 
