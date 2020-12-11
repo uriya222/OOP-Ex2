@@ -182,11 +182,6 @@ public class MainManager{
     }
 
     public synchronized void move(){
-        try {
-            Thread.sleep(0,0);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         game.move();
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
         this.agents=(new jsonToObject()).jsonToAgentHash(game.getAgents());

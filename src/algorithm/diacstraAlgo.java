@@ -28,37 +28,42 @@ public class diacstraAlgo extends Thread {
             int k=0;
             int srcP = res.getEdge().getSrc();
             int destP = res.getEdge().getDest();
-            if (srcP != main.getAgentList().get(this.agent).getSrc()) {
+            agentPosAlgo apa=new agentPosAlgo(main);
+            if(srcP != main.getAgentList().get(this.agent).getSrc()) {
                 List<node_data> l = d.shortestPath(main.getAgentList().get(this.agent).getSrc(), srcP);
                 for (node_data x : l) {
                     System.out.println(x.getKey());
                 }
                 if(l.get(0).getKey()==main.getAgentList().get(agent).getSrc()) k=1;
                 for (int i = k; i < l.size(); i++) {
-                        System.out.println( "dest= "+main.getAgentList().get(agent).getDest());
-                        main.chooseNextEdge(agent, l.get(i).getKey());
-                        long time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
-                        while (time==-1) time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
-                        main.move();
-                        try {
-                            Thread.sleep(time);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        main.move();
+                    main.chooseNextEdge(agent, l.get(i).getKey());
+                    System.out.println(main.getAgentList().get(agent));
+                    long time = apa.timeForEdge(main.getAgentList().get(agent));
+                    while (time==-1) time = apa.timeForEdge(main.getAgentList().get(agent));
+                    main.move();
+                    try {
+                        Thread.sleep(time);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    main.move();
                 }
                 main.chooseNextEdge(agent, destP);
+                System.out.println(main.getAgentList().get(agent));
                 long all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
-                while (all_time==-1) all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
-                long till_pok = new agentPosAlgo(main).timeForPokemon(main.getAgentList().get(agent), res);
+                while (all_time==-1) all_time = apa.timeForEdge(main.getAgentList().get(agent));
+                long till_pok = apa.timeForPokemon(main.getAgentList().get(agent), res)-200;
                 long to_end = all_time - till_pok;
                 main.move();
-                try {
-                    Thread.sleep(till_pok);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                for (int i = 0; i <till_pok/10 ; i++) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    main.move();
                 }
-                main.move();
                 try {
                     Thread.sleep(to_end);
                 } catch (InterruptedException e) {
@@ -67,6 +72,7 @@ public class diacstraAlgo extends Thread {
                 main.move();
             } else {
                 main.chooseNextEdge(agent, destP);
+                System.out.println(main.getAgentList().get(agent));
                 long all_time=new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
                 while (all_time==-1) all_time = new agentPosAlgo(main).timeForEdge(main.getAgentList().get(agent));
                 long till_pok=new agentPosAlgo(main).timeForPokemon(main.getAgentList().get(agent),res);
@@ -78,16 +84,12 @@ public class diacstraAlgo extends Thread {
                     e.printStackTrace();
                 }
                 main.move();
-                System.out.println(main.getAgentList().get(agent).getPos());
-                System.out.println(res.getPos());
-                main.move();
                 try {
                     Thread.sleep(to_end);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 main.move();
-
             }
         }
     }

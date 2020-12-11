@@ -186,24 +186,25 @@ private void speedTest(){
 //            Thread tmp = new diacstraAlgo(main, i,d);
 //           tmp.start();
 //        }
-       //boolean one=true;
+       boolean one=true;
        // while (main.isRunning()){
-            //if(one) {
+           // if(one) {
                 for (int i = 0; i < main.getGameInfo().agents(); i++) {
                     //new diacstraAlgo(main,i,d).run2();
                     Thread tmp = new diacstraAlgo(main, i, d);
                     tmp.start();
                 }
-           // }
-           // one=false;
+            }
+          ////  one=false;
 //            try {
-//                Thread.sleep(100);
+//                Thread.sleep(200);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
+//            if(main.getAgentList().get(0).getDest()!=-1)
 //            main.move();
-        //}
-    }
+       // }
+   // }
     private static void random_algo(int scenario){
         MainManager main = new MainManager(scenario);
         //new GUI(main);
