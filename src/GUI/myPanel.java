@@ -109,13 +109,13 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 }
             });
                     //slider
-            JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 23, 1);
+            JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 23, 0);
             slider.setMajorTickSpacing(10);
             slider.setPaintTicks(true);
             //create the label table
             Hashtable labelTable = new Hashtable();
-            for (int i = 0; i < 23; i++) {
-                labelTable.put(i + 1, new JLabel("" + (i + 1)));
+            for (int i = 0; i < 24; i++) {
+                labelTable.put(i, new JLabel("" + (i )));
             }
             slider.setLabelTable(labelTable);
             //set the pos

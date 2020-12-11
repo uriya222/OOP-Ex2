@@ -54,6 +54,7 @@ public class diacstraAlgo extends Thread {
                 long to_end = all_time - till_pok;
                 main.move();
                 try {
+                    if (till_pok!=-1)
                     Thread.sleep(till_pok);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
