@@ -17,7 +17,7 @@ public class Agent implements AgentsInterface {
     private int dest;
     private double speed;
     private geo_location pos;
-
+    private long timing =-1;
     public Agent(int id, double value, int src, int dest, geo_location geo, double speed) {
         this.id = id;
         this.value = value;
@@ -33,6 +33,7 @@ public class Agent implements AgentsInterface {
         dest = a.getDest();
         pos = new GeoLocation(a.getPos());
         speed = a.getSpeed();
+        timing = a.getTiming();
     }
 
     public int getId() {
@@ -57,6 +58,14 @@ public class Agent implements AgentsInterface {
 
     public geo_location getPos() {
         return pos;
+    }
+
+    public void setTiming(long timing){
+        this.timing = timing;
+    }
+
+    public long getTiming(){
+        return timing;
     }
 
 

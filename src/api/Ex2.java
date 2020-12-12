@@ -1,6 +1,5 @@
 package api;
 
-import GUI.GUI;
 //<<<<<<< HEAD
 //import object.PokemonInterface;
 //
@@ -14,6 +13,8 @@ import GUI.GUI;
 //          PokemonInterface p=m.getPokemonList().get(0);
 //        System.out.println(p);
 
+import GUI.GUI;
+
 public class Ex2{
 
 
@@ -21,7 +22,9 @@ public class Ex2{
         //game_service game = Game_Server_Ex2.getServer(1);
 //        MainManager m=new MainManager(21);
 //        Thread algo=new algoManager(m);
-        new GUI();
+      new GUI();
         //algo.start();
+
+
     }
 }
