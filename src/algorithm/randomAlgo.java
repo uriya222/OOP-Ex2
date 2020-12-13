@@ -2,7 +2,7 @@ package algorithm;
 
 import api.MainManager;
 import api.edge_data;
-
+//TODO maybe remove this class
 public class randomAlgo extends Thread{
     MainManager main;
     int agent;

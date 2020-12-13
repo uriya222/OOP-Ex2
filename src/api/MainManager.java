@@ -121,7 +121,7 @@ public class MainManager{
     /**
      * convert location of given pokemon to particular edge in graph and save the result
      * in Pokemon class variable called "edge"
-     * this is used only in the be
+     * this method is used only in ConvertGeoToEdge()
      * @param p the pokemon
      */
     private void ConvertGeoToEdge(PokemonInterface p){
@@ -157,7 +157,14 @@ public class MainManager{
         }
     }
 
-    public synchronized long chooseNextEdge(int id, int next_node) {  //need algorithms to operate on this method
+    /**
+     * this method choose the next destination to to the agents,
+     * and saving the time that return from the server
+     * @param id- id of the agent
+     * @param next_node
+     * @return
+     */
+    public synchronized long chooseNextEdge(int id, int next_node) {
         long temp = game.chooseNextEdge(id,next_node);
         if (temp!=-1) {
             last_move = temp;
@@ -183,6 +190,10 @@ public class MainManager{
         return last_move;
     }
 
+    /**
+     * this method telling the server to make a move and updating the list of
+     * agents and pokemon as needed.
+     */
     public synchronized void move(){
         game.move();
         this.pokemons=(new jsonToObject()).jsonToPokemonList(game.getPokemons());
@@ -212,6 +223,7 @@ public class MainManager{
         return game.isRunning();
     }
 
+   //TODO maybe remove this method
     double m(geo_location a,geo_location b){
         double m= 0;
         //if (b.x()==a.x()&&a.x()!=0) {
@@ -222,9 +234,6 @@ public class MainManager{
     public boolean login(long id){
         return game.login(id);
     }
-
-
-
 
 }
 

@@ -65,7 +65,7 @@ public class agentPosAlgo{
         last_update = System.currentTimeMillis();
         return agents_client;
     }
-
+    //TODO maybe remove this method
     /**
      * @param a
      * @return how much in percent the agent crossed the edge
@@ -83,6 +83,7 @@ public class agentPosAlgo{
      * @return the time that the agent need to sleep from src to pokemon
      */
     public long[] timeForPokemon(AgentsInterface a, PokemonInterface p){
+        while (a.getDest()==-1){}
         double DtoP = p.getPos().x()-graph.getNode(a.getSrc()).getLocation().x();
         double edgeXSize = graph.getNode(a.getDest()).getLocation().x()-graph.getNode(a.getSrc()).getLocation().x();
         long [] t_f_e=timeForEdge(a);
@@ -102,7 +103,7 @@ public class agentPosAlgo{
     /**
      * @param a
      * @return the time that will take the agent to cross the
-     *         edge that he stand on, -1 if there is no dest
+     *         edge that he stand on.
      */
     public long[] timeForEdge(AgentsInterface a){
         long [] ans =new long[2];

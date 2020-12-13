@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 public class jsonToObject{
-   // {"Agents":[{"Agent":{"id":0,"value":0.0,"src":8,"dest":9,"speed":1.0,"pos":"35.19928484854374,32.10227955082914,0.0"}}]}
-// {"Pokemons":[{"Pokemon":{"value":5.0,"type":-1,"pos":"35.197656770719604,32.10191878639921,0.0"}},{"Pokemon":{"value":8.0,"type":-1,"pos":"35.199963710098416,32.105723673136964,0.0"}}]}
    public jsonToObject(){}
 
+    /**
+     * this method getting json String represent a weighted (directed) graph of the game,
+     * save it and lode it to DWGraph_Algo class using existing method.
+     * @param j json String
+     * @return new DWGraph_Algo class
+     */
    public dw_graph_algorithms jsonToGraph(String j){
        dw_graph_algorithms ans=new DWGraph_Algo();
        try { //output to a file for the algo
@@ -27,6 +31,11 @@ public class jsonToObject{
        return ans;
    }
 
+    /**
+     * this method getting json String represent a list of agents, turn it to HashMap of agents.
+     * @param j json String
+     * @return new HashMap of agents.
+     */
     public HashMap<Integer, AgentsInterface> jsonToAgentHash(String j){
         HashMap<Integer,AgentsInterface> agents=new HashMap<>();
         GsonBuilder b=new GsonBuilder();
@@ -51,6 +60,11 @@ public class jsonToObject{
         return agents;
     }
 
+    /**
+     * this method getting json String represent a list of pokemons, turn it to ArrayList of pokemons.
+     * @param j json String
+     * @return new ArrayList of pokemons.
+     */
     public List<PokemonInterface> jsonToPokemonList(String j){
         List<PokemonInterface> ans = new  ArrayList<PokemonInterface>();
         GsonBuilder builder=new GsonBuilder();
@@ -72,6 +86,11 @@ public class jsonToObject{
         return ans;
     }
 
+    /**
+     * this method getting game_service, take the json represent the game information and turn it to GameInfo class.
+     * @param game the game_service
+     * @return new GameInfo.
+     */
     public gameInfoInterface jsonToGameInfo(game_service game){
        String j = game.toString();
         GsonBuilder builder=new GsonBuilder();
@@ -81,9 +100,5 @@ public class jsonToObject{
                GameServer.get("grade").getAsInt(),GameServer.get("game_level").getAsInt(),GameServer.get("max_user_level").getAsInt(),GameServer.get("id").getAsInt(),
                GameServer.get("graph").getAsString(), GameServer.get("agents").getAsInt());
     }
-//    {"GameServer":{"pokemons":6,"is_logged_in":false,"moves":0,"grade":0,"game_level":11,"max_user_level":-1,"id":0,"graph":"data/A2","agents":3}}
-    // marge all the graph stuff -- json
-
-
 }
 

@@ -37,6 +37,15 @@ public class GeoLocation implements geo_location{
     public double distance(geo_location g){
         return Math.sqrt(Math.pow(x-g.x(),2)+Math.pow(y-g.y(),2));
     }
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof GeoLocation){
+            GeoLocation tmp= (GeoLocation) o;
+            if (tmp.x()==x()&&tmp.y()==y()&&tmp.z()==z())  return true;
+            return false;
+        }
+        throw new ClassCastException("you tried to compare different object");
+    }
 
     public String toString(){
         return  ""+this.x+","+this.y+","+this.z;

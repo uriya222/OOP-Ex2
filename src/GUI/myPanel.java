@@ -31,7 +31,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     private int screenOffsetY;
     private boolean moreData = true;
     private BufferedImage[][] agentMove = new BufferedImage[5][4];
-    protected int selectedLevel = 1;
+    protected int selectedLevel = 0;
     agentPosAlgo posAlgo;
     int lastSize;
     long id = 0;

@@ -4,7 +4,9 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-
+/**
+ * this class is serializing and deserializing json to DWGraph_DS according to specific method.
+ */
 public class GraphAdapter implements  JsonDeserializer<DWGraph_DS>, JsonSerializer<DWGraph_DS>{
 
 

@@ -4,10 +4,7 @@ import api.GeoLocation;
 import api.geo_location;
 
 /**
- * this class represent an agent in client graph,by implementing AgentsInterface interface, with this following method:
- * update(String json)
- * boolean isMoving()
- * String toJSON()
+ * this class represent an agent in client graph,by implementing AgentsInterface interface.
  */
 
 public class Agent implements AgentsInterface {
@@ -26,6 +23,11 @@ public class Agent implements AgentsInterface {
         this.dest = dest;
         this.pos = geo;
     }
+
+    /**
+     * copy constructor
+     * @param a
+     */
     public Agent(AgentsInterface a){
         id = a.getId();
         value = a.getValue();
