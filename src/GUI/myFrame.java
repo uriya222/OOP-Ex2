@@ -26,6 +26,12 @@ public class myFrame extends JFrame{
         this.setVisible(true);
 
     }
+
+    /**
+     * endless loop to refresh the GUI
+     * every refreshRateInMillis
+     * @param refreshRateInMillis
+     */
     public void refresh(int refreshRateInMillis){
         this.refreshRateInMillis = refreshRateInMillis;
         while (true) {

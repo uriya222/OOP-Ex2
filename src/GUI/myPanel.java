@@ -233,7 +233,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
 
     /**
-     * makes the animation and put the pic in place
+     * makes the walking animation of agent
+     * and put the animation in place
      *
      * @param g
      * @param direction
@@ -248,7 +249,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
 
     /**
-     * score board object
+     * draw the score board object
      *
      * @param g
      */
@@ -402,7 +403,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
 
     /**
-     * start main with the given level
+     * start the main with the given level
      */
     private void startupSequence(){
         main.startup(selectedLevel);
@@ -417,6 +418,7 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
     }
 
     /**
+     * this function used to determine the min max x & y value of the graph
      * @param nodes
      * @return array of minMax values [0]-minX, [1]-maxX, [2]-minY, [3]-maxY
      */
