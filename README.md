@@ -18,8 +18,8 @@ in src/algorithm/ in algoManager you can change the running algo with one of you
 in src/GUI in myPanel you can add your own screens.
 
 ## how its built
- (Picture of the project tree)
-![alt text](https://github.com/uriya222/OOP-Ex2/tree/master/gameAssets/project_tree.jpg?raw=true)
+ (Picture of the project tree)  
+![project tree](https://github.com/uriya222/OOP-Ex2/tree/master/gameAssets/project_tree.jpg)
 
 ## commands:
 
