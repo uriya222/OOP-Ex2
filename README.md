@@ -20,10 +20,13 @@ in src/GUI in myPanel you can add your own screens.
 ## how its built
  (Picture of the project tree)
 
+## commands:
+
+
 ## why we choose
-We choosed to build the graph from hashmap because almost all of the objects
+We chose to build the graph from hashmap because almost all the objects
  have a key field.
-We choosed direktersjsb algorithm because it's fast.
+We chose dijkstras algorithm because it's fast.
 
 
 ## How to contribute:
