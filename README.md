@@ -19,7 +19,7 @@ in src/GUI in myPanel you can add your own screens.
 
 ## how its built
  (Picture of the project tree)
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/uriya222/OOP-Ex2/tree/master/gameAssets/project_tree.jpg?raw=true)
 
 ## commands:
 
