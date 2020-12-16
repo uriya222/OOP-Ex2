@@ -41,7 +41,6 @@ int edgeSize(); // returns the number of edges
 int getMC(); // returns the Modify Count 
 boolean equals(Object o); //return if equals
   ```
-  
 </details>
 
 ## why we choose
