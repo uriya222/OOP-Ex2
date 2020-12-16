@@ -153,10 +153,6 @@ class DWGraph_DSTest{
         assertEquals(n.getWeight(),c.getWeight());
     }
     @Test
-    void EdgeCopyConstructors() {
-
-    }
-    @Test
     void equals() {
         DWGraph_DS g1 =new DWGraph_DS();
         DWGraph_DS g2 =new DWGraph_DS();
