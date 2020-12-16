@@ -9,17 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainManager{
-    game_service game;
+    private game_service game;
     private String info;
-    dw_graph_algorithms algo;
+    private dw_graph_algorithms algo;
     private HashMap<Integer,AgentsInterface> agents;
     private HashMap<Integer,AgentsInterface> agents_client;
     private List<PokemonInterface> pokemons;
     public static final double EPS1 = 0.0000001;
-    long last_update = 0;
-    long last_client_update = System.currentTimeMillis();;
-    long last_move = 0;
-    HashMap<Integer,Long> last_moveHash;
+    private long last_update = 0;
+    private long last_client_update = System.currentTimeMillis();;
+    private long last_move = 0;
+    private HashMap<Integer,Long> last_moveHash;
     private gameInfoInterface gameInfo;
     public boolean isSet = true;
 
@@ -115,6 +115,7 @@ public class MainManager{
     }
 
     public directed_weighted_graph getGraph(){
+        if (algo == null) return null;
         return this.algo.getGraph();
     }
 

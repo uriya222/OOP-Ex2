@@ -2,8 +2,53 @@ package api;
 
 import Server.Game_Server_Ex2;
 import GUI.GUI;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class MainManagerTest{
+
+    @Test
+    void constructors(){
+        //empty constructor
+        MainManager main = new MainManager();
+        assertNull(main.getGame());
+        assertNull(main.getGraph());
+        assertFalse(main.isSet);
+        //if startup command
+        main.startup(11);
+        assertNotNull(main.getGame());
+        assertNotNull(main.getGraph());
+        assertTrue(main.isSet);
+
+        //int constructor
+        MainManager mainInt = new MainManager(11);
+        assertNotNull(mainInt.getGame());
+        assertNotNull(mainInt.getGraph());
+        assertTrue(mainInt.isSet);
+
+        //game constructor
+        game_service game = Game_Server_Ex2.getServer(11);
+        MainManager mainGame = new MainManager(game);
+        assertNotNull(mainGame.getGame());
+        assertNotNull(mainGame.getGraph());
+        assertTrue(mainGame.isSet);
+    }
+
+    @Test
+    void everyGetCommand(){
+        MainManager main = new MainManager(11);
+        assertNotNull(main.getGame());
+        assertNotNull(main.getGraph());
+        assertNotNull(main.getAgentList());
+        assertNotNull(main.getGameInfo());
+        assertNotNull(main.getLast_move());
+        assertNotNull(main.getLast_update());
+        assertNotNull(main.getPokemonList());
+        assertNotNull(main.getServerGameInfo());
+
+    }
+
+
     public static void main(String[] args){
         //MainManager main = new MainManager(1);
        // myFrame n = new myFrame(main);

@@ -287,6 +287,10 @@ public class DWGraph_DS implements directed_weighted_graph{
     }
 
 
+    /**
+     * @param o
+     * @return if equals
+     */
     @Override
     public boolean equals(Object o){
         if (this == o) return true;

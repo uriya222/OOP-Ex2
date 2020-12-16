@@ -18,11 +18,31 @@ in src/algorithm/ in algoManager you can change the running algo with one of you
 in src/GUI in myPanel you can add your own screens.
 
 ## how its built
- (Picture of the project tree)  
+ (the project tree)  
 ![project tree](/gameAssets/project_tree.jpg)
 
 ## commands:
-
+<details>
+  <summary>DWGraph_ds</summary>
+  
+  ```java
+DWGraph_DS(directed_weighted_graph graph_ds); //copy constructor
+DWGraph_DS();//constuctor
+node_data getNode(int key);//return the node_data by the node_id, null if none
+edge_data getEdge(int src, int dest); //returns the data of the edge (src,dest), null if none
+void addNode(node_data n); //adds a new node to the graph with the given node_data
+void connect(int src, int dest, double w); //Connects an edge with weight w between node src to node dest
+Collection<node_data> getV(); //returns a pointer (shallow copy) for the collection representing all the nodes in the graph
+Collection<edge_data> getE(int node_id); //method returns a pointer (shallow copy) for the collection representing all the edges getting out of the given node (all the edges starting (source) at the given node)
+node_data removeNode(int key); //Deletes the node (with the given ID) from the graph
+edge_data removeEdge(int src, int dest); //Deletes the edge from the graph
+int nodeSize(); // returns the number of vertices (nodes) in the graph
+int edgeSize(); // returns the number of edges
+int getMC(); // returns the Modify Count 
+boolean equals(Object o); //return if equals
+  ```
+  
+</details>
 
 ## why we choose
 We chose to build the graph from hashmap because almost all the objects
