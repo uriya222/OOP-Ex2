@@ -33,24 +33,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db1e4b15-6d08-4002-a54b-388dc3ea1491" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex2_Ex2.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithm/algoManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithm/algoManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/algorithm/randomAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algorithm/randomAlgo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/DWGraph_Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/DWGraph_Algo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/DWGraph_DS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/DWGraph_DS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/EdgeData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/EdgeData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Ex2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/Ex2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/GeoLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GeoLocation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/GraphAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/GraphAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/MainManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/MainManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/Stam.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/agentPosAlgo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/agentPosAlgo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/api/DWGraph_DSTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/DWGraph_DSTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/api/MainManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/MainManagerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/api/NodeDataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/api/NodeDataTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,10 +261,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="503" y="285" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1606831518394" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1608119363885">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1608121487644">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1608119363885" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1608121487644" />
     <state width="1493" height="2" key="GridCell.Tab.0.bottom" timestamp="1608118597062">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -334,6 +317,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="647" y="23" width="579" height="801" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1607979798457" />
+    <state x="550" y="125" key="git4idea.branch.GitSmartOperationDialog" timestamp="1608121220346">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="550" y="125" key="git4idea.branch.GitSmartOperationDialog/0.0.1536.824@0.0.1536.824" timestamp="1608121220346" />
     <state x="209" y="33" key="new project wizard" timestamp="1607983660379">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
