@@ -18,25 +18,43 @@ public class GeoLocation implements geo_location{
         z = location.z();
     }
 
+    /**
+     * @return x
+     */
     @Override
     public double x(){
         return x;
     }
 
+    /**
+     * @return y
+     */
     @Override
     public double y(){
         return y;
     }
 
+    /**
+     * @return z
+     */
     @Override
     public double z(){
         return z;
     }
 
+    /**
+     * @param g
+     * @return the distance between two locations
+     */
     @Override
     public double distance(geo_location g){
         return Math.sqrt(Math.pow(x-g.x(),2)+Math.pow(y-g.y(),2));
     }
+
+    /**
+     * @param o
+     * @return if equals
+     */
     @Override
     public boolean equals(Object o) {
         if(o instanceof GeoLocation){
@@ -47,6 +65,9 @@ public class GeoLocation implements geo_location{
         throw new ClassCastException("you tried to compare different object");
     }
 
+    /**
+     * @return the object in string form
+     */
     public String toString(){
         return  ""+this.x+","+this.y+","+this.z;
     }

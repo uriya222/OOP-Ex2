@@ -2,7 +2,10 @@ package algorithm;
 
 import api.MainManager;
 import api.edge_data;
-//TODO maybe remove this class
+
+/**
+ * random algorithm -- not in use because of efficient
+ */
 public class randomAlgo extends Thread{
     MainManager main;
     int agent;

@@ -14,6 +14,12 @@ public class EdgeData implements edge_data{
     private String _info;
     private int _tag;
 
+    /**
+     * constructor
+     * @param src
+     * @param dest
+     * @param weight
+     */
     public EdgeData(int src, int dest, double weight){
         _src = src;
         _dest = dest;
@@ -103,6 +109,10 @@ public class EdgeData implements edge_data{
         _tag = t;
     }
 
+    /**
+     * @param o
+     * @return if equals
+     */
     @Override
     public boolean equals(Object o){
         if (this == o) return true;

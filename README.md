@@ -67,7 +67,7 @@ boolean equals(Object o); //return if equals
    <summary>MainManager</summary>
    
    ```java
- MainManager();//empty constructor for integration
+MainManager();//empty constructor for integration
 MainManager(int scenario); //constructor by level
 MainManager(game_service game); //constructor by pointer to game
 boolean startup(int level); //startup command for integration
@@ -93,9 +93,20 @@ boolean login(long id); //send the server the id
    ```
  </details>
 
+  <details>
+ 
+   <summary>GUI</summary>
+   
+   ```java
+GUI(); //constructor that start the GUI main screen without starting the game but GUI start it with menu
+GUI(MainManager main); //constructor that start the GUI of the game(the graph and the agents) without the GUI main menu
+GUI(MainManager main, int refreshRateInMillis ); // same but you can choose refresh rate
+   ```
+ </details>
+ 
 ## why we choose
 We chose to build the graph from hashmap because almost all the objects
- have a key field.
+ have a key field.  
 We chose dijkstras algorithm because it's fast.
 
 

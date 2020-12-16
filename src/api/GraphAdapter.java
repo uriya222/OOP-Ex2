@@ -10,6 +10,13 @@ import java.lang.reflect.Type;
 public class GraphAdapter implements  JsonDeserializer<DWGraph_DS>, JsonSerializer<DWGraph_DS>{
 
 
+    /**
+     * @param jsonElement
+     * @param type
+     * @param jsonDeserializationContext
+     * @return the graph in DWGraph_DS object
+     * @throws JsonParseException
+     */
     public DWGraph_DS deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         DWGraph_DS g1=new DWGraph_DS();
         JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -55,6 +62,12 @@ public class GraphAdapter implements  JsonDeserializer<DWGraph_DS>, JsonSerializ
         return g1;
     }
 
+    /**
+     * @param dw
+     * @param type
+     * @param jsonSerializationContext
+     * @return JsonElement of the given graph
+     */
     @Override
     public JsonElement serialize(DWGraph_DS dw, Type type, JsonSerializationContext jsonSerializationContext) {
         JsonObject g1=new JsonObject();

@@ -65,7 +65,7 @@ public class agentPosAlgo{
         last_update = System.currentTimeMillis();
         return agents_client;
     }
-    //TODO maybe remove this method
+
     /**
      * @param a
      * @return how much in percent the agent crossed the edge
