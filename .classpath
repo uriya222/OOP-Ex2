@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="libs/annotations-13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/1/Desktop/לימודים/שנה ב/מונחה עצמים/מטלות/ex2/Ex2/libs/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="libs/kotlin-stdlib-1.3.72.jar"/>
+	<classpathentry kind="lib" path="libs/kotlin-stdlib-common-1.3.70.jar"/>
+	<classpathentry kind="lib" path="libs/okhttp-4.8.0.jar"/>
+	<classpathentry kind="lib" path="libs/okio-2.7.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

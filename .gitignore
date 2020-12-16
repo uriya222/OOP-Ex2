@@ -21,17 +21,17 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-.idea
-.classpath
-.project
+#.idea
+#.classpath
+#.project
 Ex2a.pdf
-libc/
-data/
-bin/
-classes/
-OOP-Ex2.iml
-libs/gson-2.8.6.jar
-ex2_Ex2.iml
+#libc/
+#data/
+#bin/
+#classes/
+#OOP-Ex2.iml
+#libs/gson-2.8.6.jar
+#ex2_Ex2.iml
 
 GServer.json
 machineLearning.txt
@@ -40,4 +40,4 @@ src/META-INF/
 test.json
 test1.json
 TODO
-ex2_Ex2.iml
+#ex2_Ex2.iml

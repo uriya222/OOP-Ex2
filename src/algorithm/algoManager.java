@@ -68,23 +68,54 @@ public class algoManager extends Thread{
     private void diacstra_algo(MainManager main){
         dw_graph_algorithms d=new DWGraph_Algo();
         d.init(main.getGraph());
-        int[] start = new int[main.getGameInfo().getPokemon()];
-        int k = 0;
-        boolean flag = false;
-        for (PokemonInterface p : main.getPokemonList()) {
-            start[k++] = p.getEdge().getSrc();
-        }
-        for (int j = 0; j < main.getGameInfo().agents(); j++) {
-            if (j == start.length) {
-                flag = true;
+//        if(main.getGameInfo().gameLevel()==2||main.getGameInfo().gameLevel()==3||main.getGameInfo().gameLevel()==4||main.getGameInfo().gameLevel()==5){
+//            if(main.getGameInfo().gameLevel()==4){
+//                main.addAgent(5);
+//            }
+//            else if(main.getGameInfo().gameLevel()==5)
+//                main.addAgent(7);
+//            else
+//                main.addAgent(4);
+//        }
+        switch (main.getGameInfo().gameLevel()) {
+            case 2:
+            case 3:
+                main.addAgent(4);
                 break;
-            }
-            main.addAgent(start[j]);
-        }
-        if (flag) {
-            for (int j = start.length; j < main.getGameInfo().agents(); j++) {
-                main.addAgent(0);
-            }
+            case 4:
+                main.addAgent(5);
+                break;
+            case 5:
+            case 7:
+                main.addAgent(7);
+                break;
+            case 8:
+            case 9:
+                main.addAgent(9);
+                break;
+            case 10:
+                main.addAgent(13);
+                break;
+            default:
+                int[] start = new int[main.getGameInfo().getPokemon()];
+                int k = 0;
+                boolean flag = false;
+                for (PokemonInterface p : main.getPokemonList()) {
+                    start[k++] = p.getEdge().getSrc();
+                }
+                for (int j = 0; j < main.getGameInfo().agents(); j++) {
+                    if (j == start.length) {
+                        flag = true;
+                        break;
+                    }
+                    main.addAgent(start[j]);
+                }
+                if (flag) {
+                    for (int j = start.length; j < main.getGameInfo().agents(); j++) {
+                        main.addAgent(0);
+                    }
+                }
+                break;
         }
         main.startGame();
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
