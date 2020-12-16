@@ -40,7 +40,12 @@ int nodeSize(); // returns the number of vertices (nodes) in the graph
 int edgeSize(); // returns the number of edges
 int getMC(); // returns the Modify Count 
 boolean equals(Object o); //return if equals
+
   ```
+  </details>
+
+  <details>
+
   <summary>DWGraph_Algo</summary>
   
   ```java
