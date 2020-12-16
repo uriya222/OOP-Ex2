@@ -105,7 +105,8 @@ public class myPanel extends JPanel implements MouseListener, ActionListener{
                 }
                 @Override
                 public void focusLost(FocusEvent e){
-                    id =  Long.parseLong(type.getText().replaceAll(",",""));
+                    if(!type.getText().equals(""))
+                        id = Long.parseLong(type.getText().replaceAll(",", ""));
                 }
             });
                     //slider
