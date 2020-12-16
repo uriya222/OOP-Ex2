@@ -45,22 +45,53 @@ boolean equals(Object o); //return if equals
   </details>
 
   <details>
+ 
+   <summary>DWGraph_Algo</summary>
+   
+   ```java
+ DWGraph_Algo();//constuctor
+ void init(directed_weighted_graph g); //init the graph on which this set of algorithms operates on
+ directed_weighted_graph getGraph(); //return the underlying graph of which this class works
+ directed_weighted_graph copy(); //compute a deep copy of this weighted graph
+ boolean isConnected(); //returns true if and only if there is a valid path from each node to each other node
+ double shortestPathDist(int src, int dest); //returns the length of the shortest path between src to dest
+ List<node_data> shortestPath(int src, int dest); //returns the the shortest path between src to dest - as an ordered List of nodes
+ boolean save(String file); //saves this weighted directed graph to the given file name in JSON format using GSON
+ boolean load(String file); //This method load a graph to this graph algorithm from a file
+ boolean equals(Object o); //return if equals
+   ```
+ </details>
+ 
+  <details>
+ 
+   <summary>MainManager</summary>
+   
+   ```java
+ MainManager();//empty constructor for integration
+MainManager(int scenario); //constructor by level
+MainManager(game_service game); //constructor by pointer to game
+boolean startup(int level); //startup command for integration
+gameInfoInterface getGameInfo(); //return the game info object
+boolean addAgent(int start_node); //adding agent to the list of agent, and to the server
+HashMap<Integer,AgentsInterface> getAgentList(); //return Hashmap of the agents
+List<PokemonInterface> getPokemonList(); //return list with all the pokemons
+String getServerGameInfo(); //return the server info
+directed_weighted_graph getGraph(); //return the graph
+void ConvertGeoToEdge(); //convert all location in the list of pokemons to edge data
+long chooseNextEdge(int id, int next_node); //this method choose the next destination to to the agents
+game_service getGame(); //return game_service object of the server
+long timeToEnd(); //return time to end of the game
+long lastMove(int id); //return the time of the choose next edge of the given agent
+long getLast_move(); //return the time of the choose next edge of the server
+void move(); //this method telling the server to make a move and update the client
+long getLast_update(); //return the last update to the client by move command 
+long startGame(); //start the game command to the server return the time started
+long StopGame(); //stop the game
+boolean isRunning(); //return if running
+boolean login(long id); //send the server the id
 
-  <summary>DWGraph_Algo</summary>
-  
-  ```java
-DWGraph_Algo();//constuctor
-void init(directed_weighted_graph g); //init the graph on which this set of algorithms operates on
-directed_weighted_graph getGraph(); //return the underlying graph of which this class works
-directed_weighted_graph copy(); //compute a deep copy of this weighted graph
-boolean isConnected(); //returns true if and only if there is a valid path from each node to each other node
-double shortestPathDist(int src, int dest); //returns the length of the shortest path between src to dest
-List<node_data> shortestPath(int src, int dest); //returns the the shortest path between src to dest - as an ordered List of nodes
-boolean save(String file); //saves this weighted directed graph to the given file name in JSON format using GSON
-boolean load(String file); //This method load a graph to this graph algorithm from a file
-boolean equals(Object o); //return if equals
-  ```
-</details>
+   ```
+ </details>
 
 ## why we choose
 We chose to build the graph from hashmap because almost all the objects

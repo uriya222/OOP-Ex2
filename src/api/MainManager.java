@@ -91,7 +91,7 @@ public class MainManager{
 
     /**
      * adding agent to the list of agent, and to the server.
-     * return true only if the server is say true
+     * @return true only if the server is say true
      */
     public boolean addAgent(int start_node) {
         boolean addAgent = game.addAgent(start_node);
@@ -102,18 +102,30 @@ public class MainManager{
         return addAgent;
     }
 
+    /**
+     * @return Hashmap of the agents
+     */
     public HashMap<Integer,AgentsInterface> getAgentList() {
         return this.agents;
     }
 
+    /**
+     * @return list with all the pokemons
+     */
     public List<PokemonInterface> getPokemonList() {
         return this.pokemons;
     }
 
+    /**
+     * @return the server info
+     */
     public String getServerGameInfo() {
         return info;
     }
 
+    /**
+     * @return the graph
+     */
     public directed_weighted_graph getGraph(){
         if (algo == null) return null;
         return this.algo.getGraph();
@@ -178,17 +190,25 @@ public class MainManager{
         }
         return temp;
     }
+
+    /**
+     * @return game_service object of the server
+     */
     public game_service getGame(){return game;}
+
+    /**
+     * @return time to end of the game
+     */
     public long timeToEnd(){
         return game.timeToEnd();
     }
 
+    /**
+     * @param id
+     * @return the time of the choose next edge of the given agent
+     */
     public long lastMove(int id){
         return last_moveHash.get(id);
-    }
-
-    public long lastMove(){
-        return last_move;
     }
 
     /**
@@ -203,12 +223,24 @@ public class MainManager{
         last_update = System.currentTimeMillis();
     }
 
+    /**
+     * @return time of the last choose next edge of the server
+     */
     public long getLast_move(){
         return this.last_move;
     }
+
+    /**
+     * @return the last update to the client by move command
+     */
     public long getLast_update(){
         return this.last_update;
     }
+
+    /**
+     * start the game command to the server
+     * @return the time started
+     */
     public long startGame(){
         this.last_move=game.startGame();
         last_update = System.currentTimeMillis();
@@ -216,22 +248,26 @@ public class MainManager{
         return getLast_update();
     }
 
+    /**
+     * stop the game
+     * @return  time of stop
+     */
     public long StopGame(){
         return game.stopGame();
     }
 
+    /**
+     * @return if running
+     */
     public boolean isRunning(){
         return game.isRunning();
     }
 
-   //TODO maybe remove this method
-    double m(geo_location a,geo_location b){
-        double m= 0;
-        //if (b.x()==a.x()&&a.x()!=0) {
-        m = (b.y() - a.y()) / (b.x() - a.x());
-        //}
-        return m;
-    }
+    /**
+     * send the server the id
+     * @param id  - the id of the runner
+     * @return
+     */
     public boolean login(long id){
         return game.login(id);
     }
