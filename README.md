@@ -41,6 +41,20 @@ int edgeSize(); // returns the number of edges
 int getMC(); // returns the Modify Count 
 boolean equals(Object o); //return if equals
   ```
+  <summary>DWGraph_Algo</summary>
+  
+  ```java
+DWGraph_Algo();//constuctor
+void init(directed_weighted_graph g); //init the graph on which this set of algorithms operates on
+directed_weighted_graph getGraph(); //return the underlying graph of which this class works
+directed_weighted_graph copy(); //compute a deep copy of this weighted graph
+boolean isConnected(); //returns true if and only if there is a valid path from each node to each other node
+double shortestPathDist(int src, int dest); //returns the length of the shortest path between src to dest
+List<node_data> shortestPath(int src, int dest); //returns the the shortest path between src to dest - as an ordered List of nodes
+boolean save(String file); //saves this weighted directed graph to the given file name in JSON format using GSON
+boolean load(String file); //This method load a graph to this graph algorithm from a file
+boolean equals(Object o); //return if equals
+  ```
 </details>
 
 ## why we choose

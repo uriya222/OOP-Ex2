@@ -288,6 +288,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
 
+    /**
+     * @param o
+     * @return if equals
+     */
     @Override
     public boolean equals(Object o){
         if (o instanceof DWGraph_Algo)
