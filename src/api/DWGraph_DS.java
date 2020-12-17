@@ -87,6 +87,7 @@ public class DWGraph_DS implements directed_weighted_graph{
          * @return the edge between src and dest, if nun return null
          */
         private edge_data getEdge(int src,int dest){
+            if(src==dest) return null;
             if (!_srcList.containsKey(src)) return null;
             return _srcList.get(src).get(dest);
         }

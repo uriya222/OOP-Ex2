@@ -21,14 +21,17 @@ public class algoManager extends Thread{
     @Override
     public void run(){
         super.run();
-        if(main.getGameInfo().gameLevel()!=11&&main.getGameInfo().gameLevel()!=20&&main.getGameInfo().gameLevel()!=23)
+        int g_info=main.getGameInfo().gameLevel();
+        if(g_info!=11&&g_info!=20&&g_info!=23)
             diacstra_algo(main);
         else area_algo(main);
     }
 
 
     /**
-     * chose the start pos of the agent then diacstra algorithm
+     * 1-choose the best start pos of any agent-by calculating a lot of variables.
+     * 2-start the game(only at levels 11,20,23)
+     * 3-run the game with Area_Algo
      * @param main
      */
     private void area_algo(MainManager main){
@@ -62,21 +65,14 @@ public class algoManager extends Thread{
     }
 
     /**
-     * diacstra algorithm
+     * 1-choose the best start pos of any agent-by calculating a lot of variables.
+     * 2-start the game(the rest levels)
+     * 3-run the game with diacstra_Algo
      * @param main
      */
     private void diacstra_algo(MainManager main){
         dw_graph_algorithms d=new DWGraph_Algo();
         d.init(main.getGraph());
-//        if(main.getGameInfo().gameLevel()==2||main.getGameInfo().gameLevel()==3||main.getGameInfo().gameLevel()==4||main.getGameInfo().gameLevel()==5){
-//            if(main.getGameInfo().gameLevel()==4){
-//                main.addAgent(5);
-//            }
-//            else if(main.getGameInfo().gameLevel()==5)
-//                main.addAgent(7);
-//            else
-//                main.addAgent(4);
-//        }
         switch (main.getGameInfo().gameLevel()) {
             case 2:
             case 3:
@@ -125,12 +121,12 @@ public class algoManager extends Thread{
     }
 
     /**
-     * random algo -- not efficient so not in use
+     * random algo -- not efficient so not in use(but its working)
+     * only for control and staff
      * @param scenario
      */
     private void random_algo(int scenario){
         MainManager main = new MainManager(scenario);
-        System.out.println(main.getGameInfo().agents());
         int[] range = new int[main.getGraph().nodeSize()];
         int k =0;
         for (node_data n:main.getGraph().getV()
@@ -140,14 +136,11 @@ public class algoManager extends Thread{
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             main.addAgent(random(range));
         }
-        //main.startGame(selectedLevel);
-        System.out.println(main.timeToEnd());
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             Thread n = new randomAlgo(main, i);
 
             n.start();
         }
-        System.out.println("work");
         while (main.isRunning()){
             try {
                 Thread.sleep(500);
@@ -155,10 +148,7 @@ public class algoManager extends Thread{
                 e.printStackTrace();
             }
             main.move();
-            System.out.println(main.timeToEnd());
         }
-        System.out.println(main.getGameInfo().grade());
-        System.out.println(main.getGameInfo().moves());
     }
     private int random(int[] range){
         int num = (int)(Math.random()*(range.length));
