@@ -104,6 +104,17 @@ GUI(MainManager main, int refreshRateInMillis ); // same but you can choose refr
    ```
  </details>
  
+   <details>
+
+<summary>algoManager</summary>
+    
+```java
+area_algo(MainManager main); // a private method built for fitting scenarios 11,20,23 the best
+diacstra_algo(MainManager main);  //a private method built for the rest of the scenarios(but could be used at all levels)
+random_algo(MainManager main); //random algo (not in use)
+```
+</details>
+ 
 ## why we choose
 We chose to build the graph from hashmap because almost all the objects
  have a key field.  

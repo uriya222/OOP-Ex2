@@ -24,6 +24,9 @@ public class algoManager extends Thread{
         if(main.getGameInfo().gameLevel()!=11&&main.getGameInfo().gameLevel()!=20&&main.getGameInfo().gameLevel()!=23)
             diacstra_algo(main);
         else area_algo(main);
+        while (main.isRunning());
+        System.out.println(main.getGameInfo().grade());
+        System.out.println(main.getGameInfo().moves());
     }
 
 
@@ -126,11 +129,9 @@ public class algoManager extends Thread{
 
     /**
      * random algo -- not efficient so not in use
-     * @param scenario
+     * @param main
      */
-    private void random_algo(int scenario){
-        MainManager main = new MainManager(scenario);
-        System.out.println(main.getGameInfo().agents());
+    private void random_algo(MainManager main){
         int[] range = new int[main.getGraph().nodeSize()];
         int k =0;
         for (node_data n:main.getGraph().getV()
@@ -140,25 +141,21 @@ public class algoManager extends Thread{
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             main.addAgent(random(range));
         }
-        //main.startGame(selectedLevel);
+        main.startGame();
         System.out.println(main.timeToEnd());
         for (int i = 0; i < main.getGameInfo().agents(); i++) {
             Thread n = new randomAlgo(main, i);
 
             n.start();
         }
-        System.out.println("work");
         while (main.isRunning()){
             try {
-                Thread.sleep(500);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             main.move();
-            System.out.println(main.timeToEnd());
         }
-        System.out.println(main.getGameInfo().grade());
-        System.out.println(main.getGameInfo().moves());
     }
     private int random(int[] range){
         int num = (int)(Math.random()*(range.length));
