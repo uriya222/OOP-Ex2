@@ -5,7 +5,7 @@
 * uriya222
 
 ## about the project
-this is a university project about directed weighted graph and a game.  
+this is a university project about directed weighted graph and a independence game.  
 In the game there is a random graph and on the edges of the graph there is "pokemons",  
  if your agent go through the pokemon you get points.
 There are two factors that compute the score, the first is how many points collected during the run, 
