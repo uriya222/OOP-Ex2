@@ -28,6 +28,12 @@ public class algoManager extends Thread{
         while (main.isRunning());
         System.out.println("grade: " + main.getGameInfo().grade());
         System.out.println("moves: " + main.getGameInfo().moves());
+        try {
+            Thread.sleep(5000); //for showing the gui users more time the screen
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
     }
 
 
