@@ -26,8 +26,8 @@ public class algoManager extends Thread{
             diacstra_algo(main);
         else area_algo(main);
         while (main.isRunning());
-        System.out.println(main.getGameInfo().grade());
-        System.out.println(main.getGameInfo().moves());
+        System.out.println("grade: " + main.getGameInfo().grade());
+        System.out.println("moves: " + main.getGameInfo().moves());
     }
 
 
