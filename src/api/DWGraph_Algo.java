@@ -127,7 +127,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
     @Override
     public double shortestPathDist(int src, int dest) {
         if(getGraph()==null) return -1;
-        if(getGraph().getNode(src)==null||g.getNode(dest)==null) return -1;  //check method getNode (return null)
+        if(getGraph().getNode(src)==null||g.getNode(dest)==null) return -1;
         if(src==dest) return 0;
         int size=-1;
         for(node_data x: getGraph().getV()) {
@@ -218,10 +218,10 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
     }
     /**
-     * simple method part of the dijkstras algorithm :
-     * finding the minimum in array S with some limits:
+     * simple sub method part of the dijkstras algorithm :
+     * finding the minimum in array S with 2 limits:
      * limit 1- at the same place in visited array it must be false
-     * limit 2- with giving place in S the same index must be a key to a node in my graph(for NullPointerExeption)
+     * limit 2- with giving place in S the same index must be a key to a node in my graph(for NullPointerException)
      * @param S
      * @param visited
      * @return
